@@ -223,6 +223,13 @@ export default defineConfig(
     ...vitest.configs.recommended,
     rules: {
       ...vitest.configs.recommended.rules,
+      /**
+       * Asserting on a mock — expect(ctx.drawImage) — necessarily passes an
+       * unbound method reference, which is the whole point. typescript-eslint
+       * documents this as a known false positive in test files. The rule stays
+       * on everywhere else.
+       */
+      '@typescript-eslint/unbound-method': 'off',
       'vitest/expect-expect': 'error',
       'vitest/no-disabled-tests': 'error',
       'vitest/no-focused-tests': 'error',
