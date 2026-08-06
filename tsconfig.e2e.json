@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    /**
+     * End-to-end specs are a hybrid: the test body runs in Node, but the
+     * callbacks passed to page.evaluate() are serialised and executed inside
+     * the browser. They therefore need both sets of libs, which is why these
+     * files get their own project rather than sharing the node one.
+     */
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "types": ["node"]
+  },
+  "include": ["tests/e2e/**/*.ts", "playwright.config.ts"]
+}

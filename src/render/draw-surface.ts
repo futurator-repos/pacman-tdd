@@ -14,8 +14,14 @@ export interface DrawSurface {
   drawSprite(name: string, x: number, y: number): void;
 }
 
-/** One sprite positioned in the frame, in screen pixels. */
-export interface SceneSprite {
+/**
+ * One sprite positioned in the frame, in screen pixels.
+ *
+ * Not exported: nothing outside this module needs to name the type yet, and
+ * knip treats an export nobody imports as dead weight. It becomes exported the
+ * moment a scene builder actually needs it.
+ */
+interface SceneSprite {
   readonly name: string;
   readonly x: number;
   readonly y: number;

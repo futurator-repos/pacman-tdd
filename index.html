@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pac-Man</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: #000;
+        font-family: ui-monospace, monospace;
+      }
+
+      /*
+       * The canvas is 224x288 — the arcade's native resolution — and is scaled
+       * up by whole numbers only. A fractional scale would resample the pixel
+       * grid and blur the art, which is also why image-rendering is pixelated.
+       */
+      #game {
+        image-rendering: pixelated;
+        width: calc(224px * 3);
+        height: calc(288px * 3);
+        background: #000;
+      }
+
+      @media (max-width: 720px) {
+        #game {
+          width: calc(224px * 2);
+          height: calc(288px * 2);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="game" width="224" height="288" data-testid="game-canvas" aria-label="Pac-Man game">
+      This game needs a browser that supports canvas.
+    </canvas>
+    <script type="module" src="/src/app/main.ts"></script>
+  </body>
+</html>

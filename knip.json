@@ -1,9 +1,8 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
-  "entry": ["src/app/main.ts", "scripts/*.ts", "tests/e2e/**/*.spec.ts", "src/**/*.test.ts"],
-  "project": ["src/**/*.ts", "assets/**/*.ts", "scripts/**/*.ts", "tests/**/*.ts"],
-  "ignoreDependencies": ["allure-commandline"],
-  "ignoreBinaries": ["allure"],
+  "entry": ["scripts/*.ts", "scripts/*.js", "tests/e2e/**/*.spec.ts", "src/**/*.test.ts"],
+  "project": ["src/**/*.ts", "assets/**/*.ts", "scripts/**/*.{ts,js}", "tests/**/*.ts"],
+  "ignoreBinaries": ["java"],
   "rules": {
     "files": "error",
     "dependencies": "error",

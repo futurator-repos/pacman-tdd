@@ -31,7 +31,7 @@ export default defineConfig(
         projectService: {
           /* Plain-JS tool configs sit outside the TS projects but still
              deserve linting. */
-          allowDefaultProject: ['*.config.js'],
+          allowDefaultProject: ['*.config.js', 'scripts/*.js'],
           /* app and node are genuinely separate projects (DOM vs Node libs). */
           noWarnOnMultipleProjects: true,
         },
@@ -41,7 +41,7 @@ export default defineConfig(
     settings: {
       'import-x/resolver-next': [
         createTypeScriptImportResolver({
-          project: ['./tsconfig.app.json', './tsconfig.node.json'],
+          project: ['./tsconfig.app.json', './tsconfig.node.json', './tsconfig.e2e.json'],
           alwaysTryTypes: true,
         }),
       ],
@@ -254,10 +254,31 @@ export default defineConfig(
 
   /* Config files legitimately default-export and touch the environment. */
   {
-    files: ['*.config.ts', '*.config.js', 'scripts/**/*.ts'],
+    files: ['*.config.ts', '*.config.js', 'scripts/**/*.{ts,js}'],
     rules: {
       'import-x/no-default-export': 'off',
       'no-console': 'off',
+    },
+  },
+
+  /**
+   * Plain-JS build scripts.
+   *
+   * These are deliberately untyped: they are short, they run under `node`
+   * directly with no compile step, and they exist to check the repository
+   * rather than to ship. Type-aware rules on an untyped file report every
+   * expression as `any` and produce nothing but noise, so those rules are off
+   * here. Everything non-type-aware — unused variables, equality, correctness —
+   * still applies.
+   */
+  {
+    files: ['**/*.js'],
+    extends: [tseslint.configs.disableTypeChecked],
+    languageOptions: {
+      globals: { console: 'readonly', process: 'readonly' },
+    },
+    rules: {
+      '@typescript-eslint/explicit-function-return-type': 'off',
     },
   },
 

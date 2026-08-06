@@ -24,11 +24,12 @@
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "verify": "pnpm typecheck && pnpm lint && pnpm knip && pnpm test",
+    "verify": "pnpm typecheck && pnpm lint && pnpm knip && pnpm assets:check && pnpm test",
     "assets:build": "tsx scripts/build-atlas.ts",
     "assets:check": "tsx scripts/build-atlas.ts --check",
     "allure:report": "node scripts/allure-report.js",
-    "prepare": "husky"
+    "prepare": "husky",
+    "verify:tdd": "node scripts/verify-tdd-history.js"
   },
   "lint-staged": {
     "*.ts": [
