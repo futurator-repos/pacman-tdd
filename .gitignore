@@ -1,0 +1,21 @@
+node_modules/
+dist/
+coverage/
+
+# Test output
+allure-results/
+allure-report/
+playwright-report/
+test-results/
+.vitest-cache/
+
+# Editor / OS
+.DS_Store
+*.log
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+.env
+.env.*
+!.env.example
