@@ -1,14 +1,12 @@
 import { type Vector2 } from './vector.ts';
 
 /**
- * STUB — signatures only, behaviour deliberately absent.
+ * The four directions an actor can face.
  *
- * This exists so the tests can RUN and fail on their assertions. A test that
- * fails with "Cannot find module" has demonstrated nothing about itself; a test
- * that fails with "expected {x:0,y:-1}, received {x:0,y:0}" has proven it is
- * actually checking something. See docs/TDD-CHARTER.md, Challenge 3, Defence B.
+ * A const object rather than an enum: `erasableSyntaxOnly` is on, so the type
+ * layer must vanish completely at build time with no runtime construct left
+ * behind. The companion type declaration gives the same ergonomics as an enum.
  */
-
 export const Direction = {
   Up: 'up',
   Left: 'left',
@@ -18,16 +16,55 @@ export const Direction = {
 
 export type Direction = (typeof Direction)[keyof typeof Direction];
 
-export const ALL_DIRECTIONS: readonly Direction[] = [];
+/**
+ * Ordered up, left, down, right — and the order is load-bearing.
+ *
+ * When two candidate tiles are equidistant from a ghost's target, the arcade
+ * resolves the tie by preferring the earlier direction in exactly this
+ * sequence. Right is therefore never preferred in a tie. Reordering this array
+ * would silently change ghost pathing, which is why a test pins it.
+ */
+export const ALL_DIRECTIONS: readonly Direction[] = [
+  Direction.Up,
+  Direction.Left,
+  Direction.Down,
+  Direction.Right,
+];
 
-export function toUnitVector(_direction: Direction): Vector2 {
-  return { x: 0, y: 0 };
+/**
+ * Screen coordinates: y grows downward, so "up" is negative y.
+ */
+const UNIT_VECTORS: Readonly<Record<Direction, Vector2>> = {
+  [Direction.Up]: { x: 0, y: -1 },
+  [Direction.Left]: { x: -1, y: 0 },
+  [Direction.Down]: { x: 0, y: 1 },
+  [Direction.Right]: { x: 1, y: 0 },
+};
+
+const OPPOSITES: Readonly<Record<Direction, Direction>> = {
+  [Direction.Up]: Direction.Down,
+  [Direction.Left]: Direction.Right,
+  [Direction.Down]: Direction.Up,
+  [Direction.Right]: Direction.Left,
+};
+
+/** The one-tile step taken by moving in `direction`. */
+export function toUnitVector(direction: Direction): Vector2 {
+  return UNIT_VECTORS[direction];
 }
 
+/** The reverse of `direction`. Its own inverse, and never its own input. */
 export function opposite(direction: Direction): Direction {
-  return direction;
+  return OPPOSITES[direction];
 }
 
-export function isOpposite(_a: Direction, _b: Direction): boolean {
-  return false;
+/**
+ * Whether `b` is a reversal of `a`.
+ *
+ * Ghosts may not reverse direction while travelling a corridor; a reversal
+ * happens only when the global mode flips between scatter and chase. This
+ * predicate is what that rule will be expressed in terms of.
+ */
+export function isOpposite(a: Direction, b: Direction): boolean {
+  return OPPOSITES[a] === b;
 }
