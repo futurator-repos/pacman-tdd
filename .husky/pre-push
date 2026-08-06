@@ -1,0 +1,25 @@
+# The real gate. Everything that must be true of any pushed commit.
+#
+# A [RED] commit fails this by design - its tests are meant to be failing.
+# The resolution is NOT `--no-verify`; a TDD demo that teaches you to bypass
+# your own safety checks has taught the wrong thing. RED and GREEN are
+# committed locally and pushed together, so every pushed HEAD is green and
+# the red->green pair is still preserved in history.
+#
+# See docs/TDD-CHARTER.md, "On the pre-push hook".
+
+set -e
+
+echo "→ typecheck"
+pnpm typecheck
+
+echo "→ lint"
+pnpm lint
+
+echo "→ knip (dead code / unused deps)"
+pnpm knip
+
+echo "→ unit + component tests"
+pnpm test
+
+echo "✓ pre-push gate passed"

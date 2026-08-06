@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "types": ["vitest/globals"],
+    "paths": {
+      "@core/*": ["./src/core/*"],
+      "@render/*": ["./src/render/*"],
+      "@platform/*": ["./src/platform/*"],
+      "@assets/*": ["./assets/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "assets/**/*.ts"],
+  "exclude": ["tests/e2e/**"]
+}

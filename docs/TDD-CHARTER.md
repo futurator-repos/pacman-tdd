@@ -13,7 +13,7 @@ Three plans will be executed in sequence:
 3. **Plan 3** — same again, on a larger surface.
 
 The interesting part is plan 2. Anyone can write tests for new code. The question TDD actually
-answers is: *when I change this six weeks later, will I know if I broke it?*
+answers is: _when I change this six weeks later, will I know if I broke it?_
 
 ---
 
@@ -24,8 +24,8 @@ promise from an agent is not a control.
 
 ### Challenge 1: The agent writes the code first, then the tests
 
-**Why it matters.** Tests written after the code tend to describe what the code *does*, not what it
-*should do*. They pass on day one and catch nothing thereafter.
+**Why it matters.** Tests written after the code tend to describe what the code _does_, not what it
+_should do_. They pass on day one and catch nothing thereafter.
 
 **The defence: separate commits, verified by timestamp order in git.**
 
@@ -36,8 +36,29 @@ test(ghost-ai): pinky targets four tiles ahead of pacman [RED]
 feat(ghost-ai): implement pinky targeting [GREEN]
 ```
 
-The RED commit contains *only test files* and the suite is failing at that commit. You can check this
-yourself, and so can CI:
+The RED commit contains the tests, plus at most a **signature-only stub** — and the suite is failing
+at that commit.
+
+The stub needs justifying, because it is the one place this process bends. A test that fails with
+`Cannot find module` has demonstrated nothing about its own assertions; it fails for a structural
+reason, and would fail identically if every `expect` in it were deleted. To get an _honest_ red — a
+real expected-vs-received diff — the module has to exist and the test has to execute.
+
+So the stub declares the correct types and returns deliberately inert values (`{x: 0, y: 0}`,
+`false`, `[]`). It contains **no behaviour**. This is Kent Beck's "make it compile, then make it
+pass", and the rule that keeps it honest is that the stub must not make a single assertion pass that
+should be failing.
+
+This actually happened here, and it is worth reading. The first red produced 9 failures and **5
+passes**. Three of those passes were vacuous: they looped over `ALL_DIRECTIONS`, the stub returned
+`[]`, the loop body never ran, and the assertion inside it was never evaluated. The tests were
+reporting success while checking nothing. Adding `expect.assertions(4)` turned them into honest
+failures — 12 red instead of 9.
+
+That is the RED phase earning its keep: it found three worthless tests before a line of real code
+existed. See `docs/tdd-evidence/01-geometry-direction-RED.log` for the captured output.
+
+You can check any RED commit yourself, and so can CI:
 
 ```bash
 git checkout <RED_SHA>
@@ -55,7 +76,7 @@ This is the failure mode that destroys the whole exercise, and the one worth the
 
 **The defence: the test files are frozen between RED and GREEN, enforced by diff.**
 
-The implementer is a *different agent* from the test author, and is told the tests are frozen. But
+The implementer is a _different agent_ from the test author, and is told the tests are frozen. But
 instructions are not enforcement. After the GREEN step, a verifier runs:
 
 ```bash
@@ -75,7 +96,7 @@ The original test asserted 40. Verified against the arcade ROM
 disassembly: power pellets are 50. The test was wrong, not the code.
 ```
 
-The rule is not *never change a test*. The rule is **never change a test silently, and never inside a
+The rule is not _never change a test_. The rule is **never change a test silently, and never inside a
 green step.**
 
 ### Challenge 3: The tests are badly written
@@ -99,7 +120,7 @@ test against a checklist:
 - Is it **deterministic**? No real clock, no unseeded randomness, no dependence on test order.
 
 **Defence C — mutation testing, the objective grade.** Coverage is a weak metric: it proves a line
-*executed*, not that anything checked the result. A test suite can have 100% coverage and zero
+_executed_, not that anything checked the result. A test suite can have 100% coverage and zero
 assertions.
 
 Mutation testing (Stryker) deliberately breaks the source — flips `<` to `<=`, swaps `+` for `-`,
@@ -123,10 +144,10 @@ test count, pass count, coverage, mutation score. It runs again after. Both numb
 When a plan-1 test fails during plan-2 work, there are exactly two possibilities, and collapsing them
 is how regressions ship:
 
-| | What happened | Correct response |
-|---|---|---|
+|         | What happened                                                                            | Correct response                                                            |
+| ------- | ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
 | **(a)** | The behavior legitimately changed. The old test encoded a rule we deliberately replaced. | Update the test in **its own commit**, with the justification written down. |
-| **(b)** | We broke something. | **Fix the code.** Leave the test alone. |
+| **(b)** | We broke something.                                                                      | **Fix the code.** Leave the test alone.                                     |
 
 Every such failure will be labelled (a) or (b) explicitly. If a test is ever edited during plan 2
 without that label, treat it as a defect in the process.
@@ -139,8 +160,8 @@ Written for someone new to testing. Every type listed here appears in this repos
 description points at something real you can go read.
 
 The organising idea is the **test pyramid**: many fast tests that check small things, fewer slow tests
-that check big things. Fast tests tell you *exactly* what broke. Slow tests tell you *that the whole
-thing works*. You need both, in that ratio, because a suite of only slow tests takes twenty minutes
+that check big things. Fast tests tell you _exactly_ what broke. Slow tests tell you _that the whole
+thing works_. You need both, in that ratio, because a suite of only slow tests takes twenty minutes
 and everyone stops running it.
 
 ```
@@ -168,12 +189,12 @@ it('targets four tiles ahead of pacman', () => {
 });
 ```
 
-Note what this does *not* do: no browser, no canvas, no game loop, no ghosts other than the one rule
+Note what this does _not_ do: no browser, no canvas, no game loop, no ghosts other than the one rule
 under test. That isolation is the whole point, and it's why `core/` is written with no dependencies.
 
 ### Integration test
 
-**Question:** do several pieces work correctly *together*?
+**Question:** do several pieces work correctly _together_?
 
 Units passing individually does not mean they cooperate. Movement may be right and collision may be
 right while the order they run in is wrong.
@@ -191,17 +212,19 @@ One tick, several subsystems, one observable outcome.
 
 ### Property-based test
 
-**Question:** does a rule hold for *every* input, not just the three I thought of?
+**Question:** does a rule hold for _every_ input, not just the three I thought of?
 
 You state an invariant; the framework (fast-check) generates hundreds of random inputs trying to break
 it. When it finds a failure it shrinks it to the smallest reproducing case.
 
 ```ts
 it('pacman never leaves the maze, whatever the input sequence', () => {
-  fc.assert(fc.property(fc.array(arbitraryDirection(), { maxLength: 500 }), (inputs) => {
-    const final = inputs.reduce((s, d) => tick(s, { input: d, deltaMs: 16 }), newGame());
-    expect(maze.contains(final.pacman.tile)).toBe(true);
-  }));
+  fc.assert(
+    fc.property(fc.array(arbitraryDirection(), { maxLength: 500 }), (inputs) => {
+      const final = inputs.reduce((s, d) => tick(s, { input: d, deltaMs: 16 }), newGame());
+      expect(maze.contains(final.pacman.tile)).toBe(true);
+    }),
+  );
 });
 ```
 
@@ -227,9 +250,7 @@ recording stub and assert the exact call sequence — no browser required.
 it('draws blinky at his pixel position', () => {
   const surface = recordingSurface();
   renderGhosts(surface, stateWithBlinkyAt({ x: 2, y: 3 }));
-  expect(surface.calls).toEqual([
-    { op: 'drawSprite', name: 'blinky-right-1', x: 16, y: 24 },
-  ]);
+  expect(surface.calls).toEqual([{ op: 'drawSprite', name: 'blinky-right-1', x: 16, y: 24 }]);
 });
 ```
 
@@ -264,12 +285,12 @@ Playwright screenshots the canvas and diffs it against a committed baseline imag
 art, where a bug may be visually obvious but invisible to every assertion — a one-pixel sprite offset
 breaks no logic and fails no unit test.
 
-**Its limitation matters:** it detects *change*, not *wrongness*. If the first baseline shows a green
+**Its limitation matters:** it detects _change_, not _wrongness_. If the first baseline shows a green
 Pac-Man, it will faithfully protect that green Pac-Man forever. Which is why we also have:
 
 ### Agent visual QA
 
-**Question:** is this actually *correct* — not merely unchanged?
+**Question:** is this actually _correct_ — not merely unchanged?
 
 I open the running game in Chrome, look at it, and compare against the specification: Pac-Man yellow,
 maze blue, sprites crisp rather than blurred, nothing clipped at the edges. A human-style judgement
@@ -292,8 +313,8 @@ it('completes a tick within the frame budget', () => {
 
 ### Regression test — a purpose, not a type
 
-Any test above becomes a regression test the moment its job is to stop a *fixed* bug from returning.
-Every bug found gets a failing test reproducing it *before* the fix — that's TDD applied to debugging,
+Any test above becomes a regression test the moment its job is to stop a _fixed_ bug from returning.
+Every bug found gets a failing test reproducing it _before_ the fix — that's TDD applied to debugging,
 and it's why the same bug shouldn't ship twice.
 
 **Plan 1's entire suite becomes plan 2's regression suite.** That is the point of the exercise.
@@ -351,13 +372,13 @@ bypassed and nothing is hidden.
 
 You do not have to take any of this on trust. Every claim above has a command:
 
-| Claim | How to verify |
-|---|---|
-| Tests really came first | `git log --oneline` — every `feat` has a `test ... [RED]` before it |
-| The red was real | `git checkout <RED_SHA> && pnpm test` → fails |
-| The test wasn't edited to pass | `git diff <RED_SHA> <GREEN_SHA> -- '**/*.test.ts'` → empty |
-| Tests are meaningful | `pnpm test:mutation` → mutation score |
-| Plan 2 broke nothing | baseline vs. after counts, both published |
-| The game looks right | screenshots committed per plan |
+| Claim                          | How to verify                                                       |
+| ------------------------------ | ------------------------------------------------------------------- |
+| Tests really came first        | `git log --oneline` — every `feat` has a `test ... [RED]` before it |
+| The red was real               | `git checkout <RED_SHA> && pnpm test` → fails                       |
+| The test wasn't edited to pass | `git diff <RED_SHA> <GREEN_SHA> -- '**/*.test.ts'` → empty          |
+| Tests are meaningful           | `pnpm test:mutation` → mutation score                               |
+| Plan 2 broke nothing           | baseline vs. after counts, both published                           |
+| The game looks right           | screenshots committed per plan                                      |
 
 If any of these fails to hold, the process failed — and you'll be able to see it.
