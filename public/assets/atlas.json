@@ -1,0 +1,30 @@
+{
+  "width": 64,
+  "height": 16,
+  "frames": {
+    "pacman-right-open": {
+      "x": 0,
+      "y": 0,
+      "w": 16,
+      "h": 16
+    },
+    "pacman-right-half": {
+      "x": 16,
+      "y": 0,
+      "w": 16,
+      "h": 16
+    },
+    "pacman-closed": {
+      "x": 32,
+      "y": 0,
+      "w": 16,
+      "h": 16
+    },
+    "pellet": {
+      "x": 48,
+      "y": 0,
+      "w": 16,
+      "h": 16
+    }
+  }
+}
