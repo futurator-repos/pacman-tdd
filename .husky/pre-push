@@ -19,6 +19,9 @@ pnpm lint
 echo "→ knip (dead code / unused deps)"
 pnpm knip
 
+echo "→ atlas matches its sprite sources"
+pnpm assets:check
+
 echo "→ unit + component tests"
 pnpm test
 

@@ -139,7 +139,8 @@ This is the only honest answer to "how well is the TDD done here?"
 **The defence: a recorded baseline, and a forced classification of every failure.**
 
 Before plan 2 modifies a single file, the full suite runs and the result is committed as a baseline —
-test count, pass count, coverage, mutation score. It runs again after. Both numbers are published.
+test count, pass count and coverage — plus mutation score, if mutation testing has been adopted by
+then. It runs again after. Both sets of numbers are published.
 
 When a plan-1 test fails during plan-2 work, there are exactly two possibilities, and collapsing them
 is how regressions ship:
@@ -377,8 +378,15 @@ You do not have to take any of this on trust. Every claim above has a command:
 | Tests really came first        | `git log --oneline` — every `feat` has a `test ... [RED]` before it |
 | The red was real               | `git checkout <RED_SHA> && pnpm test` → fails                       |
 | The test wasn't edited to pass | `git diff <RED_SHA> <GREEN_SHA> -- '**/*.test.ts'` → empty          |
-| Tests are meaningful           | `pnpm test:mutation` → mutation score                               |
+| All of the above, mechanically | `pnpm verify:tdd`                                                   |
 | Plan 2 broke nothing           | baseline vs. after counts, both published                           |
 | The game looks right           | screenshots committed per plan                                      |
 
 If any of these fails to hold, the process failed — and you'll be able to see it.
+
+**Mutation testing is not installed yet.** Defence C above describes it as the objective grade on
+test quality, and it is — but Stryker has not been added, so there is deliberately no
+`pnpm test:mutation` command to run. It is an open offer rather than a promise already kept, and
+this document should not claim otherwise. If it is taken up, the mutation score joins the baseline
+figures in Challenge 4; until then, the honest position is that test quality here rests on the
+external oracle and the adversarial review, and is not yet measured.

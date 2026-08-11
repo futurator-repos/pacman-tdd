@@ -11,6 +11,8 @@ and **check**, rather than take on trust. Start with:
 
 - [`docs/TDD-CHARTER.md`](docs/TDD-CHARTER.md) — how the process is enforced, what each kind of test
   is for, and how to verify every claim here yourself
+- [`docs/TDD-FINDINGS.md`](docs/TDD-FINDINGS.md) — what building this actually taught about TDD,
+  written as input to designing a TDD-centred pipeline
 - [`docs/superpowers/specs/2026-08-06-pacman-tdd-scaffold-design.md`](docs/superpowers/specs/2026-08-06-pacman-tdd-scaffold-design.md) —
   the engineering design
 
