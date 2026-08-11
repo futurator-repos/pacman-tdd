@@ -126,3 +126,10 @@ export const SPRITES: readonly SpriteSource[] = [
   pacmanClosed,
   pellet,
 ];
+
+/* STUB - see docs/TDD-CHARTER.md, Challenge 1. */
+export const GHOST_COLOURS: Readonly<Record<string, string>> = {};
+
+export function spriteNamed(_name: string): SpriteSource | undefined {
+  return undefined;
+}
