@@ -1,0 +1,1433 @@
+
+ RUN  v4.1.10 /Users/ricardoarayafarias/GetReal/pacman
+
+ × |core| src/core/game/systems/input-system.test.ts > inputSystem > records the direction held this frame as the pending turn 12ms
+   → expected 'down' to be 'up' // Object.is equality
+ ✓ |core| src/core/game/systems/input-system.test.ts > inputSystem > leaves the actor alone, because mirroring the turn is pacman-system’s job 1ms
+ ✓ |core| src/core/game/systems/input-system.test.ts > inputSystem > leaves a queued turn intact when no key is held 1ms
+ × |core| src/core/game/systems/input-system.test.ts > inputSystem > overwrites a turn the player queued earlier with the one held now 2ms
+   → expected 'left' to be 'right' // Object.is equality
+ × |core| src/core/game/systems/input-system.test.ts > inputSystem > records a direction the wall forbids, because legality is not its decision 1ms
+   → expected null to be 'up' // Object.is equality
+ × |core| src/core/game/systems/input-system.test.ts > inputSystem > records during the READY! countdown, even facing that way already 1ms
+   → expected null to be 'left' // Object.is equality
+ ✓ |core| src/core/game/systems/input-system.test.ts > inputSystem > emits nothing and leaves the rest of the world untouched 1ms
+ ✓ |core| src/core/game/systems/input-system.test.ts > inputSystem > returns the same state when the held direction is already the pending one 0ms
+ × |core| src/core/game/systems/level-system.test.ts > levelSystem > ends the round when the last of the 244 goes, and names the level that ended 15ms
+   → expected 'playing' to be 'levelComplete' // Object.is equality
+ × |core| src/core/game/systems/level-system.test.ts > levelSystem > gives the cleared maze its full 120-frame flash 2ms
+   → expected +0 to be 120 // Object.is equality
+ ✓ |core| src/core/game/systems/level-system.test.ts > levelSystem > does not end a round that still has its energizers, only its dots eaten 1ms
+ ✓ |core| src/core/game/systems/level-system.test.ts > levelSystem > does not end a round whose energizers are gone but whose dots remain 1ms
+ ✓ |core| src/core/game/systems/level-system.test.ts > levelSystem > does not clear the board again while the maze is already flashing 0ms
+ ✓ |core| src/core/game/systems/level-system.test.ts > levelSystem > leaves the level number, the emptied board and the score alone 1ms
+ × |core| src/core/game/systems/eat-system.test.ts > eatSystem > scores a dot at 10, takes it off the board, and reports the count that is left 13ms
+   → expected 130 to be 140 // Object.is equality
+ × |core| src/core/game/systems/eat-system.test.ts > eatSystem > freezes Pac-Man for one frame on a dot, and turns nobody blue or around 2ms
+   → expected +0 to be 1 // Object.is equality
+ × |core| src/core/game/systems/eat-system.test.ts > eatSystem > scores an energizer at 50 and announces the fright duration this level grants 1ms
+   → expected 130 to be 180 // Object.is equality
+ × |core| src/core/game/systems/eat-system.test.ts > eatSystem > frightens all four ghosts, including the three still inside the house 1ms
+   → expected +0 to be 360 // Object.is equality
+ × |core| src/core/game/systems/eat-system.test.ts > eatSystem > turns every ghost around when the energizer goes, because nothing else will 1ms
+   → expected false to be true // Object.is equality
+ × |core| src/core/game/systems/eat-system.test.ts > eatSystem > sets the energizer freeze to three frames rather than adding it to one already pending 1ms
+   → expected 1 to be 3 // Object.is equality
+ × |core| src/core/game/systems/eat-system.test.ts > eatSystem > scores 50 and still reverses the ghosts, but starts no fright, at level 19 1ms
+   → expected 130 to be 180 // Object.is equality
+ × |core| src/core/game/systems/eat-system.test.ts > eatSystem > refreshes the fright timer to its full length when a second energizer is taken mid-fright 1ms
+   → expected 100 to be 360 // Object.is equality
+ × |core| src/core/game/systems/eat-system.test.ts > eatSystem > pays the bonus life on the bite that crosses 10000, and announces the new count 2ms
+   → expected 9995 to be 10005 // Object.is equality
+ × |core| src/core/game/systems/eat-system.test.ts > eatSystem > pays no second life for a dot eaten once the score is already past 10000 1ms
+   → expected 12000 to be 12010 // Object.is equality
+ ✓ |core| src/core/game/systems/eat-system.test.ts > eatSystem > returns the same state object, untouched, when there is nothing to eat 1ms
+ × |core| src/core/game/systems/pacman-system.test.ts > pacmanSystem > advances Pac-Man by one pixel a frame at level 1, and says nothing 15ms
+   → expected { x: 52, y: 236 } to deeply equal { x: 53, y: 236 }
+ × |core| src/core/game/systems/pacman-system.test.ts > pacmanSystem > takes the frame speed from the level spec, not from level 1 3ms
+   → expected { x: 52, y: 236 } to deeply equal { x: 53, y: 236 }
+ × |core| src/core/game/systems/pacman-system.test.ts > pacmanSystem > spends the eating freeze standing still, one frame at a time 2ms
+   → expected 3 to be 2 // Object.is equality
+ × |core| src/core/game/systems/pacman-system.test.ts > pacmanSystem > is still frozen on the last frame of the freeze, and moves only after it 1ms
+   → expected 1 to be +0 // Object.is equality
+ × |core| src/core/game/systems/pacman-system.test.ts > pacmanSystem > turns onto the direction the player is holding, at the tile centre 2ms
+   → expected 'left' to be 'up' // Object.is equality
+ × |core| src/core/game/systems/pacman-system.test.ts > pacmanSystem > keeps a turn already queued when the player is holding nothing 1ms
+   → expected 'left' to be 'up' // Object.is equality
+ × |core| src/core/game/systems/pacman-system.test.ts > pacmanSystem > refuses the ghost-house gate, having run the frame anyway 1ms
+   → expected 7 to be 8 // Object.is equality
+ ✓ |core| src/core/game/systems/pacman-system.test.ts > pacmanSystem > does nothing whatsoever outside the playing phase 3ms
+ ✓ |core| src/core/game/systems/collision-system.test.ts > createCollisionSystem > honours the id it is given, because the pipeline installs it twice 2ms
+ × |core| src/core/game/systems/collision-system.test.ts > createCollisionSystem > eats a frightened ghost for 200, sends it home as eyes, and says so 13ms
+   → expected 1230 to be 1430 // Object.is equality
+ × |core| src/core/game/systems/collision-system.test.ts > createCollisionSystem > climbs the ladder: with two ghosts already heading home the third is worth 800 1ms
+   → expected 1230 to be 2030 // Object.is equality
+ × |core| src/core/game/systems/collision-system.test.ts > createCollisionSystem > awards the extra life on the ghost that carries the score past 10000 1ms
+   → expected 9900 to be 10100 // Object.is equality
+ × |core| src/core/game/systems/collision-system.test.ts > createCollisionSystem > takes two frightened ghosts on one tile in ghost order, at 200 then 400 1ms
+   → expected 1230 to be 1830 // Object.is equality
+ × |core| src/core/game/systems/collision-system.test.ts > createCollisionSystem > starts the death freeze when a hunting ghost shares the tile, and scores nothing 2ms
+   → expected 'playing' to be 'dying' // Object.is equality
+ ✓ |core| src/core/game/systems/collision-system.test.ts > createCollisionSystem > lets a pair of eyes pass straight through, even with the fright timer running 1ms
+ ✓ |core| src/core/game/systems/collision-system.test.ts > createCollisionSystem > ignores a ghost one row away and a ghost fifteen columns away 1ms
+ × |core| src/core/game/systems/collision-system.test.ts > createCollisionSystem > eats the ghost once when both halves of the frame see the same overlap 4ms
+   → expected [] to deeply equal [ { kind: 'ghostEaten', …(3) } ]
+ × |core| src/core/game/systems/collision-system.test.ts > createCollisionSystem > catches Pac-Man once when both halves of the frame see the same overlap 2ms
+   → expected [] to deeply equal [ { kind: 'pacmanCaught', …(1) } ]
+ ✓ |core| src/core/game/systems/collision-system.test.ts > createCollisionSystem > resolves nothing during the READY! pause, when the world is not simulating 1ms
+ ✓ |core| src/core/game/systems/collision-system.test.ts > createCollisionSystem > never collides when Pac-Man and a ghost swap tiles between two frames 1ms
+ × |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > moves the ghosts in ghost order, spending exactly one random draw on each 20ms
+   → expected { blinky: 'left', pinky: 'up', …(2) } to deeply equal { Object (blinky, pinky, ...) }
+ × |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > sends each ghost to its own scatter corner, from one tile and one facing 3ms
+   → expected { pinky: 'left', inky: 'left' } to deeply equal { pinky: 'up', inky: 'down' }
+ × |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > steers a chasing Pinky four tiles ahead of Pac-Man, overflow and all 3ms
+   → expected { x: 52, y: 164 } to deeply equal { x: 51, y: 164 }
+ × |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > never takes the house gate while hunting, even when Pac-Man is straight through it 8ms
+   → expected 'down' to be 'left' // Object.is equality
+ × |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > banks the tunnel step in the tunnel and the full step outside it 1ms
+   → expected +0 to be 128 // Object.is equality
+ × |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > brings eyes through the tunnel at eye speed, not at the tunnel crawl 1ms
+   → expected { x: 28, y: 116 } to deeply equal { x: 27, y: 116 }
+ × |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > keeps eyes heading home even while the fright timer is still running 1ms
+   → expected 'down' to be 'right' // Object.is equality
+ × |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > walks eyes home to the gate and reports the return exactly once 2ms
+   → expected 'eyes' to be 'inHouse' // Object.is equality
+ × |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > leaves a ghost waiting in the house alone, while the ghosts outside take their frame 2ms
+   → expected { x: 52, y: 68 } to deeply equal { x: 52, y: 67 }
+ ✓ |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > simulates nothing while the round is not playing 1ms
+ ✓ |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > returns the very same state on a frame when every ghost is in the house 1ms
+ × |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > turns a frightened ghost round in a dead end rather than drawing from nothing 1ms
+   → expected 'right' to be 'left' // Object.is equality
+ × |core| src/core/game/systems/fruit-system.test.ts > fruitSystem > puts the level one cherry on the board on the seventieth dot eaten, and announces it 16ms
+   → expected { onBoard: null, framesLeft: +0, …(1) } to deeply equal { onBoard: 'cherry', …(2) }
+ × |core| src/core/game/systems/fruit-system.test.ts > fruitSystem > brings out the second bonus at a hundred and seventy dots, as the LEVEL says, not as a cherry 3ms
+   → expected { onBoard: null, framesLeft: +0, …(1) } to deeply equal { onBoard: 'apple', …(2) }
+ × |core| src/core/game/systems/fruit-system.test.ts > fruitSystem > spends one frame per tick of the life of a bonus already on the board, and says nothing 3ms
+   → expected { onBoard: 'strawberry', …(2) } to deeply equal { onBoard: 'strawberry', …(2) }
+ × |core| src/core/game/systems/fruit-system.test.ts > fruitSystem > clears the bonus on the last frame of its life, with the bonus it used still spent 2ms
+   → expected { onBoard: 'strawberry', …(2) } to deeply equal { onBoard: null, framesLeft: +0, …(1) }
+ × |core| src/core/game/systems/fruit-system.test.ts > fruitSystem > scores the level one cherry at a hundred when Pac-Man stands on the fruit tile 11ms
+   → expected { onBoard: 'cherry', …(2) } to deeply equal { onBoard: null, framesLeft: +0, …(1) }
+ × |core| src/core/game/systems/fruit-system.test.ts > fruitSystem > scores the level thirteen key at five thousand, because the value comes from the level 2ms
+   → expected { onBoard: 'key', …(2) } to deeply equal { onBoard: null, framesLeft: +0, …(1) }
+ × |core| src/core/game/systems/fruit-system.test.ts > fruitSystem > pays the one extra life when a five thousand point key carries the score across ten thousand 1ms
+   → expected 6000 to be 11000 // Object.is equality
+ × |core| src/core/game/systems/fruit-system.test.ts > fruitSystem > ignores a bonus Pac-Man is merely lined up with, in either axis 2ms
+   → expected { onBoard: 'cherry', …(2) } to deeply equal { onBoard: 'cherry', …(2) }
+ ✓ |core| src/core/game/systems/fruit-system.test.ts > fruitSystem > does nothing at all outside the playing phase, so the death freeze costs the bonus nothing 2ms
+ ✓ |core| src/core/game/systems/fruit-system.test.ts > fruitSystem > returns the very state it was given when nothing is on the tile and nothing is due 1ms
+ × |core| src/core/game/systems/phase-system.test.ts > phaseSystem > spends one frame of a timed phase per tick 10ms
+   → expected 120 to be 119 // Object.is equality
+ × |core| src/core/game/systems/phase-system.test.ts > phaseSystem > starts play when the ready countdown expires, and says so 3ms
+   → expected 'ready' to be 'playing' // Object.is equality
+ ✓ |core| src/core/game/systems/phase-system.test.ts > phaseSystem > leaves the playing phase alone, because play is not on a timer 1ms
+ × |core| src/core/game/systems/phase-system.test.ts > phaseSystem > returns to the ready pause after the death animation, not straight to play 1ms
+   → expected 'dying' to be 'ready' // Object.is equality
+ ✓ |core| src/core/game/systems/phase-system.test.ts > phaseSystem > stays in game over, which is terminal 0ms
+ × |core| src/core/game/systems/house-system.test.ts > houseSystem > ages the stall timer by one frame when no dot was eaten, and releases nobody 12ms
+   → expected 41 to be 42 // Object.is equality
+ × |core| src/core/game/systems/house-system.test.ts > houseSystem > resets the stall timer only when a pelletEaten event arrived, whatever else did 2ms
+   → expected 41 to be 42 // Object.is equality
+ × |core| src/core/game/systems/house-system.test.ts > houseSystem > releases one ghost — the earliest still waiting — on the frame the stall timer reaches 240 4ms
+   → expected 'inHouse' to be 'leavingHouse' // Object.is equality
+ × |core| src/core/game/systems/house-system.test.ts > houseSystem > advances the global counter on a dot and releases from the value it has after the advance 1ms
+   → expected 6 to be 7 // Object.is equality
+ × |core| src/core/game/systems/house-system.test.ts > houseSystem > takes the level from the state: the stall timeout is 180 frames from level 5, not 240 2ms
+   → expected 'inHouse' to be 'leavingHouse' // Object.is equality
+ ✓ |core| src/core/game/systems/house-system.test.ts > houseSystem > does not run the house clock outside play, and returns the same state object 1ms
+ ✓ |core| src/core/game/systems/life-system.test.ts > lifeSystem > spends nothing on a frame whose news is a dot and a ghost eaten 3ms
+ × |core| src/core/game/systems/life-system.test.ts > lifeSystem > spends one life and freezes the round for the death animation 6ms
+   → expected 2 to be 1 // Object.is equality
+ × |core| src/core/game/systems/life-system.test.ts > lifeSystem > restarts the round on the same part-eaten board and arms the global dot counter 3ms
+   → expected { x: 12, y: 44 } to deeply equal { x: 108, y: 188 }
+ × |core| src/core/game/systems/life-system.test.ts > lifeSystem > ends the game instead of restarting the round when the last life goes 1ms
+   → expected 1 to be +0 // Object.is equality
+ × |core| src/core/game/systems/life-system.test.ts > lifeSystem > spends one life, not two, when both collision passes report a catch 1ms
+   → expected 2 to be 1 // Object.is equality
+ × |core| src/core/game/systems/mode-system.test.ts > modeSystem > spends one frame of the current wave on an ordinary playing frame 10ms
+   → expected { waveIndex: 1, waveFrames: 500, …(1) } to deeply equal { waveIndex: 1, waveFrames: 501, …(1) }
+ × |core| src/core/game/systems/mode-system.test.ts > modeSystem > flips the wave on the 420th frame of level 1 scatter, turning every ghost round 2ms
+   → expected { Object (waveIndex, waveFrames, ...) } to deeply equal { waveIndex: 1, waveFrames: +0, …(1) }
+ × |core| src/core/game/systems/mode-system.test.ts > modeSystem > freezes the wave clock while the ghosts are frightened, and counts only the fright down 2ms
+   → expected { Object (waveIndex, waveFrames, ...) } to deeply equal { Object (waveIndex, waveFrames, ...) }
+ × |core| src/core/game/systems/mode-system.test.ts > modeSystem > announces the end of fright on the frame the timer reaches zero, reversing nobody 1ms
+   → expected { Object (waveIndex, waveFrames, ...) } to deeply equal { Object (waveIndex, waveFrames, ...) }
+ ✓ |core| src/core/game/systems/mode-system.test.ts > modeSystem > does not run the clock outside the playing phase, and returns the same state object 2ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 64 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |core| src/core/game/systems/collision-system.test.ts > createCollisionSystem > eats a frightened ghost for 200, sends it home as eyes, and says so
+AssertionError: expected 1230 to be 1430 // Object.is equality
+
+- Expected
++ Received
+
+- 1430
++ 1230
+
+ ❯ src/core/game/systems/collision-system.test.ts:146:24
+    144|     );
+    145|
+    146|     expect(next.score).toBe(1430);
+       |                        ^
+    147|     expect(next.ghosts[GhostId.Clyde].phase).toBe(GhostPhase.Eyes);
+    148|     expect(next.phase).toBe(RoundPhase.Playing);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/64]⎯
+
+ FAIL  |core| src/core/game/systems/collision-system.test.ts > createCollisionSystem > climbs the ladder: with two ghosts already heading home the third is worth 800
+AssertionError: expected 1230 to be 2030 // Object.is equality
+
+- Expected
++ Received
+
+- 2030
++ 1230
+
+ ❯ src/core/game/systems/collision-system.test.ts:197:24
+    195|     );
+    196|
+    197|     expect(next.score).toBe(2030);
+       |                        ^
+    198|     expect(events).toEqual([{ kind: 'ghostEaten', ghost: GhostId.Inky,…
+    199|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/64]⎯
+
+ FAIL  |core| src/core/game/systems/collision-system.test.ts > createCollisionSystem > awards the extra life on the ghost that carries the score past 10000
+AssertionError: expected 9900 to be 10100 // Object.is equality
+
+- Expected
++ Received
+
+- 10100
++ 9900
+
+ ❯ src/core/game/systems/collision-system.test.ts:241:24
+    239|     );
+    240|
+    241|     expect(next.score).toBe(10100);
+       |                        ^
+    242|     expect(next.lives).toBe(4);
+    243|     expect(next.extraLifeAwarded).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/64]⎯
+
+ FAIL  |core| src/core/game/systems/collision-system.test.ts > createCollisionSystem > takes two frightened ghosts on one tile in ghost order, at 200 then 400
+AssertionError: expected 1230 to be 1830 // Object.is equality
+
+- Expected
++ Received
+
+- 1830
++ 1230
+
+ ❯ src/core/game/systems/collision-system.test.ts:292:24
+    290|     );
+    291|
+    292|     expect(next.score).toBe(1830);
+       |                        ^
+    293|     expect(events).toEqual([
+    294|       { kind: 'ghostEaten', ghost: GhostId.Pinky, points: 200, chain: …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/64]⎯
+
+ FAIL  |core| src/core/game/systems/collision-system.test.ts > createCollisionSystem > starts the death freeze when a hunting ghost shares the tile, and scores nothing
+AssertionError: expected 'playing' to be 'dying' // Object.is equality
+
+Expected: "dying"
+Received: "playing"
+
+ ❯ src/core/game/systems/collision-system.test.ts:344:24
+    342|     );
+    343|
+    344|     expect(next.phase).toBe(RoundPhase.Dying);
+       |                        ^
+    345|     expect(next.phaseFramesLeft).toBe(PHASE_FRAMES[RoundPhase.Dying]);
+    346|     expect(next.phaseFramesLeft).toBe(180);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/64]⎯
+
+ FAIL  |core| src/core/game/systems/collision-system.test.ts > createCollisionSystem > eats the ghost once when both halves of the frame see the same overlap
+AssertionError: expected [] to deeply equal [ { kind: 'ghostEaten', …(3) } ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "chain": 1,
+-     "ghost": "clyde",
+-     "kind": "ghostEaten",
+-     "points": 200,
+-   },
+- ]
++ []
+
+ ❯ src/core/game/systems/collision-system.test.ts:480:47
+    478|     );
+    479|
+    480|     expect([...early.events, ...late.events]).toEqual([
+       |                                               ^
+    481|       { kind: 'ghostEaten', ghost: GhostId.Clyde, points: 200, chain: …
+    482|     ]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/64]⎯
+
+ FAIL  |core| src/core/game/systems/collision-system.test.ts > createCollisionSystem > catches Pac-Man once when both halves of the frame see the same overlap
+AssertionError: expected [] to deeply equal [ { kind: 'pacmanCaught', …(1) } ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "ghost": "inky",
+-     "kind": "pacmanCaught",
+-   },
+- ]
++ []
+
+ ❯ src/core/game/systems/collision-system.test.ts:525:47
+    523|     );
+    524|
+    525|     expect([...early.events, ...late.events]).toEqual([
+       |                                               ^
+    526|       { kind: 'pacmanCaught', ghost: GhostId.Inky },
+    527|     ]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/64]⎯
+
+ FAIL  |core| src/core/game/systems/eat-system.test.ts > eatSystem > scores a dot at 10, takes it off the board, and reports the count that is left
+AssertionError: expected 130 to be 140 // Object.is equality
+
+- Expected
++ Received
+
+- 140
++ 130
+
+ ❯ src/core/game/systems/eat-system.test.ts:90:24
+     88|     const { state: next, events } = eatSystem.run(state, frameContext(…
+     89|
+     90|     expect(next.score).toBe(140);
+       |                        ^
+     91|     expect(pelletAt(next.pellets, DOT)).toBe(PelletKind.None);
+     92|     expect(events).toEqual([{ kind: 'pelletEaten', tile: DOT, remainin…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/64]⎯
+
+ FAIL  |core| src/core/game/systems/eat-system.test.ts > eatSystem > freezes Pac-Man for one frame on a dot, and turns nobody blue or around
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/core/game/systems/eat-system.test.ts:119:36
+    117|     const { state: next } = eatSystem.run(state, frameContext(), []);
+    118|
+    119|     expect(next.pacman.stopFrames).toBe(1);
+       |                                    ^
+    120|     expect(next.modes.frightenedFramesLeft).toBe(0);
+    121|     for (const id of GHOST_ORDER) {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/64]⎯
+
+ FAIL  |core| src/core/game/systems/eat-system.test.ts > eatSystem > scores an energizer at 50 and announces the fright duration this level grants
+AssertionError: expected 130 to be 180 // Object.is equality
+
+- Expected
++ Received
+
+- 180
++ 130
+
+ ❯ src/core/game/systems/eat-system.test.ts:148:24
+    146|     const { state: next, events } = eatSystem.run(state, frameContext(…
+    147|
+    148|     expect(next.score).toBe(180);
+       |                        ^
+    149|     expect(pelletAt(next.pellets, ENERGIZER)).toBe(PelletKind.None);
+    150|     expect(events).toEqual([{ kind: 'powerPelletEaten', tile: ENERGIZE…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/64]⎯
+
+ FAIL  |core| src/core/game/systems/eat-system.test.ts > eatSystem > frightens all four ghosts, including the three still inside the house
+AssertionError: expected +0 to be 360 // Object.is equality
+
+- Expected
++ Received
+
+- 360
++ 0
+
+ ❯ src/core/game/systems/eat-system.test.ts:180:45
+    178|     const { state: next } = eatSystem.run(state, frameContext(), []);
+    179|
+    180|     expect(next.modes.frightenedFramesLeft).toBe(360);
+       |                                             ^
+    181|     for (const id of GHOST_ORDER) {
+    182|       expect(next.ghosts[id].frightenedFramesLeft).toBe(360);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/64]⎯
+
+ FAIL  |core| src/core/game/systems/eat-system.test.ts > eatSystem > turns every ghost around when the energizer goes, because nothing else will
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/core/game/systems/eat-system.test.ts:208:45
+    206|
+    207|     for (const id of GHOST_ORDER) {
+    208|       expect(next.ghosts[id].reverseQueued).toBe(true);
+       |                                             ^
+    209|     }
+    210|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/64]⎯
+
+ FAIL  |core| src/core/game/systems/eat-system.test.ts > eatSystem > sets the energizer freeze to three frames rather than adding it to one already pending
+AssertionError: expected 1 to be 3 // Object.is equality
+
+- Expected
++ Received
+
+- 3
++ 1
+
+ ❯ src/core/game/systems/eat-system.test.ts:234:36
+    232|     const { state: next } = eatSystem.run(state, frameContext(), []);
+    233|
+    234|     expect(next.pacman.stopFrames).toBe(3);
+       |                                    ^
+    235|   });
+    236|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/64]⎯
+
+ FAIL  |core| src/core/game/systems/eat-system.test.ts > eatSystem > scores 50 and still reverses the ghosts, but starts no fright, at level 19
+AssertionError: expected 130 to be 180 // Object.is equality
+
+- Expected
++ Received
+
+- 180
++ 130
+
+ ❯ src/core/game/systems/eat-system.test.ts:265:24
+    263|     const { state: next, events } = eatSystem.run(state, frameContext(…
+    264|
+    265|     expect(next.score).toBe(180);
+       |                        ^
+    266|     expect(events).toEqual([{ kind: 'powerPelletEaten', tile: ENERGIZE…
+    267|     for (const id of GHOST_ORDER) {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/64]⎯
+
+ FAIL  |core| src/core/game/systems/eat-system.test.ts > eatSystem > refreshes the fright timer to its full length when a second energizer is taken mid-fright
+AssertionError: expected 100 to be 360 // Object.is equality
+
+- Expected
++ Received
+
+- 360
++ 100
+
+ ❯ src/core/game/systems/eat-system.test.ts:308:45
+    306|     const { state: next } = eatSystem.run(state, frameContext(), []);
+    307|
+    308|     expect(next.modes.frightenedFramesLeft).toBe(360);
+       |                                             ^
+    309|     for (const id of GHOST_ORDER) {
+    310|       expect(next.ghosts[id].frightenedFramesLeft).toBe(360);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/64]⎯
+
+ FAIL  |core| src/core/game/systems/eat-system.test.ts > eatSystem > pays the bonus life on the bite that crosses 10000, and announces the new count
+AssertionError: expected 9995 to be 10005 // Object.is equality
+
+- Expected
++ Received
+
+- 10005
++ 9995
+
+ ❯ src/core/game/systems/eat-system.test.ts:342:24
+    340|     const { state: next, events } = eatSystem.run(state, frameContext(…
+    341|
+    342|     expect(next.score).toBe(10005);
+       |                        ^
+    343|     expect(next.lives).toBe(4);
+    344|     expect(next.extraLifeAwarded).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/64]⎯
+
+ FAIL  |core| src/core/game/systems/eat-system.test.ts > eatSystem > pays no second life for a dot eaten once the score is already past 10000
+AssertionError: expected 12000 to be 12010 // Object.is equality
+
+- Expected
++ Received
+
+- 12010
++ 12000
+
+ ❯ src/core/game/systems/eat-system.test.ts:375:24
+    373|     const { state: next, events } = eatSystem.run(state, frameContext(…
+    374|
+    375|     expect(next.score).toBe(12010);
+       |                        ^
+    376|     expect(next.lives).toBe(4);
+    377|     expect(events).toEqual([{ kind: 'pelletEaten', tile: DOT, remainin…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/64]⎯
+
+ FAIL  |core| src/core/game/systems/fruit-system.test.ts > fruitSystem > puts the level one cherry on the board on the seventieth dot eaten, and announces it
+AssertionError: expected { onBoard: null, framesLeft: +0, …(1) } to deeply equal { onBoard: 'cherry', …(2) }
+
+- Expected
++ Received
+
+  {
+-   "framesLeft": 570,
+-   "onBoard": "cherry",
+-   "spawned": 1,
++   "framesLeft": 0,
++   "onBoard": null,
++   "spawned": 0,
+  }
+
+ ❯ src/core/game/systems/fruit-system.test.ts:102:24
+    100|     const { state: next, events } = fruitSystem.run(state, frameContex…
+    101|
+    102|     expect(next.fruit).toEqual({ onBoard: FruitKind.Cherry, framesLeft…
+       |                        ^
+    103|     /* The event, not the state, is what the eat-fruit stinger listens…
+    104|        fruit is a thing that HAPPENED, and state cannot say "happened"…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/64]⎯
+
+ FAIL  |core| src/core/game/systems/fruit-system.test.ts > fruitSystem > brings out the second bonus at a hundred and seventy dots, as the LEVEL says, not as a cherry
+AssertionError: expected { onBoard: null, framesLeft: +0, …(1) } to deeply equal { onBoard: 'apple', …(2) }
+
+- Expected
++ Received
+
+  {
+-   "framesLeft": 570,
+-   "onBoard": "apple",
+-   "spawned": 2,
++   "framesLeft": 0,
++   "onBoard": null,
++   "spawned": 1,
+  }
+
+ ❯ src/core/game/systems/fruit-system.test.ts:135:24
+    133|     );
+    134|
+    135|     expect(next.fruit).toEqual({ onBoard: FruitKind.Apple, framesLeft:…
+       |                        ^
+    136|     expect(events).toEqual([{ kind: 'fruitAppeared', fruit: FruitKind.…
+    137|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/64]⎯
+
+ FAIL  |core| src/core/game/systems/fruit-system.test.ts > fruitSystem > spends one frame per tick of the life of a bonus already on the board, and says nothing
+AssertionError: expected { onBoard: 'strawberry', …(2) } to deeply equal { onBoard: 'strawberry', …(2) }
+
+- Expected
++ Received
+
+  {
+-   "framesLeft": 569,
++   "framesLeft": 570,
+    "onBoard": "strawberry",
+    "spawned": 1,
+  }
+
+ ❯ src/core/game/systems/fruit-system.test.ts:167:24
+    165|     );
+    166|
+    167|     expect(next.fruit).toEqual({ onBoard: FruitKind.Strawberry, frames…
+       |                        ^
+    168|     expect(events).toEqual([]);
+    169|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/64]⎯
+
+ FAIL  |core| src/core/game/systems/fruit-system.test.ts > fruitSystem > clears the bonus on the last frame of its life, with the bonus it used still spent
+AssertionError: expected { onBoard: 'strawberry', …(2) } to deeply equal { onBoard: null, framesLeft: +0, …(1) }
+
+- Expected
++ Received
+
+  {
+-   "framesLeft": 0,
+-   "onBoard": null,
++   "framesLeft": 1,
++   "onBoard": "strawberry",
+    "spawned": 1,
+  }
+
+ ❯ src/core/game/systems/fruit-system.test.ts:200:24
+    198|     );
+    199|
+    200|     expect(next.fruit).toEqual({ onBoard: null, framesLeft: 0, spawned…
+       |                        ^
+    201|     expect(events).toEqual([{ kind: 'fruitExpired', fruit: FruitKind.S…
+    202|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/64]⎯
+
+ FAIL  |core| src/core/game/systems/fruit-system.test.ts > fruitSystem > scores the level one cherry at a hundred when Pac-Man stands on the fruit tile
+AssertionError: expected { onBoard: 'cherry', …(2) } to deeply equal { onBoard: null, framesLeft: +0, …(1) }
+
+- Expected
++ Received
+
+  {
+-   "framesLeft": 0,
+-   "onBoard": null,
++   "framesLeft": 300,
++   "onBoard": "cherry",
+    "spawned": 1,
+  }
+
+ ❯ src/core/game/systems/fruit-system.test.ts:229:24
+    227|     const { state: next, events } = fruitSystem.run(state, frameContex…
+    228|
+    229|     expect(next.fruit).toEqual({ onBoard: null, framesLeft: 0, spawned…
+       |                        ^
+    230|     expect(next.score).toBe(600);
+    231|     expect(events).toEqual([{ kind: 'fruitEaten', fruit: FruitKind.Che…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/64]⎯
+
+ FAIL  |core| src/core/game/systems/fruit-system.test.ts > fruitSystem > scores the level thirteen key at five thousand, because the value comes from the level
+AssertionError: expected { onBoard: 'key', …(2) } to deeply equal { onBoard: null, framesLeft: +0, …(1) }
+
+- Expected
++ Received
+
+  {
+-   "framesLeft": 0,
+-   "onBoard": null,
++   "framesLeft": 300,
++   "onBoard": "key",
+    "spawned": 2,
+  }
+
+ ❯ src/core/game/systems/fruit-system.test.ts:261:24
+    259|     );
+    260|
+    261|     expect(next.fruit).toEqual({ onBoard: null, framesLeft: 0, spawned…
+       |                        ^
+    262|     expect(next.score).toBe(5500);
+    263|     expect(events).toEqual([{ kind: 'fruitEaten', fruit: FruitKind.Key…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/64]⎯
+
+ FAIL  |core| src/core/game/systems/fruit-system.test.ts > fruitSystem > pays the one extra life when a five thousand point key carries the score across ten thousand
+AssertionError: expected 6000 to be 11000 // Object.is equality
+
+- Expected
++ Received
+
+- 11000
++ 6000
+
+ ❯ src/core/game/systems/fruit-system.test.ts:300:24
+    298|     );
+    299|
+    300|     expect(next.score).toBe(11000);
+       |                        ^
+    301|     expect(next.lives).toBe(4);
+    302|     /* The latch, so that the next 5000-point key does not pay a secon…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/64]⎯
+
+ FAIL  |core| src/core/game/systems/fruit-system.test.ts > fruitSystem > ignores a bonus Pac-Man is merely lined up with, in either axis
+AssertionError: expected { onBoard: 'cherry', …(2) } to deeply equal { onBoard: 'cherry', …(2) }
+
+- Expected
++ Received
+
+  {
+-   "framesLeft": 299,
++   "framesLeft": 300,
+    "onBoard": "cherry",
+    "spawned": 1,
+  }
+
+ ❯ src/core/game/systems/fruit-system.test.ts:342:26
+    340|       const { state: next, events } = fruitSystem.run(state, frameCont…
+    341|
+    342|       expect(next.fruit).toEqual({ onBoard: FruitKind.Cherry, framesLe…
+       |                          ^
+    343|       expect(next.score).toBe(500);
+    344|       expect(events).toEqual([]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/64]⎯
+
+ FAIL  |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > moves the ghosts in ghost order, spending exactly one random draw on each
+AssertionError: expected { blinky: 'left', pinky: 'up', …(2) } to deeply equal { Object (blinky, pinky, ...) }
+
+- Expected
++ Received
+
+  {
+-   "blinky": "down",
+-   "clyde": "left",
+-   "inky": "up",
+-   "pinky": "right",
++   "blinky": "left",
++   "clyde": "up",
++   "inky": "left",
++   "pinky": "up",
+  }
+
+ ❯ src/core/game/systems/ghost-system.test.ts:156:8
+    154|       inky: next.ghosts[GhostId.Inky].actor.facing,
+    155|       clyde: next.ghosts[GhostId.Clyde].actor.facing,
+    156|     }).toEqual({
+       |        ^
+    157|       blinky: Direction.Down,
+    158|       pinky: Direction.Right,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/64]⎯
+
+ FAIL  |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > sends each ghost to its own scatter corner, from one tile and one facing
+AssertionError: expected { pinky: 'left', inky: 'left' } to deeply equal { pinky: 'up', inky: 'down' }
+
+- Expected
++ Received
+
+  {
+-   "inky": "down",
+-   "pinky": "up",
++   "inky": "left",
++   "pinky": "left",
+  }
+
+ ❯ src/core/game/systems/ghost-system.test.ts:213:8
+    211|       pinky: next.ghosts[GhostId.Pinky].actor.facing,
+    212|       inky: next.ghosts[GhostId.Inky].actor.facing,
+    213|     }).toEqual({ pinky: Direction.Up, inky: Direction.Down });
+       |        ^
+    214|   });
+    215|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/64]⎯
+
+ FAIL  |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > steers a chasing Pinky four tiles ahead of Pac-Man, overflow and all
+AssertionError: expected { x: 52, y: 164 } to deeply equal { x: 51, y: 164 }
+
+- Expected
++ Received
+
+  {
+-   "x": 51,
++   "x": 52,
+    "y": 164,
+  }
+
+ ❯ src/core/game/systems/ghost-system.test.ts:262:55
+    260|        facing: without the position, "never moved" and "chose left" wo…
+    261|        same observation. */
+    262|     expect(next.ghosts[GhostId.Pinky].actor.position).toEqual({ x: 51,…
+       |                                                       ^
+    263|   });
+    264|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/64]⎯
+
+ FAIL  |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > never takes the house gate while hunting, even when Pac-Man is straight through it
+AssertionError: expected 'down' to be 'left' // Object.is equality
+
+Expected: "left"
+Received: "down"
+
+ ❯ src/core/game/systems/ghost-system.test.ts:309:54
+    307|     const { state: next } = ghostSystem.run(state, frameContext(), []);
+    308|
+    309|     expect(next.ghosts[GhostId.Blinky].actor.facing).toBe(Direction.Le…
+       |                                                      ^
+    310|     /* One pixel left of the centre of (13,11), which is (108,92). */
+    311|     expect(next.ghosts[GhostId.Blinky].actor.position).toEqual({ x: 10…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[29/64]⎯
+
+ FAIL  |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > banks the tunnel step in the tunnel and the full step outside it
+AssertionError: expected +0 to be 128 // Object.is equality
+
+- Expected
++ Received
+
+- 128
++ 0
+
+ ❯ src/core/game/systems/ghost-system.test.ts:355:62
+    353|     const { state: next } = ghostSystem.run(state, frameContext(), []);
+    354|
+    355|     expect(next.ghosts[GhostId.Blinky].actor.carrySubPixels).toBe(128);
+       |                                                              ^
+    356|     expect(next.ghosts[GhostId.Pinky].actor.carrySubPixels).toBe(240);
+    357|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[30/64]⎯
+
+ FAIL  |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > brings eyes through the tunnel at eye speed, not at the tunnel crawl
+AssertionError: expected { x: 28, y: 116 } to deeply equal { x: 27, y: 116 }
+
+- Expected
++ Received
+
+  {
+-   "x": 27,
++   "x": 28,
+    "y": 116,
+  }
+
+ ❯ src/core/game/systems/ghost-system.test.ts:394:56
+    392|     /* The centre of (3,14) is (28,116); left is the tunnel row's only…
+    393|        is not the reversal. */
+    394|     expect(next.ghosts[GhostId.Blinky].actor.position).toEqual({ x: 27…
+       |                                                        ^
+    395|     expect(next.ghosts[GhostId.Blinky].actor.carrySubPixels).toBe(224);
+    396|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[31/64]⎯
+
+ FAIL  |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > keeps eyes heading home even while the fright timer is still running
+AssertionError: expected 'down' to be 'right' // Object.is equality
+
+Expected: "right"
+Received: "down"
+
+ ❯ src/core/game/systems/ghost-system.test.ts:444:54
+    442|     );
+    443|
+    444|     expect(next.ghosts[GhostId.Blinky].actor.facing).toBe(Direction.Ri…
+       |                                                      ^
+    445|     /* One pixel right of the centre of (12,11), which is (100,92). */
+    446|     expect(next.ghosts[GhostId.Blinky].actor.position).toEqual({ x: 10…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[32/64]⎯
+
+ FAIL  |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > walks eyes home to the gate and reports the return exactly once
+AssertionError: expected 'eyes' to be 'inHouse' // Object.is equality
+
+Expected: "inHouse"
+Received: "eyes"
+
+ ❯ src/core/game/systems/ghost-system.test.ts:494:47
+    492|     const { state: next, events } = runFrames(state, frameContext(), 2…
+    493|
+    494|     expect(next.ghosts[GhostId.Blinky].phase).toBe(GhostPhase.InHouse);
+       |                                               ^
+    495|     /* Twenty-eight pixels of travel land the eyes on (108,96) — the f…
+    496|        row of tile (13,12), since a tile is eight pixels tall. Arrival…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[33/64]⎯
+
+ FAIL  |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > leaves a ghost waiting in the house alone, while the ghosts outside take their frame
+AssertionError: expected { x: 52, y: 68 } to deeply equal { x: 52, y: 67 }
+
+- Expected
++ Received
+
+  {
+    "x": 52,
+-   "y": 67,
++   "y": 68,
+  }
+
+ ❯ src/core/game/systems/ghost-system.test.ts:548:56
+    546|        (6,8) facing left the candidates score up (6,7) 19²+7²=410, lef…
+    547|        20²+8²=464 and down (6,9) 19²+9²=442, so up wins. */
+    548|     expect(next.ghosts[GhostId.Blinky].actor.position).toEqual({ x: 52…
+       |                                                        ^
+    549|   });
+    550|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[34/64]⎯
+
+ FAIL  |core| src/core/game/systems/ghost-system.test.ts > ghostSystem > turns a frightened ghost round in a dead end rather than drawing from nothing
+AssertionError: expected 'right' to be 'left' // Object.is equality
+
+Expected: "left"
+Received: "right"
+
+ ❯ src/core/game/systems/ghost-system.test.ts:666:54
+    664|     const { state: next } = ghostSystem.run(state, ctx, []);
+    665|
+    666|     expect(next.ghosts[GhostId.Blinky].actor.facing).toBe(Direction.Le…
+       |                                                      ^
+    667|     /* One pixel left of the centre of (5,3), which is (44,28). */
+    668|     expect(next.ghosts[GhostId.Blinky].actor.position).toEqual({ x: 43…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[35/64]⎯
+
+ FAIL  |core| src/core/game/systems/house-system.test.ts > houseSystem > ages the stall timer by one frame when no dot was eaten, and releases nobody
+AssertionError: expected 41 to be 42 // Object.is equality
+
+- Expected
++ Received
+
+- 42
++ 41
+
+ ❯ src/core/game/systems/house-system.test.ts:122:39
+    120|     const { state: next, events } = houseSystem.run(state, frameContex…
+    121|
+    122|     expect(next.house.framesSinceDot).toBe(42);
+       |                                       ^
+    123|     expect(next.ghosts[GhostId.Inky].phase).toBe(GhostPhase.InHouse);
+    124|     expect(events).toEqual([]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[36/64]⎯
+
+ FAIL  |core| src/core/game/systems/house-system.test.ts > houseSystem > resets the stall timer only when a pelletEaten event arrived, whatever else did
+AssertionError: expected 41 to be 42 // Object.is equality
+
+- Expected
++ Received
+
+- 42
++ 41
+
+ ❯ src/core/game/systems/house-system.test.ts:165:46
+    163|     const withDot = houseSystem.run(state, frameContext(), [NOT_A_DOT,…
+    164|
+    165|     expect(quiet.state.house.framesSinceDot).toBe(42);
+       |                                              ^
+    166|     expect(withDot.state.house.framesSinceDot).toBe(0);
+    167|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[37/64]⎯
+
+ FAIL  |core| src/core/game/systems/house-system.test.ts > houseSystem > releases one ghost — the earliest still waiting — on the frame the stall timer reaches 240
+AssertionError: expected 'inHouse' to be 'leavingHouse' // Object.is equality
+
+Expected: "leavingHouse"
+Received: "inHouse"
+
+ ❯ src/core/game/systems/house-system.test.ts:218:53
+    216|     const onTime = houseSystem.run(stalledAt(239), frameContext(), []);
+    217|
+    218|     expect(onTime.state.ghosts[GhostId.Inky].phase).toBe(GhostPhase.Le…
+       |                                                     ^
+    219|     expect(onTime.state.ghosts[GhostId.Clyde].phase).toBe(GhostPhase.I…
+    220|     expect(onTime.state.ghosts[GhostId.Blinky].phase).toBe(GhostPhase.…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[38/64]⎯
+
+ FAIL  |core| src/core/game/systems/house-system.test.ts > houseSystem > advances the global counter on a dot and releases from the value it has after the advance
+AssertionError: expected 6 to be 7 // Object.is equality
+
+- Expected
++ Received
+
+- 7
++ 6
+
+ ❯ src/core/game/systems/house-system.test.ts:259:43
+    257|     const fed = houseSystem.run(state, frameContext(), [DOT_EATEN]);
+    258|
+    259|     expect(fed.state.house.globalCounter).toBe(7);
+       |                                           ^
+    260|     expect(fed.state.ghosts[GhostId.Pinky].phase).toBe(GhostPhase.Leav…
+    261|     expect(fed.events).toEqual([{ kind: 'ghostReleased', ghost: GhostI…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39/64]⎯
+
+ FAIL  |core| src/core/game/systems/house-system.test.ts > houseSystem > takes the level from the state: the stall timeout is 180 frames from level 5, not 240
+AssertionError: expected 'inHouse' to be 'leavingHouse' // Object.is equality
+
+Expected: "leavingHouse"
+Received: "inHouse"
+
+ ❯ src/core/game/systems/house-system.test.ts:308:54
+    306|     const onTime = houseSystem.run(stalledOnFive(179), frameContext(),…
+    307|
+    308|     expect(onTime.state.ghosts[GhostId.Pinky].phase).toBe(GhostPhase.L…
+       |                                                      ^
+    309|     expect(onTime.events).toEqual([{ kind: 'ghostReleased', ghost: Gho…
+    310|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[40/64]⎯
+
+ FAIL  |core| src/core/game/systems/input-system.test.ts > inputSystem > records the direction held this frame as the pending turn
+AssertionError: expected 'down' to be 'up' // Object.is equality
+
+Expected: "up"
+Received: "down"
+
+ ❯ src/core/game/systems/input-system.test.ts:80:42
+     78|     );
+     79|
+     80|     expect(next.pacman.pendingDirection).toBe(Direction.Up);
+       |                                          ^
+     81|   });
+     82|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[41/64]⎯
+
+ FAIL  |core| src/core/game/systems/input-system.test.ts > inputSystem > overwrites a turn the player queued earlier with the one held now
+AssertionError: expected 'left' to be 'right' // Object.is equality
+
+Expected: "right"
+Received: "left"
+
+ ❯ src/core/game/systems/input-system.test.ts:172:42
+    170|     );
+    171|
+    172|     expect(next.pacman.pendingDirection).toBe(Direction.Right);
+       |                                          ^
+    173|   });
+    174|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[42/64]⎯
+
+ FAIL  |core| src/core/game/systems/input-system.test.ts > inputSystem > records a direction the wall forbids, because legality is not its decision
+AssertionError: expected null to be 'up' // Object.is equality
+
+- Expected:
+"up"
+
++ Received:
+null
+
+ ❯ src/core/game/systems/input-system.test.ts:209:42
+    207|     );
+    208|
+    209|     expect(next.pacman.pendingDirection).toBe(Direction.Up);
+       |                                          ^
+    210|   });
+    211|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[43/64]⎯
+
+ FAIL  |core| src/core/game/systems/input-system.test.ts > inputSystem > records during the READY! countdown, even facing that way already
+AssertionError: expected null to be 'left' // Object.is equality
+
+- Expected:
+"left"
+
++ Received:
+null
+
+ ❯ src/core/game/systems/input-system.test.ts:243:42
+    241|     );
+    242|
+    243|     expect(next.pacman.pendingDirection).toBe(Direction.Left);
+       |                                          ^
+    244|   });
+    245|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[44/64]⎯
+
+ FAIL  |core| src/core/game/systems/level-system.test.ts > levelSystem > ends the round when the last of the 244 goes, and names the level that ended
+AssertionError: expected 'playing' to be 'levelComplete' // Object.is equality
+
+Expected: "levelComplete"
+Received: "playing"
+
+ ❯ src/core/game/systems/level-system.test.ts:84:24
+     82|     const { state: next, events } = levelSystem.run(state, frameContex…
+     83|
+     84|     expect(next.phase).toBe(RoundPhase.LevelComplete);
+       |                        ^
+     85|     /* `toEqual` on the whole array, not `toContainEqual`: this system…
+     86|        the OCCURRENCE and nothing else. The phase system owns timed tr…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[45/64]⎯
+
+ FAIL  |core| src/core/game/systems/level-system.test.ts > levelSystem > gives the cleared maze its full 120-frame flash
+AssertionError: expected +0 to be 120 // Object.is equality
+
+- Expected
++ Received
+
+- 120
++ 0
+
+ ❯ src/core/game/systems/level-system.test.ts:119:34
+    117|     const { state: next } = levelSystem.run(state, frameContext(), []);
+    118|
+    119|     expect(next.phaseFramesLeft).toBe(120);
+       |                                  ^
+    120|   });
+    121|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[46/64]⎯
+
+ FAIL  |core| src/core/game/systems/life-system.test.ts > lifeSystem > spends one life and freezes the round for the death animation
+AssertionError: expected 2 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ src/core/game/systems/life-system.test.ts:180:24
+    178|     const { state: next, events } = lifeSystem.run(state, frameContext…
+    179|
+    180|     expect(next.lives).toBe(1);
+       |                        ^
+    181|     expect(next.phase).toBe(RoundPhase.Dying);
+    182|     expect(next.phaseFramesLeft).toBe(180);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[47/64]⎯
+
+ FAIL  |core| src/core/game/systems/life-system.test.ts > lifeSystem > restarts the round on the same part-eaten board and arms the global dot counter
+AssertionError: expected { x: 12, y: 44 } to deeply equal { x: 108, y: 188 }
+
+- Expected
++ Received
+
+  {
+-   "x": 108,
+-   "y": 188,
++   "x": 12,
++   "y": 44,
+  }
+
+ ❯ src/core/game/systems/life-system.test.ts:226:40
+    224|     const { state: next } = lifeSystem.run(state, frameContext(), [CAU…
+    225|
+    226|     expect(next.pacman.actor.position).toEqual(centreOf({ col: 13, row…
+       |                                        ^
+    227|     expect(next.pacman.actor.facing).toBe(Direction.Left);
+    228|     expect(next.ghosts[GhostId.Blinky].actor.position).toEqual(centreO…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[48/64]⎯
+
+ FAIL  |core| src/core/game/systems/life-system.test.ts > lifeSystem > ends the game instead of restarting the round when the last life goes
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ src/core/game/systems/life-system.test.ts:268:24
+    266|     const { state: next, events } = lifeSystem.run(state, frameContext…
+    267|
+    268|     expect(next.lives).toBe(0);
+       |                        ^
+    269|     expect(next.phase).toBe(RoundPhase.GameOver);
+    270|     expect(next.phaseFramesLeft).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[49/64]⎯
+
+ FAIL  |core| src/core/game/systems/life-system.test.ts > lifeSystem > spends one life, not two, when both collision passes report a catch
+AssertionError: expected 2 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ src/core/game/systems/life-system.test.ts:316:24
+    314|     const { state: next, events } = lifeSystem.run(state, frameContext…
+    315|
+    316|     expect(next.lives).toBe(1);
+       |                        ^
+    317|     expect(next.phase).toBe(RoundPhase.Dying);
+    318|     expect(events).toEqual([{ kind: 'pacmanDied', livesLeft: 1 }]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[50/64]⎯
+
+ FAIL  |core| src/core/game/systems/mode-system.test.ts > modeSystem > spends one frame of the current wave on an ordinary playing frame
+AssertionError: expected { waveIndex: 1, waveFrames: 500, …(1) } to deeply equal { waveIndex: 1, waveFrames: 501, …(1) }
+
+- Expected
++ Received
+
+  {
+    "frightenedFramesLeft": 0,
+-   "waveFrames": 501,
++   "waveFrames": 500,
+    "waveIndex": 1,
+  }
+
+ ❯ src/core/game/systems/mode-system.test.ts:71:24
+     69|     const { state: next, events } = modeSystem.run(state, frameContext…
+     70|
+     71|     expect(next.modes).toEqual({ waveIndex: 1, waveFrames: 501, fright…
+       |                        ^
+     72|     expect(events).toEqual([]);
+     73|     /* A reversal is an EDGE. A system that queued one every frame wou…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[51/64]⎯
+
+ FAIL  |core| src/core/game/systems/mode-system.test.ts > modeSystem > flips the wave on the 420th frame of level 1 scatter, turning every ghost round
+AssertionError: expected { Object (waveIndex, waveFrames, ...) } to deeply equal { waveIndex: 1, waveFrames: +0, …(1) }
+
+- Expected
++ Received
+
+  {
+    "frightenedFramesLeft": 0,
+-   "waveFrames": 0,
+-   "waveIndex": 1,
++   "waveFrames": 419,
++   "waveIndex": 0,
+  }
+
+ ❯ src/core/game/systems/mode-system.test.ts:115:24
+    113|     const { state: next, events } = modeSystem.run(state, frameContext…
+    114|
+    115|     expect(next.modes).toEqual({ waveIndex: 1, waveFrames: 0, frighten…
+       |                        ^
+    116|     /* The payload is the mode the ghosts are in NOW — chase — not the…
+    117|        they just left, and index 1, not 0. An implementation that repo…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[52/64]⎯
+
+ FAIL  |core| src/core/game/systems/mode-system.test.ts > modeSystem > freezes the wave clock while the ghosts are frightened, and counts only the fright down
+AssertionError: expected { Object (waveIndex, waveFrames, ...) } to deeply equal { Object (waveIndex, waveFrames, ...) }
+
+- Expected
++ Received
+
+  {
+-   "frightenedFramesLeft": 119,
++   "frightenedFramesLeft": 120,
+    "waveFrames": 419,
+    "waveIndex": 0,
+  }
+
+ ❯ src/core/game/systems/mode-system.test.ts:158:24
+    156|
+    157|     /* waveFrames is STILL 419: the frame was spent on the fright time…
+    158|     expect(next.modes).toEqual({ waveIndex: 0, waveFrames: 419, fright…
+       |                        ^
+    159|     expect(events).toEqual([]);
+    160|     expect(next.ghosts[GhostId.Blinky].reverseQueued).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[53/64]⎯
+
+ FAIL  |core| src/core/game/systems/mode-system.test.ts > modeSystem > announces the end of fright on the frame the timer reaches zero, reversing nobody
+AssertionError: expected { Object (waveIndex, waveFrames, ...) } to deeply equal { Object (waveIndex, waveFrames, ...) }
+
+- Expected
++ Received
+
+  {
+-   "frightenedFramesLeft": 0,
++   "frightenedFramesLeft": 1,
+    "waveFrames": 419,
+    "waveIndex": 0,
+  }
+
+ ❯ src/core/game/systems/mode-system.test.ts:190:24
+    188|     const { state: next, events } = modeSystem.run(state, frameContext…
+    189|
+    190|     expect(next.modes).toEqual({ waveIndex: 0, waveFrames: 419, fright…
+       |                        ^
+    191|     expect(events).toEqual([{ kind: 'frightenedEnded' }]);
+    192|     expect(next.ghosts[GhostId.Blinky].reverseQueued).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[54/64]⎯
+
+ FAIL  |core| src/core/game/systems/pacman-system.test.ts > pacmanSystem > advances Pac-Man by one pixel a frame at level 1, and says nothing
+AssertionError: expected { x: 52, y: 236 } to deeply equal { x: 53, y: 236 }
+
+- Expected
++ Received
+
+  {
+-   "x": 53,
++   "x": 52,
+    "y": 236,
+  }
+
+ ❯ src/core/game/systems/pacman-system.test.ts:106:40
+    104|     const { state: next, events } = pacmanSystem.run(state, frameConte…
+    105|
+    106|     expect(next.pacman.actor.position).toEqual({ x: 53, y: 236 });
+       |                                        ^
+    107|     /* 256 sub-pixels is a whole pixel exactly: nothing is left to ban…
+    108|        the assertion that separates 80% from the frightened 90%, which…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[55/64]⎯
+
+ FAIL  |core| src/core/game/systems/pacman-system.test.ts > pacmanSystem > takes the frame speed from the level spec, not from level 1
+AssertionError: expected { x: 52, y: 236 } to deeply equal { x: 53, y: 236 }
+
+- Expected
++ Received
+
+  {
+-   "x": 53,
++   "x": 52,
+    "y": 236,
+  }
+
+ ❯ src/core/game/systems/pacman-system.test.ts:140:40
+    138|     const { state: next } = pacmanSystem.run(state, frameContext({ spe…
+    139|
+    140|     expect(next.pacman.actor.position).toEqual({ x: 53, y: 236 });
+       |                                        ^
+    141|     expect(next.pacman.actor.carrySubPixels).toBe(64);
+    142|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[56/64]⎯
+
+ FAIL  |core| src/core/game/systems/pacman-system.test.ts > pacmanSystem > spends the eating freeze standing still, one frame at a time
+AssertionError: expected 3 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 3
+
+ ❯ src/core/game/systems/pacman-system.test.ts:177:36
+    175|     const { state: next } = pacmanSystem.run(state, frameContext(), []…
+    176|
+    177|     expect(next.pacman.stopFrames).toBe(2);
+       |                                    ^
+    178|     /* The literal, not `state.pacman.actor.position`: an implementati…
+    179|        moved him a pixel would still equal itself. He is in open corri…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[57/64]⎯
+
+ FAIL  |core| src/core/game/systems/pacman-system.test.ts > pacmanSystem > is still frozen on the last frame of the freeze, and moves only after it
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ src/core/game/systems/pacman-system.test.ts:218:36
+    216|     const { state: next } = pacmanSystem.run(state, frameContext(), []…
+    217|
+    218|     expect(next.pacman.stopFrames).toBe(0);
+       |                                    ^
+    219|     expect(next.pacman.actor.position).toEqual({ x: 52, y: 236 });
+    220|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[58/64]⎯
+
+ FAIL  |core| src/core/game/systems/pacman-system.test.ts > pacmanSystem > turns onto the direction the player is holding, at the tile centre
+AssertionError: expected 'left' to be 'up' // Object.is equality
+
+Expected: "up"
+Received: "left"
+
+ ❯ src/core/game/systems/pacman-system.test.ts:257:38
+    255|     const { state: next } = pacmanSystem.run(state, frameContext(), []…
+    256|
+    257|     expect(next.pacman.actor.facing).toBe(Direction.Up);
+       |                                      ^
+    258|     expect(next.pacman.actor.position).toEqual({ x: 28, y: 211 });
+    259|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[59/64]⎯
+
+ FAIL  |core| src/core/game/systems/pacman-system.test.ts > pacmanSystem > keeps a turn already queued when the player is holding nothing
+AssertionError: expected 'left' to be 'up' // Object.is equality
+
+Expected: "up"
+Received: "left"
+
+ ❯ src/core/game/systems/pacman-system.test.ts:290:38
+    288|     const { state: next } = pacmanSystem.run(state, frameContext(), []…
+    289|
+    290|     expect(next.pacman.actor.facing).toBe(Direction.Up);
+       |                                      ^
+    291|     expect(next.pacman.actor.position).toEqual({ x: 28, y: 211 });
+    292|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[60/64]⎯
+
+ FAIL  |core| src/core/game/systems/pacman-system.test.ts > pacmanSystem > refuses the ghost-house gate, having run the frame anyway
+AssertionError: expected 7 to be 8 // Object.is equality
+
+- Expected
++ Received
+
+- 8
++ 7
+
+ ❯ src/core/game/systems/pacman-system.test.ts:326:40
+    324|
+    325|     expect(next.pacman.actor.position).toEqual({ x: 108, y: 92 });
+    326|     expect(next.pacman.animationFrame).toBe(8);
+       |                                        ^
+    327|   });
+    328|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[61/64]⎯
+
+ FAIL  |core| src/core/game/systems/phase-system.test.ts > phaseSystem > spends one frame of a timed phase per tick
+AssertionError: expected 120 to be 119 // Object.is equality
+
+- Expected
++ Received
+
+- 119
++ 120
+
+ ❯ src/core/game/systems/phase-system.test.ts:42:34
+     40|     const { state: next } = phaseSystem.run(state, frameContext(), []);
+     41|
+     42|     expect(next.phaseFramesLeft).toBe(119);
+       |                                  ^
+     43|   });
+     44|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[62/64]⎯
+
+ FAIL  |core| src/core/game/systems/phase-system.test.ts > phaseSystem > starts play when the ready countdown expires, and says so
+AssertionError: expected 'ready' to be 'playing' // Object.is equality
+
+Expected: "playing"
+Received: "ready"
+
+ ❯ src/core/game/systems/phase-system.test.ts:59:24
+     57|     const { state: next, events } = phaseSystem.run(state, frameContex…
+     58|
+     59|     expect(next.phase).toBe(RoundPhase.Playing);
+       |                        ^
+     60|     /* The event is not decoration: it is how the audio decision knows…
+     61|        the intro jingle without importing this module. */
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[63/64]⎯
+
+ FAIL  |core| src/core/game/systems/phase-system.test.ts > phaseSystem > returns to the ready pause after the death animation, not straight to play
+AssertionError: expected 'dying' to be 'ready' // Object.is equality
+
+Expected: "ready"
+Received: "dying"
+
+ ❯ src/core/game/systems/phase-system.test.ts:102:24
+    100|     const { state: next } = phaseSystem.run(state, frameContext(), []);
+    101|
+    102|     expect(next.phase).toBe(RoundPhase.Ready);
+       |                        ^
+    103|   });
+    104|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[64/64]⎯
+
+
+ Test Files  11 failed (11)
+      Tests  64 failed | 24 passed (88)
+   Start at  21:56:57
+   Duration  1.24s (transform 1.65s, setup 1.09s, import 2.00s, tests 312ms, environment 1ms)
+
