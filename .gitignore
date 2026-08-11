@@ -24,3 +24,10 @@ test-results/
 .env
 .env.*
 !.env.example
+
+# BMAD / TEA (installed with `npx bmad-method install --modules tea --tools claude-code`)
+# The skills are ~10MB of vendored upstream files - reinstall rather than clone them.
+# _bmad/ IS committed: it holds the pinned config and module metadata that make the
+# reinstall reproducible.
+.claude/skills/
+_bmad-output/

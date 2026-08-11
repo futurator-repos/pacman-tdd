@@ -1,0 +1,12 @@
+# Vendored BMAD / TEA module files. Installed by `npx bmad-method install`, not
+# authored here, so reformatting them would produce a diff against upstream that
+# the next install silently reverts.
+.claude/skills/
+_bmad/
+_bmad-output/
+
+# Generated
+public/assets/
+coverage/
+dist/
+docs/tdd-evidence/
