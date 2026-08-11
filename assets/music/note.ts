@@ -45,6 +45,11 @@ export interface Song {
   readonly notes: readonly Note[];
 }
 
+/** Concert A, the anchor of the standard tuning. */
+const A4_MIDI = 69;
+const A4_HZ = 440;
+const SEMITONES_PER_OCTAVE = 12;
+
 /**
  * Converts a MIDI note number to its frequency in hertz.
  *
@@ -55,8 +60,8 @@ export interface Song {
  * because it is a fact about music notation rather than about Web Audio — and
  * keeping it here means it can be unit-tested without an audio context.
  */
-export function midiToFrequency(_note: MidiNote): number {
-  return 0;
+export function midiToFrequency(note: MidiNote): number {
+  return A4_HZ * Math.pow(2, (note - A4_MIDI) / SEMITONES_PER_OCTAVE);
 }
 
 /**
@@ -64,11 +69,12 @@ export function midiToFrequency(_note: MidiNote): number {
  *
  * A beat is a quarter note, so a sixteenth is a quarter of a beat.
  */
-export function sixteenthSeconds(_tempo: number): number {
-  return 0;
+export function sixteenthSeconds(tempo: number): number {
+  return 60 / tempo / 4;
 }
 
 /** Total length of a song in seconds. Used to schedule and to test. */
-export function songSeconds(_song: Song): number {
-  return 0;
+export function songSeconds(song: Song): number {
+  const sixteenths = song.notes.reduce((total, note) => total + note.duration, 0);
+  return sixteenths * sixteenthSeconds(song.tempo);
 }
