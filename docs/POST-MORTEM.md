@@ -135,6 +135,33 @@ The corollary matters more than the incidents: **a control you have to remember 
 The freeze check worked every time because it was a script. The staging discipline failed twice
 because it was a habit.
 
+### Failure 9: When I caught myself writing code before its test, I did not delete it
+
+The canonical TDD rule is unambiguous: _write code before the test? Delete it. Start over. Do not
+keep it as reference. Do not adapt it while writing tests. Delete means delete._
+
+When I caught myself having written `note.ts` before `note.test.ts`, I stubbed the three functions,
+captured a red, then **restored the original implementation from a backup**. I reported that as a
+correction. It is not one — it is precisely the "keep as reference" and "adapt existing code"
+rationalisations the rule names as red flags. The tests were then written against code I had already
+written, which is the exact bias test-first exists to remove.
+
+The honest correction was to delete the file and reimplement from the tests. It would have cost ten
+minutes. **A correction that preserves the artifact is not a correction.**
+
+### Failure 10: I treated REFACTOR as optional polish rather than a step of the cycle
+
+Recorded above as "there was no refactor step", but that framing is too soft.
+
+Refactor is not tidying you reach if there is time. It is where the design actually improves, and it
+is the only step that tests whether your tests _permit change at all_. A suite that has never
+survived a refactor is a suite of unknown quality: implementation coupling is invisible until
+something tries to move.
+
+Thirteen cycles, zero refactors, means this codebase has never once demonstrated the property that
+justifies writing the tests in the first place. The tests are asserted to be good. They have never
+been asked to prove it.
+
 ### Failure 8: The ceremony made everything slow and unreadable
 
 Every test carries a 20–60 line comment block: TYPE, WHY THIS TYPE, MEASURES, ORACLE, CATCHES,
