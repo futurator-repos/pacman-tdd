@@ -8,11 +8,18 @@
  * mode systems in slice s11; keeping the RULE separate from the STORAGE is what
  * lets the 3000-point chain be tested in four function calls instead of by
  * playing a level.
- *
- * STUB (slice s08 RED): signatures only. Every function returns an inert zero
- * and reads none of its arguments — the underscores say so, and GREEN removes
- * them.
  */
+import { GHOST_POINTS } from './points.ts';
+
+/**
+ * The top of the ladder, read off the ladder itself.
+ *
+ * Written as `GHOST_POINTS[3]` rather than as the literal 1600 so that the cap
+ * cannot drift away from the table it caps: change the last rung and the cap
+ * follows. The literal index is what makes it `number` rather than
+ * `number | undefined` — see the tuple type in `points.ts`.
+ */
+const LADDER_CAP = GHOST_POINTS[3];
 
 /**
  * What the next ghost eaten is worth, given how many have already been eaten
@@ -23,8 +30,8 @@
  * cap rather than reading off the end of the ladder. An `undefined` here would
  * reach `addScore` and turn the score into `NaN` for the rest of the game.
  */
-export function ghostPoints(_eatenThisFright: number): number {
-  return 0;
+export function ghostPoints(eatenThisFright: number): number {
+  return GHOST_POINTS[eatenThisFright] ?? LADDER_CAP;
 }
 
 /**
@@ -33,8 +40,8 @@ export function ghostPoints(_eatenThisFright: number): number {
  * It climbs. Eating a ghost is what ADVANCES the ladder, never what resets it —
  * "each additional ghost is worth twice as many points as the one before it".
  */
-export function chainAfterGhostEaten(_eatenThisFright: number): number {
-  return 0;
+export function chainAfterGhostEaten(eatenThisFright: number): number {
+  return eatenThisFright + 1;
 }
 
 /**
@@ -51,8 +58,8 @@ export function chainAfterGhostEaten(_eatenThisFright: number): number {
  * a function of two numbers rather than one.
  */
 export function chainAfterPowerPellet(
-  _eatenThisFright: number,
-  _frightenedFramesLeft: number,
+  eatenThisFright: number,
+  frightenedFramesLeft: number,
 ): number {
-  return 0;
+  return frightenedFramesLeft > 0 ? eatenThisFright : 0;
 }

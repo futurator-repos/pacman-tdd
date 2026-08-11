@@ -1,6 +1,7 @@
-import { Direction } from '../geometry/direction.ts';
+import { Direction, opposite } from '../geometry/direction.ts';
+import { squaredDistance } from '../geometry/tile-distance.ts';
 import { type Tile } from '../geometry/tile.ts';
-import { type Maze } from '../maze/maze.ts';
+import { type Maze, isNoUpTile, walkableNeighbours } from '../maze/maze.ts';
 
 /**
  * Everything the turn decision is allowed to know.
@@ -30,16 +31,49 @@ export interface GhostTurn {
 }
 
 /**
- * SIGNATURE-ONLY STUB — no behaviour. See docs/TDD-CHARTER.md, challenge 1.
+ * The whole of ghost movement: one tile, one decision, no path-finder.
  *
- * The inert value is `Direction.Right` and the choice is not arbitrary. The
- * return type is a four-value union, so SOME direction has to come back and
- * every candidate risks making a real assertion pass by coincidence — the one
- * thing a stub may never do. `Right` is the safest of the four because it is
- * the direction the arcade rule produces least: it is last in `ALL_DIRECTIONS`,
- * so it can never win a distance tie (docs/ARCADE-REFERENCE.md section 9), and
- * no test in `choose-direction.test.ts` expects it.
+ * Three shapes in the body are load-bearing and none of them is a matter of
+ * taste.
+ *
+ * THE DISTANCE IS MEASURED FROM EACH CANDIDATE NEIGHBOUR, never from the
+ * ghost's own tile. Measured from the ghost every candidate scores identically,
+ * every decision falls through to the tie-break, and all four personalities
+ * walk the same route while every test in `targeting/` still passes.
+ *
+ * THE COMPARISON IS STRICTLY `<`, which is what makes the tie-break free. The
+ * candidates arrive from `walkableNeighbours` in `ALL_DIRECTIONS` order, so a
+ * later candidate only displaces an earlier one when it is genuinely nearer —
+ * exactly the ROM's own loop, and the reason `right` can never win a tie. No
+ * sort, no comparator, no second source of truth about the order.
+ *
+ * THE TWO PROHIBITIONS ARE A PREFERENCE, NOT A LAW. Dropping the reversal and
+ * dropping `up` out of a no-up tile can between them leave nothing at all —
+ * a dead-end pocket, of which the real board has several near the house — and
+ * there the dropped exits come back rather than the function throwing mid-frame
+ * (docs/ARCADE-REFERENCE.md section 9.1).
+ *
+ * `reduce` without a seed is deliberate: the seed would have to be a candidate,
+ * and there is no honest candidate to invent for a tile with no exits at all.
+ * A ghost standing on such a tile is a broken maze, not a case to handle.
  */
-export function chooseDirection(_turn: GhostTurn): Direction {
-  return Direction.Right;
+export function chooseDirection(turn: GhostTurn): Direction {
+  const { maze, tile, target } = turn;
+
+  const exits = walkableNeighbours(maze, tile, turn.mayPassDoor);
+  const reversal = opposite(turn.facing);
+  const noUp = isNoUpTile(maze, tile);
+
+  const preferred = exits.filter(
+    (exit) => exit.direction !== reversal && !(noUp && exit.direction === Direction.Up),
+  );
+  const candidates = preferred.length > 0 ? preferred : exits;
+
+  const best = candidates.reduce((nearest, candidate) =>
+    squaredDistance(candidate.tile, target) < squaredDistance(nearest.tile, target)
+      ? candidate
+      : nearest,
+  );
+
+  return best.direction;
 }

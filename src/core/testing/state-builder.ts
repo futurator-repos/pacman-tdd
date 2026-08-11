@@ -1,8 +1,6 @@
-import { RoundPhase } from '../game/game-phase.ts';
+import { PHASE_FRAMES, RoundPhase } from '../game/game-phase.ts';
 import { type GameState } from '../game/game-state.ts';
-import { Direction } from '../geometry/direction.ts';
-import { GhostId } from '../ghost/ghost-id.ts';
-import { GhostPhase, type Ghost } from '../ghost/ghost.ts';
+import { startGame } from '../game/new-game.ts';
 
 /**
  * The fixture builder: a legal `GameState` from the three fields a test cares
@@ -56,65 +54,55 @@ type DeepPatch<T> = {
 export type StatePatch = DeepPatch<GameState>;
 
 /**
- * RED PHASE: one inert `GameState`, returned whatever the patch says.
+ * The one shape the merge below can reason about at runtime.
  *
- * Deliberately NOT the same value `startGame`'s stub returns, and deliberately
- * ignoring its argument: that is what makes `state-builder.test.ts` fail on its
- * assertions — "the builder's base is a started game" and "a patch is applied"
- * are both genuinely unimplemented, and the red says so. GREEN deletes this.
+ * The types above describe the patch precisely; the merge cannot, because it
+ * walks keys it has never heard of. Rather than smear `unknown` through the
+ * recursion with a cast at every step, the whole traversal works in this one
+ * type and the two casts happen at the single boundary in `buildState` — where
+ * the type system's claim ("a patch has the shape of the state") is handed over
+ * to a function that only knows about records.
  */
-const INERT_GHOST = {
-  actor: {
-    position: { x: 0, y: 0 },
-    facing: Direction.Up,
-    queued: null,
-    carrySubPixels: 0,
-  },
-  phase: GhostPhase.InHouse,
-  frightenedFramesLeft: 0,
-  dotCounter: 0,
-  dotCounterActive: false,
-  elroyStage: 0,
-  reverseQueued: false,
-} as const;
+type UnknownRecord = Readonly<Record<string, unknown>>;
 
-const INERT_STATE: GameState = {
-  level: 0,
-  frame: 0,
-  phase: RoundPhase.Ready,
-  phaseFramesLeft: 0,
-  pacman: {
-    actor: {
-      position: { x: 0, y: 0 },
-      facing: Direction.Up,
-      queued: null,
-      carrySubPixels: 0,
-    },
-    pendingDirection: null,
-    stopFrames: 0,
-    animationFrame: 0,
-  },
-  ghosts: {
-    [GhostId.Blinky]: { ...INERT_GHOST, id: GhostId.Blinky } satisfies Ghost,
-    [GhostId.Pinky]: { ...INERT_GHOST, id: GhostId.Pinky } satisfies Ghost,
-    [GhostId.Inky]: { ...INERT_GHOST, id: GhostId.Inky } satisfies Ghost,
-    [GhostId.Clyde]: { ...INERT_GHOST, id: GhostId.Clyde } satisfies Ghost,
-  },
-  pellets: {
-    columns: 0,
-    pellets: new Set<number>(),
-    powerPellets: new Set<number>(),
-    eaten: 0,
-  },
-  fruit: { onBoard: null, framesLeft: 0, spawned: 0 },
-  modes: { waveIndex: 0, waveFrames: 0, frightenedFramesLeft: 0 },
-  house: { globalCounterActive: false, globalCounter: 0, framesSinceDot: 0 },
-  score: 0,
-  highScore: 0,
-  extraLifeAwarded: false,
-  lives: 0,
-  pendingMs: 0,
-};
+/**
+ * Is this a value the merge should descend INTO, rather than replace?
+ *
+ * The prototype test is what makes the Set and array exceptions of `DeepPatch`
+ * true at runtime as well as in the types, and it does it without naming either:
+ * a `Set` or an `Array` fails `=== Object.prototype`, so it is copied whole. A
+ * pair of `instanceof` checks would say the same thing in more places and would
+ * need extending for every collection anybody adds later.
+ *
+ * `Reflect.getPrototypeOf` rather than `Object.getPrototypeOf` because the
+ * latter is typed `(o: any) => any` in the standard library, and `any` is
+ * banned here for exactly the reason it would apply: it would silence the
+ * checks on the comparison that follows.
+ */
+function isMergeable(value: unknown): value is UnknownRecord {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    Reflect.getPrototypeOf(value) === Object.prototype
+  );
+}
+
+/**
+ * Merge `patch` into `base`, descending wherever both sides are records.
+ *
+ * The shallow alternative — `{ ...base, ...patch }` — is the bug this function
+ * exists to prevent: it replaces the WHOLE `ghosts` record with the single
+ * ghost a patch mentioned, and the symptom arrives four files away as "Blinky
+ * is undefined" pointing at code that is perfectly correct.
+ */
+function deepMerge(base: UnknownRecord, patch: UnknownRecord): UnknownRecord {
+  const merged: Record<string, unknown> = { ...base };
+  for (const [key, value] of Object.entries(patch)) {
+    const existing = merged[key];
+    merged[key] = isMergeable(existing) && isMergeable(value) ? deepMerge(existing, value) : value;
+  }
+  return merged;
+}
 
 /**
  * A legal `GameState`, with the fields in `patch` overridden at any depth.
@@ -123,7 +111,18 @@ const INERT_STATE: GameState = {
  * almost always wants a game that is running: leaving it in `ready` would mean
  * every system test in s10 and s11 opened by remembering to skip a countdown,
  * and the one that forgot would assert that nothing moved and pass.
+ *
+ * Derived from `startGame` rather than written out, so a field added to
+ * `GameState` tomorrow is present in every fixture the day it exists. The two
+ * assertions are the boundary described on `UnknownRecord`: they are safe
+ * precisely because `StatePatch` is `DeepPatch<GameState>`, so every key the
+ * loop can meet is a key of the state, carrying a value of the state's type.
  */
-export function buildState(_patch: StatePatch = {}): GameState {
-  return INERT_STATE;
+export function buildState(patch: StatePatch = {}): GameState {
+  const base: GameState = {
+    ...startGame(),
+    phase: RoundPhase.Playing,
+    phaseFramesLeft: PHASE_FRAMES[RoundPhase.Playing],
+  };
+  return deepMerge(base as unknown as UnknownRecord, patch) as unknown as GameState;
 }

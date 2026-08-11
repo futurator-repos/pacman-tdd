@@ -7,11 +7,8 @@
  * addition and the crossing in the same function means no caller can add points
  * without asking the question, and there is exactly one place in the codebase
  * where the threshold is compared.
- *
- * STUB (slice s08 RED): a fixed inert result. It deliberately does not echo its
- * arguments — a stub that returned the score it was handed would make "adding
- * nothing changes nothing" pass while proving nothing.
  */
+import { EXTRA_LIFE_AT } from './points.ts';
 
 /** The new score, and whether THIS addition earned the extra life. */
 export interface ScoreResult {
@@ -25,6 +22,21 @@ export interface ScoreResult {
   readonly extraLifeAwarded: boolean;
 }
 
-export function addScore(_score: number, _points: number): ScoreResult {
-  return { score: 0, extraLifeAwarded: false };
+/**
+ * Add points, and report the crossing.
+ *
+ * Both ends of the crossing are asserted rather than just the new total,
+ * because each half alone is a bug the other half hides: `after >= threshold`
+ * pays a life for every scoring event once the player is past 10000, and
+ * `before < threshold` pays one for every dot before it. The `>=` on the second
+ * half — rather than `===` — is what awards the life when a 3000-point chain
+ * leaps the line without ever landing on it. docs/ARCADE-REFERENCE.md 13.3.
+ */
+export function addScore(score: number, points: number): ScoreResult {
+  const after = score + points;
+
+  return {
+    score: after,
+    extraLifeAwarded: score < EXTRA_LIFE_AT && after >= EXTRA_LIFE_AT,
+  };
 }

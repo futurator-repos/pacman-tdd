@@ -12,11 +12,6 @@
  * `stepFruit` takes the LevelSpec rather than a FruitKind because a bonus item
  * is whatever the current level's row says it is (section 3), and its value is
  * `spec.fruitPoints` for the same reason. There is no second fruit table.
- *
- * STUB (slice s08 RED): both functions return fixed inert values and read none
- * of their arguments. Notably `stepFruit` does NOT return the state it was
- * handed: echoing the input is behaviour, and it would make "nothing happens on
- * the sixty-ninth dot" pass for the wrong reason.
  */
 import { type FruitKind, type LevelSpec } from './level-spec.ts';
 
@@ -41,6 +36,30 @@ export interface FruitState {
 export const NO_FRUIT: FruitState = { onBoard: null, framesLeft: 0, spawned: 0 };
 
 /**
+ * Dots eaten when the level's FIRST bonus appears.
+ * docs/ARCADE-REFERENCE.md section 13.4.
+ *
+ * Eaten, never remaining. Cruise Elroy counts the other way (section 5), so the
+ * two counts live a few files apart in one codebase and are the classic pair to
+ * swap; naming this one after the count it takes is the cheapest guard there is.
+ */
+const FIRST_FRUIT_DOTS = 70;
+
+/** Dots eaten when the SECOND — and last — bonus appears. Same section. */
+const SECOND_FRUIT_DOTS = 170;
+
+/**
+ * How long an uneaten bonus stays on the board.
+ *
+ * 570 frames is 9.5 seconds at the 60 fps of section 1, the midpoint of the
+ * Dossier's "between nine and ten seconds". A [repo convention] fixed rather
+ * than drawn from the injected Rng: a draw here would consume the same stream
+ * the frightened ghosts turn on, so two replays of one input log would diverge
+ * on how quickly the player reached the seventieth dot.
+ */
+const FRUIT_LIFETIME_FRAMES = 570;
+
+/**
  * One frame of the bonus item's life.
  *
  * Both reported items are EDGES, on the same terms as `frightenedEnded` in
@@ -54,8 +73,52 @@ export interface FruitStep {
   readonly expired: FruitKind | null;
 }
 
-export function stepFruit(_fruit: FruitState, _dotsEaten: number, _spec: LevelSpec): FruitStep {
-  return { fruit: NO_FRUIT, appeared: null, expired: null };
+/**
+ * Advance the bonus item by one frame.
+ *
+ * The trigger is written against `spawned` as well as `dotsEaten`, and with `===`
+ * rather than `>=`, because both halves are what make "twice per level" true:
+ * the equality fires on one frame only and the counter is what stops a third
+ * appearance ever being due. Together they mean this is safe to call every
+ * frame with a dot count that only climbs.
+ */
+export function stepFruit(fruit: FruitState, dotsEaten: number, spec: LevelSpec): FruitStep {
+  const dueNow =
+    (fruit.spawned === 0 && dotsEaten === FIRST_FRUIT_DOTS) ||
+    (fruit.spawned === 1 && dotsEaten === SECOND_FRUIT_DOTS);
+
+  if (dueNow) {
+    return {
+      fruit: {
+        onBoard: spec.fruit,
+        framesLeft: FRUIT_LIFETIME_FRAMES,
+        spawned: fruit.spawned + 1,
+      },
+      appeared: spec.fruit,
+      expired: null,
+    };
+  }
+
+  if (fruit.onBoard === null) {
+    /* Nothing on the board and nothing due: the same value back, so a frame in
+       which nothing happens costs no allocation and no edge. */
+    return { fruit, appeared: null, expired: null };
+  }
+
+  const framesLeft = fruit.framesLeft - 1;
+
+  if (framesLeft === 0) {
+    return {
+      fruit: { onBoard: null, framesLeft: 0, spawned: fruit.spawned },
+      appeared: null,
+      /* `spawned` is deliberately carried through: an expired bonus is a bonus
+         spent, and resetting it here would put a fresh one out every hundred
+         dots for the rest of the level. */
+      expired: fruit.onBoard,
+    };
+  }
+
+  return { fruit: { ...fruit, framesLeft }, appeared: null, expired: null };
 }
 
 /** What eating the bonus item is worth, and the board it leaves behind. */
@@ -74,6 +137,14 @@ export interface FruitBite {
  * happens whenever Pac-Man crosses it, which is many times a level and usually
  * with no fruit there. Scoring nothing for nothing is the rule, not an error.
  */
-export function eatFruit(_fruit: FruitState, _spec: LevelSpec): FruitBite {
-  return { fruit: NO_FRUIT, eaten: null, points: 0 };
+export function eatFruit(fruit: FruitState, spec: LevelSpec): FruitBite {
+  if (fruit.onBoard === null) {
+    return { fruit, eaten: null, points: 0 };
+  }
+
+  return {
+    fruit: { onBoard: null, framesLeft: 0, spawned: fruit.spawned },
+    eaten: fruit.onBoard,
+    points: spec.fruitPoints,
+  };
 }

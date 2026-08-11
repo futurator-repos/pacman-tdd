@@ -1,14 +1,8 @@
 /**
  * Pac-Man's `TurnPolicy`: the rule that makes the controls feel responsive.
  *
- * SIGNATURE-ONLY STUB — slice s07 RED phase. Returning the current facing is
- * the inert answer, and docs/TEST-PLAN.md predicts in advance which tests it
- * will satisfy: the "nothing queued" and "queued turn is illegal" cases pass
- * against it, which is exactly why those two are labelled guards rather than
- * load-bearing.
- *
- * The rule this file will implement, stated once here so the stub cannot be
- * mistaken for it (docs/ARCADE-REFERENCE.md section 8.4):
+ * The rule, in the order the checks are written, because THAT ORDER IS THE RULE
+ * (docs/ARCADE-REFERENCE.md section 8.4):
  *
  *   1. nothing queued            -> keep facing (letting go of the joystick
  *                                   does not stop Pac-Man)
@@ -26,11 +20,30 @@
  * reversal and a blocked direction) and requires `down` while permission is
  * refused. A policy that returns the reversal before consulting `isWalkable`
  * answers `up` there and fails.
+ *
+ * What this file never does is CLEAR the queue. `move-actor.ts` does not clear
+ * it either, so a request the corridor cannot yet satisfy survives every pixel
+ * until it can be taken — which is the whole of "the turn I pressed early was
+ * remembered" and the reason cornering does not demand frame-perfect input.
  */
 import { type TurnContext } from '../actor/actor.ts';
-import { type Direction } from '../geometry/direction.ts';
+import { type Direction, isOpposite } from '../geometry/direction.ts';
+import { neighbour } from '../geometry/tile.ts';
+import { isWalkable } from '../maze/maze.ts';
 
 /** Which way Pac-Man leaves the pixel he is standing on. */
 export function pacmanTurnPolicy(ctx: TurnContext): Direction {
-  return ctx.actor.facing;
+  const { actor, maze, mayPassDoor } = ctx;
+  const queued = actor.queued;
+
+  if (queued === null) {
+    return actor.facing;
+  }
+  if (!isWalkable(maze, neighbour(ctx.tile, queued), mayPassDoor)) {
+    return actor.facing;
+  }
+  if (isOpposite(actor.facing, queued)) {
+    return queued;
+  }
+  return ctx.atTileCentre ? queued : actor.facing;
 }

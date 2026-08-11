@@ -13,10 +13,6 @@
  * section 3, the Points column) because that is where the arcade itself prints
  * it. A second table keyed by `FruitKind` would be the same fact written twice,
  * with nothing to keep the two copies in step — see section 13.4.
- *
- * STUB (slice s08 RED): the values below are deliberately inert zeros and an
- * empty ladder. Every number in this file is asserted by a test that must fail
- * against it.
  */
 
 /**
@@ -34,8 +30,8 @@ export interface PointsTable {
 }
 
 export const POINTS: PointsTable = {
-  pellet: 0,
-  powerPellet: 0,
+  pellet: 10,
+  powerPellet: 50,
 };
 
 /**
@@ -45,11 +41,19 @@ export const POINTS: PointsTable = {
  * Data rather than `200 * 2 ** n`, because the arcade's ladder is a table that
  * happens to double and not a formula that happens to match: a table cannot
  * accidentally produce a fifth rung.
+ *
+ * Typed as a four-element tuple rather than `readonly number[]` for a reason
+ * that is load-bearing one file away: there are four ghosts, so the length is a
+ * fact about the game and not an implementation detail, and under
+ * `noUncheckedIndexedAccess` a tuple is the only shape whose last rung can be
+ * read with a literal index and be `number` rather than `number | undefined`.
+ * That is what lets `ghost-combo.ts` express the 1600 cap as the ladder's own
+ * top instead of as a second copy of the literal.
  */
-export const GHOST_POINTS: readonly number[] = [];
+export const GHOST_POINTS: readonly [number, number, number, number] = [200, 400, 800, 1600];
 
 /**
  * The score at which the player is given one extra life, once per game.
  * docs/ARCADE-REFERENCE.md section 13.3.
  */
-export const EXTRA_LIFE_AT = 0;
+export const EXTRA_LIFE_AT = 10000;

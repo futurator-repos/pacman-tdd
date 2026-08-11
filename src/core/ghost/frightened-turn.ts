@@ -1,4 +1,4 @@
-import { Direction } from '../geometry/direction.ts';
+import { type Direction } from '../geometry/direction.ts';
 import { type Rng } from '../rng/rng.ts';
 
 /**
@@ -15,12 +15,25 @@ import { type Rng } from '../rng/rng.ts';
  * the index the draw selects is only reproducible if the list it indexes is
  * ordered. docs/ARCADE-REFERENCE.md section 10, "Frightened turns".
  *
- * SIGNATURE-ONLY STUB — no behaviour. It draws NOTHING from the `Rng`, which
- * is exactly what makes the "consumes exactly one draw per decision" test fail
- * honestly: the scripted script is never exhausted, so the call that should
- * throw does not. The inert `Direction.Right` is chosen for the reason given in
- * `choose-direction.ts`.
+ * EXACTLY ONE DRAW PER DECISION, which is why the exits are filtered by the
+ * caller and indexed here rather than drawn and retried until one is legal.
+ * That count is a contract of `src/core/game/replay.ts` rather than an arcade
+ * fact: a seeded stream reproduces a game only if it is consumed identically,
+ * so a second draw for a rejected candidate would shift every later ghost turn
+ * in the run.
+ *
+ * THE FOLD IS THE LOOKUP, and it is not a flourish. `legal[draw]` is
+ * `Direction | undefined` under `noUncheckedIndexedAccess`, and both ways out of
+ * that are closed here: a `?? somewhere` fallback is a branch no test can reach,
+ * which the coverage gate forbids, and the type assertion that removes the
+ * `undefined` is precisely the one eslint asks to be rewritten as `!`, which is
+ * banned. `reduce` with no seed starts from the first exit and replaces it only
+ * at the index the draw names, so the nth element comes back as a plain
+ * `Direction` with nothing to fall back to. An empty `legal` means the caller
+ * found no exits at all; `nextInt(0)` throws on it rather than inventing a
+ * direction the walls do not allow.
  */
-export function chooseFrightenedDirection(_rng: Rng, _legal: readonly Direction[]): Direction {
-  return Direction.Right;
+export function chooseFrightenedDirection(rng: Rng, legal: readonly Direction[]): Direction {
+  const draw = rng.nextInt(legal.length);
+  return legal.reduce((chosen, direction, index) => (index === draw ? direction : chosen));
 }

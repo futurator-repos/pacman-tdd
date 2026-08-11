@@ -1,11 +1,6 @@
 /**
  * The food on the board, as a value separate from the board itself.
  *
- * SIGNATURE-ONLY STUB — slice s07 RED phase. Every function below returns an
- * inert value and contains no behaviour. It exists so the tests EXECUTE and
- * fail on their assertions rather than on "Cannot find module", which is the
- * only kind of red that proves anything (docs/TDD-CHARTER.md, challenge 1).
- *
  * WHY THIS IS NOT PART OF `Maze`. The maze never changes during a level; the
  * pellets change 244 times. Keeping them apart means `Maze` can be a module
  * constant parsed once, and `GameState` carries only the part that actually
@@ -60,18 +55,49 @@ export interface PelletField {
   readonly eaten: number;
 }
 
+/**
+ * The same `row * columns + col` arithmetic `kindAt` uses, in one place.
+ *
+ * Private, because the flat index is an encoding detail of this module: a
+ * caller that computed it for itself would be free to compute it against a
+ * DIFFERENT column count than the field carries, which is the one way this
+ * representation can go wrong without anything looking wrong.
+ */
+function flatIndex(columns: number, tile: Tile): number {
+  return tile.row * columns + tile.col;
+}
+
 /** The full board of food a level starts with, read off the maze. */
-export function createPelletField(_maze: Maze): PelletField {
+export function createPelletField(maze: Maze): PelletField {
+  const toIndex = (tile: Tile): number => flatIndex(maze.columns, tile);
   return {
-    columns: 0,
-    pellets: new Set<number>(),
-    powerPellets: new Set<number>(),
+    columns: maze.columns,
+    pellets: new Set(maze.pelletTiles.map(toIndex)),
+    powerPellets: new Set(maze.powerPelletTiles.map(toIndex)),
     eaten: 0,
   };
 }
 
-/** What is on `tile`. Total: an off-board tile is `None`, never a crash. */
-export function pelletAt(_field: PelletField, _tile: Tile): PelletKind {
+/**
+ * What is on `tile`. Total: an off-board tile is `None`, never a crash.
+ *
+ * The COLUMN is guarded and the row is not, for exactly the reason `kindAt`
+ * documents: in a row-major encoding, column -1 of row 2 is a legal index — the
+ * last tile of row 1 — so an actor part-way through the tunnel would eat a dot
+ * from a neighbouring row, once per transit, until the board cleared itself. A
+ * row outside the board simply produces an index no set holds.
+ */
+export function pelletAt(field: PelletField, tile: Tile): PelletKind {
+  if (tile.col < 0 || tile.col >= field.columns) {
+    return PelletKind.None;
+  }
+  const index = flatIndex(field.columns, tile);
+  if (field.pellets.has(index)) {
+    return PelletKind.Pellet;
+  }
+  if (field.powerPellets.has(index)) {
+    return PelletKind.PowerPellet;
+  }
   return PelletKind.None;
 }
 
@@ -80,23 +106,46 @@ export function pelletAt(_field: PelletField, _tile: Tile): PelletKind {
  *
  * A no-op on a tile with nothing on it — and it returns the SAME REFERENCE in
  * that case, so a caller may eat unconditionally with no guard of its own.
+ *
+ * The copy is not an optimisation to be tidied away later: `PelletField` lives
+ * inside `GameState`, and a `Set.delete` here would edit a value some other test
+ * is holding as its "before", making that test compare a value with itself.
+ * Only the set that actually changed is copied, because the other one is already
+ * an immutable value and sharing it is free.
  */
-export function eatAt(field: PelletField, _tile: Tile): PelletField {
-  return field;
+export function eatAt(field: PelletField, tile: Tile): PelletField {
+  const kind = pelletAt(field, tile);
+  if (kind === PelletKind.None) {
+    return field;
+  }
+  const index = flatIndex(field.columns, tile);
+  if (kind === PelletKind.Pellet) {
+    const pellets = new Set(field.pellets);
+    pellets.delete(index);
+    return { ...field, pellets, eaten: field.eaten + 1 };
+  }
+  const powerPellets = new Set(field.powerPellets);
+  powerPellets.delete(index);
+  return { ...field, powerPellets, eaten: field.eaten + 1 };
 }
 
 /** Dots plus energizers still on the board. */
-export function remaining(_field: PelletField): number {
-  return 0;
+export function remaining(field: PelletField): number {
+  return field.pellets.size + field.powerPellets.size;
 }
 
 /**
  * Whether the level's board is finished.
  *
+ * Asked of `remaining`, which spans BOTH sets, so 240 dots eaten with one
+ * energizer still blinking is not a cleared board — the level advancing there
+ * would cost the player the last fright of every level and the ghost points
+ * that go with it (docs/ARCADE-REFERENCE.md section 8.1).
+ *
  * A free function, not a method: `PelletField` lives inside `GameState`, which
  * slice s09 requires to survive `structuredClone` and a JSON round trip. A
  * method would not survive either.
  */
-export function isCleared(_field: PelletField): boolean {
-  return false;
+export function isCleared(field: PelletField): boolean {
+  return remaining(field) === 0;
 }

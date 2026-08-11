@@ -1,14 +1,13 @@
 /**
  * Pac-Man: an `Actor` plus the three things only he has.
  *
- * SIGNATURE-ONLY STUB — slice s07 RED phase. No behaviour, inert values only.
- * `spawnPacman` deliberately returns the WRONG facing and the WRONG position,
- * so the spawn test fails on both rather than accidentally agreeing with a
- * do-nothing implementation (docs/TDD-FINDINGS.md, "the stub is a measuring
- * instrument").
+ * The split matters more than it looks. Everything positional is in the
+ * `Actor`, so the movement engine serves him and the four ghosts unchanged;
+ * everything below is the part no ghost has.
  */
 import { type Actor } from '../actor/actor.ts';
 import { Direction } from '../geometry/direction.ts';
+import { centreOf } from '../geometry/tile.ts';
 import { type Maze } from '../maze/maze.ts';
 
 /**
@@ -37,12 +36,27 @@ export interface Pacman {
   readonly animationFrame: number;
 }
 
-/** Pac-Man at the start of a life, on the maze's `P` tile. */
-export function spawnPacman(_maze: Maze): Pacman {
+/**
+ * Pac-Man at the start of a life, on the maze's `P` tile.
+ *
+ * Two decisions are recorded in docs/ARCADE-REFERENCE.md section 8.3 as this
+ * repo's conventions rather than as Dossier facts, and both are asserted by a
+ * test, so they must be read together. He faces LEFT, which the Dossier never
+ * states — it is corroborated only by the original's start-of-life sprite. And
+ * he stands on the CENTRE pixel of the tile where the arcade uses a tile
+ * boundary, because every turn decision in `move-actor.ts` is taken on a centre
+ * pixel: a spawn half a tile out of phase would make the first turn of every
+ * life behave differently from every later one.
+ *
+ * Takes the maze rather than a tile so that the `P` in the authored layout is
+ * the single source of the spawn, and a fixture board spawns correctly with no
+ * caller passing a coordinate of its own.
+ */
+export function spawnPacman(maze: Maze): Pacman {
   return {
     actor: {
-      position: { x: 0, y: 0 },
-      facing: Direction.Right,
+      position: centreOf(maze.pacmanSpawn),
+      facing: Direction.Left,
       queued: null,
       carrySubPixels: 0,
     },

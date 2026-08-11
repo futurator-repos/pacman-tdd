@@ -13,13 +13,9 @@
  * moves and once after the ghosts move — which is what reproduces the arcade's
  * pass-through. That it is a pure function of two arguments is what makes
  * running it twice harmless.
- *
- * STUB (slice s08 RED): always reports nothing. Two of this rule's tests are
- * guards that a do-nothing stub satisfies; they are labelled as such, and they
- * sit beside the one it cannot satisfy.
  */
-import { type Tile } from '../geometry/tile.ts';
-import { type Ghost } from '../ghost/ghost.ts';
+import { tileAt, tileEquals, type Tile } from '../geometry/tile.ts';
+import { GhostPhase, isFrightened, type Ghost } from '../ghost/ghost.ts';
 
 /**
  * The three things that can happen, as a closed set of names.
@@ -36,6 +32,28 @@ export const CollisionOutcome = {
 
 export type CollisionOutcome = (typeof CollisionOutcome)[keyof typeof CollisionOutcome];
 
-export function resolveCollision(_pacmanTile: Tile, _ghost: Ghost): CollisionOutcome {
-  return CollisionOutcome.Nothing;
+/**
+ * Decide what a ghost and a tile amount to this frame.
+ *
+ * The phase test comes FIRST and that ordering is the rule, not a style
+ * choice: `isFrightened` reads the global timer and nothing else (section 6.6),
+ * so an eaten ghost on its way home still answers true, and asking it before
+ * the phase would let the player re-eat the same pair of eyes for another 1600
+ * points every frame until they reached the door.
+ *
+ * The comparison is `tileAt(...)` against a whole tile rather than a distance
+ * between two pixels. A radius cannot express this rule: `centreOf` puts a tile's
+ * centre at `col * 8 + 4`, so the tile's own first pixel is four away and inside
+ * while the next tile's first pixel is four away and outside.
+ */
+export function resolveCollision(pacmanTile: Tile, ghost: Ghost): CollisionOutcome {
+  if (ghost.phase === GhostPhase.Eyes || ghost.phase === GhostPhase.EnteringHouse) {
+    return CollisionOutcome.Nothing;
+  }
+
+  if (!tileEquals(tileAt(ghost.actor.position), pacmanTile)) {
+    return CollisionOutcome.Nothing;
+  }
+
+  return isFrightened(ghost) ? CollisionOutcome.GhostEaten : CollisionOutcome.PacmanCaught;
 }

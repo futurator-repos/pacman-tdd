@@ -108,12 +108,24 @@ export function unchanged(state: GameState): SystemResult {
  *    ...state }` in here would be invisible in every value assertion and would
  *    quietly defeat every `toBe` identity check downstream.
  *
- * RED PHASE: this returns its arguments untouched — no system is ever run.
+ * A `reduce` rather than a loop with two mutable locals, because the seed says
+ * the empty case out loud — no systems means the state that went in and no
+ * events — and because the accumulator IS the `SystemResult` the function
+ * returns, so there is no last-line assembly step to get wrong. The events are
+ * rebuilt rather than pushed into: the array handed to a system as `incoming`
+ * is then a snapshot of what had happened when it ran, and cannot grow behind
+ * its back if it keeps a reference.
  */
 export function runSystems(
-  _systems: readonly System[],
+  systems: readonly System[],
   state: GameState,
-  _ctx: FrameContext,
+  ctx: FrameContext,
 ): SystemResult {
-  return { state, events: NO_EVENTS };
+  return systems.reduce<SystemResult>(
+    (frame, system) => {
+      const result = system.run(frame.state, ctx, frame.events);
+      return { state: result.state, events: [...frame.events, ...result.events] };
+    },
+    { state, events: NO_EVENTS },
+  );
 }

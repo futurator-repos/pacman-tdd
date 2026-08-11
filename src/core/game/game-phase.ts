@@ -40,14 +40,15 @@ export type RoundPhase = (typeof RoundPhase)[keyof typeof RoundPhase];
  * because a counter ran out. `playing` ends when Pac-Man is caught or the board
  * is cleared; `gameOver` does not end.
  *
- * RED PHASE: every row is an inert zero. The real durations arrive in GREEN,
- * from the table cited above. The zeros are why `game-phase` assertions fail
- * with a readable `expected 120, received 0` rather than with an import error.
+ * The three timed rows are deliberately not all the same number. 120, 180 and
+ * 120 could all have been "about two seconds" and nobody would notice in play;
+ * distinct values mean an implementation that reads the WRONG ROW — the classic
+ * copy-paste bug in a table like this — fails an assertion instead of shipping.
  */
 export const PHASE_FRAMES: Readonly<Record<RoundPhase, number>> = {
-  [RoundPhase.Ready]: 0,
+  [RoundPhase.Ready]: 120,
   [RoundPhase.Playing]: 0,
-  [RoundPhase.Dying]: 0,
-  [RoundPhase.LevelComplete]: 0,
+  [RoundPhase.Dying]: 180,
+  [RoundPhase.LevelComplete]: 120,
   [RoundPhase.GameOver]: 0,
 };
