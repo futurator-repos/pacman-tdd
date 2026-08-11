@@ -40,7 +40,15 @@ for (const [index, commit] of log.entries()) {
     continue;
   }
 
-  const movedTests = git('diff', '--name-only', commit.sha, green.sha, '--', '*.test.ts', '*.spec.ts')
+  const movedTests = git(
+    'diff',
+    '--name-only',
+    commit.sha,
+    green.sha,
+    '--',
+    '*.test.ts',
+    '*.spec.ts',
+  )
     .split('\n')
     .filter(Boolean);
 

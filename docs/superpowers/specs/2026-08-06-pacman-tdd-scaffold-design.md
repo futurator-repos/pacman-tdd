@@ -44,12 +44,12 @@ Four layers. Dependencies point in one direction only.
         └─────────────────────────────────────────┘
 ```
 
-| Layer | May import | Environment | Coverage gate |
-|---|---|---|---|
-| `core/` | nothing outside `core/` | node (no DOM exists) | **100%** |
-| `render/` | `core/` (types only) | jsdom + stubs | 90% |
-| `platform/` | `core/` (types only) | jsdom + stubs | 90% |
-| `app/` | all | Playwright only | e2e |
+| Layer       | May import              | Environment          | Coverage gate |
+| ----------- | ----------------------- | -------------------- | ------------- |
+| `core/`     | nothing outside `core/` | node (no DOM exists) | **100%**      |
+| `render/`   | `core/` (types only)    | jsdom + stubs        | 90%           |
+| `platform/` | `core/` (types only)    | jsdom + stubs        | 90%           |
+| `app/`      | all                     | Playwright only      | e2e           |
 
 ### 2.1 The rules are enforced, not documented
 
@@ -105,11 +105,11 @@ Clyde `#FFB852`, maze blue `#2121FF`, frightened `#2121FF`/`#FFFFFF`.
 
 ## 4. Test strategy
 
-| Tier | Tool | Covers | Gate |
-|---|---|---|---|
-| Unit | Vitest (node) | `core/` — rules, ghost AI, collision, scoring | 100% coverage |
-| Component | Vitest (jsdom) | `render/`, `platform/` against stubs | 90% coverage |
-| E2E | Playwright | real browser: boot, input, visual snapshot | must pass |
+| Tier      | Tool           | Covers                                        | Gate          |
+| --------- | -------------- | --------------------------------------------- | ------------- |
+| Unit      | Vitest (node)  | `core/` — rules, ghost AI, collision, scoring | 100% coverage |
+| Component | Vitest (jsdom) | `render/`, `platform/` against stubs          | 90% coverage  |
+| E2E       | Playwright     | real browser: boot, input, visual snapshot    | must pass     |
 
 ### 4.1 Testing the renderer without a canvas
 
@@ -154,11 +154,11 @@ determinism bans, and the `vitest` / `playwright` plugins.
 
 **Husky**
 
-| Hook | Runs | Why |
-|---|---|---|
-| `pre-commit` | lint-staged (eslint --fix, prettier) | fast, staged files only |
-| `commit-msg` | commitlint — conventional commits | keeps history machine-readable |
-| `pre-push` | typecheck + test + knip | the real gate |
+| Hook         | Runs                                 | Why                            |
+| ------------ | ------------------------------------ | ------------------------------ |
+| `pre-commit` | lint-staged (eslint --fix, prettier) | fast, staged files only        |
+| `commit-msg` | commitlint — conventional commits    | keeps history machine-readable |
+| `pre-push`   | typecheck + test + knip              | the real gate                  |
 
 **CI** (GitHub Actions): typecheck → lint → knip → assets:check → unit → e2e → publish Allure report.
 
@@ -183,11 +183,11 @@ cut-scenes, mobile/touch input, gamepad support.
 
 ## 8. Decisions
 
-| Decision | Chosen | Rationale |
-|---|---|---|
-| Architecture | pure TS core + canvas renderer | maximum testable surface, minimum untestable edge |
-| Assets | generated from typed pixel data | diffable, reviewable, testable, regenerable |
-| Fidelity | arcade-accurate | documented behavior gives objective test oracles |
-| Allure reports | results locally, report in CI | avoids a Java dependency on the dev machine |
-| Package manager | pnpm | already installed; strict node_modules |
-| Scaffold scope | tooling + walking skeleton | proves every layer before feature work |
+| Decision        | Chosen                          | Rationale                                         |
+| --------------- | ------------------------------- | ------------------------------------------------- |
+| Architecture    | pure TS core + canvas renderer  | maximum testable surface, minimum untestable edge |
+| Assets          | generated from typed pixel data | diffable, reviewable, testable, regenerable       |
+| Fidelity        | arcade-accurate                 | documented behavior gives objective test oracles  |
+| Allure reports  | results locally, report in CI   | avoids a Java dependency on the dev machine       |
+| Package manager | pnpm                            | already installed; strict node_modules            |
+| Scaffold scope  | tooling + walking skeleton      | proves every layer before feature work            |
