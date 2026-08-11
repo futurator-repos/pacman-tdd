@@ -273,7 +273,7 @@ nowhere.
 
 ---
 
-## Part 5 — What vertical slicing actually teaches
+## Part 4 — What vertical slicing actually teaches
 
 Vertical slicing is usually sold as a project-management preference: ship value early, get feedback
 sooner. That is true and it is not the interesting part.
@@ -344,7 +344,7 @@ first test is a guess with a table of contents.
 
 ---
 
-## Part 6 — The pipeline: what conditions actually produce good TDD
+## Part 5 — The pipeline: what conditions actually produce good TDD
 
 The question worth answering is not "what is the TDD cycle?" — that is red, green, refactor, and
 everybody knows it. The question is: **what has to be true before you write the first test, so that
@@ -487,7 +487,7 @@ returning one hard-coded field over real HTTP. For a data pipeline it is one row
 source to destination. Everything after that is thickening a thread that already works — instead of,
 as here, assembling parts that have never met.
 
-## Part 7 — What is salvageable here
+## Part 6 — What is salvageable here
 
 For whoever picks this up rather than starting clean:
 
