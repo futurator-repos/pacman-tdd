@@ -21,8 +21,10 @@
  */
 export type MidiNote = number;
 
-/** A rest. `null` rather than a magic note number so silence cannot be played. */
-export type Rest = null;
+/* Not exported: only `Note.pitch` names it, and knip counts an unimported
+   export as dead weight. `null` rather than a magic note number, so silence is
+   unrepresentable as a pitch and cannot be played by accident. */
+type Rest = null;
 
 export interface Note {
   /** The pitch, or `null` for a rest. */
