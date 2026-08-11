@@ -271,7 +271,223 @@ nowhere.
 
 ---
 
-## Part 4 — What is salvageable here
+---
+
+## Part 5 — What vertical slicing actually teaches
+
+Vertical slicing is usually sold as a project-management preference: ship value early, get feedback
+sooner. That is true and it is not the interesting part.
+
+**The interesting part is that vertical slicing is a _testability_ property.** Horizontal layers and
+vertical slices do not merely sequence the work differently — they change what a test is even able
+to assert.
+
+### A horizontal layer has no oracle
+
+"The maze module is done." Done by what standard? There is no user, no observable outcome, nothing
+outside the code to compare against. So the expected values in its tests have to be **invented from
+the design** — which is to say, from the implementation you are about to write. That is the
+tautology trap, arrived at structurally rather than through carelessness.
+
+"Pac-Man stops at walls" is different. It has an outcome you can see. The expected value comes from
+the behaviour, and the behaviour exists independently of how you build it.
+
+> **Horizontal work forces you to invent expectations. Vertical work lets you observe them.**
+
+That single sentence links slicing to test quality, and it is the thing I did not understand at the
+start of this project.
+
+### The consequences, observed here
+
+| Horizontal (what I did)                           | Vertical (what to do)                               |
+| ------------------------------------------------- | --------------------------------------------------- |
+| Never once playable in four hours                 | Playable in thirty minutes, and never not playable  |
+| Integration risk deferred entirely to the end     | Integration proven on day one, extended every slice |
+| Needed a 114-file plan to know what to build      | Structure is discovered; no plan needed to start    |
+| "Done" is unmeasurable until the last layer lands | "Done" is a demo, every time                        |
+| Expected values derived from the design           | Expected values derived from observable behaviour   |
+| A missing layer means nothing works               | A missing slice means one feature is absent         |
+
+### Vertical slicing changes what "minimal" means
+
+Under horizontal thinking, minimal means _a complete layer with nothing extra_. Under vertical
+thinking, minimal means _the thinnest possible thread through every layer_.
+
+The first Pac-Man slice should not be "the maze". It should be: a canvas, a yellow square, an arrow
+key, a loop. Perhaps forty lines total, touching rendering, input, state and the loop — every layer,
+barely. Everything afterwards thickens that thread.
+
+### How to cut a slice properly
+
+A slice is legitimate if you can finish this sentence with something a person could watch:
+
+> "When this is done, you will be able to see ______."
+
+- "…a yellow square move when I press an arrow key" — a slice.
+- "…it stop at a wall instead of passing through" — a slice.
+- "…the dot disappear and the score go up" — a slice.
+- "…the maze module" — **not a slice.**
+- "…the Actor interface" — **not a slice.**
+
+Order slices by **risk and learning**, not by dependency convenience. The thing most likely to be
+wrong, or that you understand least, goes first — because that is where the design will change, and
+changing the design is cheapest when almost nothing depends on it. I did the opposite: I built the
+parts I understood best (geometry, tables) first, and left rendering and input — the parts I had
+never validated at all — until last, where they were never reached.
+
+### And it removes the need for the plan
+
+The 114-file architecture existed to answer "what should I build?" Vertical slicing answers that
+question one slice at a time, from the outside in, and the file structure falls out of refactoring.
+No design document is needed to write the first test, and any design document written before the
+first test is a guess with a table of contents.
+
+---
+
+## Part 6 — The pipeline: what conditions actually produce good TDD
+
+The question worth answering is not "what is the TDD cycle?" — that is red, green, refactor, and
+everybody knows it. The question is: **what has to be true before you write the first test, so that
+the test you write is a good one?**
+
+Every defect in this project traces back to starting a test without one of five preconditions.
+
+### The five preconditions
+
+Before writing any test, you must be able to answer all five. If you cannot answer one, you are not
+ready, and writing the test anyway produces exactly the defects catalogued in this document.
+
+| #   | Question                                     | If you cannot answer it                                                    |
+| --- | -------------------------------------------- | -------------------------------------------------------------------------- |
+| 1   | **What will someone SEE when this works?**   | You are testing a layer, not a behaviour. Re-cut the slice vertically.     |
+| 2   | **Where does the expected value come from?** | The test will be a tautology: it will assert what the code does.           |
+| 3   | **What breaks if it is wrong?**              | You cannot judge whether the test is worth its cost, or how hard to press. |
+| 4   | **Can I run the thing right now?**           | You cannot watch it fail, so you cannot know the test works.               |
+| 5   | **Would a WRONG implementation fail this?**  | The fixture is degenerate. This was the top defect class in this project.  |
+
+Question 5 deserves emphasis because it caught more real defects here than anything else, and it is
+absent from every description of TDD I know. It is not "does the test fail against nothing" — it is
+"does the test fail against a plausible, competent, _wrong_ implementation". A ghost target on the
+ghost's own row makes Euclidean, Manhattan and column-only distance indistinguishable. All three pass.
+One is correct.
+
+### The one input document you actually need: the Behaviour Ledger
+
+Not an architecture. Not a file tree. Not a type hierarchy. Not a 135-row test plan. **A table of
+behaviours with their oracles.**
+
+| Behaviour (observable)                 | Example (concrete)                                     | Oracle (source of truth)                     | Consequence if wrong                           |
+| -------------------------------------- | ------------------------------------------------------ | -------------------------------------------- | ---------------------------------------------- |
+| Pac-Man moves in the direction pressed | press Left at (100,100) → x decreases                  | product decision — the whole point of a game | unplayable                                     |
+| He stops at a wall                     | facing Left at tile (1,1), wall at (0,1) → x unchanged | product decision                             | he leaves the maze; the game is nonsense       |
+| A dot eaten scores 10                  | eat one dot from 0 → score 10                          | Pac-Man Dossier, scoring table               | scores are wrong; the extra life never arrives |
+| Pinky aims four ahead                  | Pac-Man at (10,12) facing right → target (14,12)       | Dossier, "Pinky"                             | no ambush; the game becomes markedly easier    |
+| Pinky's up-target is four up AND left  | facing up at (10,12) → (6,8)                           | Dossier, the 1980 overflow bug               | the famous safe spots vanish                   |
+
+Four columns. That is the whole input document, and it is enough to start writing tests immediately.
+
+Note what each column does:
+
+- **Behaviour** forces the slice to be vertical. If you cannot phrase it as something observable, you
+  are about to build a layer.
+- **Example** forces a discriminating fixture. Writing a concrete input/output pair is where you
+  notice that your example sits on the diagonal, or on the ghost's own row.
+- **Oracle** is the anti-tautology control. It must name a source **outside the code**. When there
+  isn't one — most behaviours in most business apps — the honest entry is "product decision", and
+  that must be written down as such rather than disguised as a fact.
+- **Consequence** tells you how hard to press, and whether the test is worth writing at all. A
+  behaviour whose failure nobody would notice probably does not need a test.
+
+### The pipeline
+
+```
+PHASE 0 — CONDITIONS (once, before any behaviour)
+  □ The thing RUNS. `dev` opens it, `test` runs, one trivial test passes.
+  □ Quality gates already on: types strict, lint, formatter, coverage, hooks.
+    Turn them on before line one — retrofitting them means rewriting.
+  □ Definition of done stated as a DEMO, not as a coverage number.
+  □ Commit staging is scripted, not remembered.
+
+PHASE 1 — THE LEDGER (once, then continuously revised)
+  □ Behaviours as observable outcomes, with example / oracle / consequence.
+  □ Ordered by RISK and LEARNING, not by dependency convenience.
+  □ Grouped into slices, each of which ends in something demoable.
+  □ NO file tree. NO type design. NO test count. Those are outputs.
+
+PHASE 2 — THE SLICE LOOP (per behaviour, strictly)
+  RED       one test, one behaviour
+  VERIFY    run it; it must fail on the ASSERTION, not on a missing module
+  CLASSIFY  does it pass against a do-nothing stub? then it is a guard, say so
+  GREEN     the minimum that passes; nothing the test did not ask for
+  VERIFY    run it; and run everything else
+  REFACTOR  improve the design; tests stay green AND UNCHANGED
+            (a test that must change here was coupled to the implementation)
+
+PHASE 3 — SLICE GATE (per slice, before moving on)
+  □ DEMO IT. Run the app. Look at it. Screenshot it.
+  □ Adversarial pass: would a wrong implementation pass any of these?
+  □ Sabotage pass: break the code on purpose; which tests notice?
+  □ Any test that noticed nothing is deleted or strengthened.
+
+PHASE 4 — REGRESSION (from the second slice onward)
+  □ Record the baseline before touching anything.
+  □ After: every test that moved is classified, out loud, as either
+      (a) deliberate specification change — update it, in its own commit, with
+          the reason written down, or
+      (b) a regression — fix the CODE, leave the test alone.
+  □ Conflating (a) and (b) is how regressions ship.
+```
+
+### The costly asymmetry
+
+Phase 0 is cheap and skipping it is expensive. Phase 1 is cheap and skipping it is catastrophic.
+Phase 2 is the work. Phase 3 is where the tests earn their keep. **Phase 1 is the one everybody
+replaces with an architecture document**, which is the substitution this project made and the reason
+it failed.
+
+### Applied to Pac-Man
+
+Slices, ordered by risk and by playability, each ending in a demo:
+
+1. A yellow square moves with the arrow keys. _(proves the entire toolchain end to end)_
+2. It stops at walls. _(introduces the maze — only as much as this needs)_
+3. Dots vanish and the score rises. _(introduces the pellet field)_
+4. One ghost chases it. _(the riskiest thing in the game, so it arrives early)_
+5. The ghost catches it and a life is lost.
+6. Four ghosts with distinct personalities. _(the arcade rules, now on proven ground)_
+7. Power pellets, fright, the eaten ladder.
+8. Fruit, levels, the wave schedule.
+9. Sound.
+
+Note that slice 4 is deliberately early. Ghost AI is the part of Pac-Man most likely to be
+misunderstood, so it belongs where changing the design is still cheap. I built it seventh, on top of
+five layers that had already hardened around it.
+
+### Abstracted to any application
+
+The shape is identical; only the oracle column changes.
+
+| Domain            | Where the expected value comes from                                     |
+| ----------------- | ----------------------------------------------------------------------- |
+| Games             | the original, a design document, a physical rulebook                    |
+| Finance           | regulation, an accounting standard, a published rate table              |
+| Protocols         | the RFC, a reference implementation to differential-test against        |
+| Data pipelines    | the source system, a reconciliation total, a known-good extract         |
+| Business software | **a product decision** — legitimate, but must be recorded AS a decision |
+| Science           | a published result, an analytical solution, a conservation law          |
+
+The one universal rule: **an expected value with no source outside the code is a defect, whether or
+not it is currently correct.** Where the source is a person's judgement, name the person and the
+date. "The finance team confirmed 30-day terms, 2026-08-11" is an oracle. A number someone typed is
+not.
+
+And the universal first slice, in every domain: **the thinnest thread that runs end to end, in front
+of a real user, on day one.** For a game that is a square moving. For an API it is one endpoint
+returning one hard-coded field over real HTTP. For a data pipeline it is one row travelling from
+source to destination. Everything after that is thickening a thread that already works — instead of,
+as here, assembling parts that have never met.
+
+## Part 7 — What is salvageable here
 
 For whoever picks this up rather than starting clean:
 
