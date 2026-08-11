@@ -1,0 +1,167 @@
+
+> pacman-tdd@0.1.0 test /Users/ricardoarayafarias/GetReal/pacman
+> vitest run
+
+
+ RUN  v4.1.10 /Users/ricardoarayafarias/GetReal/pacman
+
+ ✓ |core| src/core/geometry/direction.test.ts (14 tests) 80ms
+ ✓ |core| assets/atlas.test.ts (16 tests) 332ms
+ ✓ |core| src/core/rng/rng.test.ts (10 tests) 1024ms
+       ✓ returns values within [0, 1)  468ms
+       ✓ returns integers within [0, maxExclusive)  310ms
+ ❯ |dom| src/render/render-scene.test.ts (7 tests | 6 failed) 82ms
+     × clears the surface before drawing anything 20ms
+     × clears even when there is nothing to draw 28ms
+     × draws every sprite in the scene 3ms
+     × draws sprites in array order, so the array is the z-order 2ms
+       × snaps fractional positions to whole pixels 14ms
+       × snaps negative fractional positions consistently 2ms
+     ✓ does not mutate the scene it was given 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |dom| src/render/render-scene.test.ts > renderScene > clears the surface before drawing anything
+AssertionError: expected undefined to deeply equal { op: 'clear' }
+
+- Expected:
+{
+  "op": "clear",
+}
+
++ Received:
+undefined
+
+ ❯ src/render/render-scene.test.ts:36:30
+     34|     renderScene(surface, { sprites: [{ name: 'pellet', x: 0, y: 0 }] }…
+     35|
+     36|     expect(surface.calls[0]).toEqual({ op: 'clear' });
+       |                              ^
+     37|   });
+     38|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  |dom| src/render/render-scene.test.ts > renderScene > clears even when there is nothing to draw
+AssertionError: expected [] to deeply equal [ { op: 'clear' } ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "op": "clear",
+-   },
+- ]
++ []
+
+ ❯ src/render/render-scene.test.ts:46:27
+     44|     /* Otherwise the previous frame stays on screen — a stale-image bu…
+     45|        looks like the game has frozen. */
+     46|     expect(surface.calls).toEqual([{ op: 'clear' }]);
+       |                           ^
+     47|   });
+     48|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  |dom| src/render/render-scene.test.ts > renderScene > draws every sprite in the scene
+AssertionError: expected [] to deeply equal [ { op: 'clear' }, …(2) ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "op": "clear",
+-   },
+-   {
+-     "name": "pacman-closed",
+-     "op": "drawSprite",
+-     "x": 8,
+-     "y": 16,
+-   },
+-   {
+-     "name": "pellet",
+-     "op": "drawSprite",
+-     "x": 24,
+-     "y": 32,
+-   },
+- ]
++ []
+
+ ❯ src/render/render-scene.test.ts:59:27
+     57|     });
+     58|
+     59|     expect(surface.calls).toEqual([
+       |                           ^
+     60|       { op: 'clear' },
+     61|       { op: 'drawSprite', name: 'pacman-closed', x: 8, y: 16 },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  |dom| src/render/render-scene.test.ts > renderScene > draws sprites in array order, so the array is the z-order
+AssertionError: expected [] to deeply equal [ 'pellet', 'pacman-closed' ]
+
+- Expected
++ Received
+
+- [
+-   "pellet",
+-   "pacman-closed",
+- ]
++ []
+
+ ❯ src/render/render-scene.test.ts:80:19
+     78|       .map((call) => call.name);
+     79|
+     80|     expect(drawn).toEqual(['pellet', 'pacman-closed']);
+       |                   ^
+     81|   });
+     82|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  |dom| src/render/render-scene.test.ts > renderScene > pixel snapping > snaps fractional positions to whole pixels
+AssertionError: expected undefined to deeply equal { op: 'drawSprite', …(3) }
+
+- Expected:
+{
+  "name": "pellet",
+  "op": "drawSprite",
+  "x": 10,
+  "y": 21,
+}
+
++ Received:
+undefined
+
+ ❯ src/render/render-scene.test.ts:96:32
+     94|       renderScene(surface, { sprites: [{ name: 'pellet', x: 10.4, y: 2…
+     95|
+     96|       expect(surface.calls[1]).toEqual({ op: 'drawSprite', name: 'pell…
+       |                                ^
+     97|     });
+     98|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  |dom| src/render/render-scene.test.ts > renderScene > pixel snapping > snaps negative fractional positions consistently
+AssertionError: expected undefined to be defined
+ ❯ src/render/render-scene.test.ts:105:20
+    103|
+    104|       const call = surface.calls[1];
+    105|       expect(call).toBeDefined();
+       |                    ^
+    106|       expect(Number.isInteger((call as Extract<Call, { op: 'drawSprite…
+    107|       expect(Number.isInteger((call as Extract<Call, { op: 'drawSprite…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  1 failed | 3 passed (4)
+      Tests  6 failed | 41 passed (47)
+   Start at  22:18:05
+   Duration  15.22s (transform 4.13s, setup 3.28s, import 5.39s, tests 1.52s, environment 11.12s)
+
+ ELIFECYCLE  Test failed. See above for more details.

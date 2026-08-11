@@ -1,0 +1,1833 @@
+
+ RUN  v4.1.10 /Users/ricardoarayafarias/GetReal/pacman
+
+ × |core| src/core/rules/collision.test.ts > resolveCollision > eats a frightened ghost on pac-man tile and lets a hunting one catch him 44ms
+   → expected 'nothing' to be 'eaten' // Object.is equality
+ ✓ |core| src/core/rules/collision.test.ts > resolveCollision > lets eyes pass straight through pac-man even while the fright timer is still running 6ms
+ ✓ |core| src/core/rules/collision.test.ts > resolveCollision > compares tiles and not pixels: a ghost one pixel outside pac-man tile is nothing 3ms
+ × |core| src/core/rules/collision.test.ts > resolveCollision > catches pac-man from the first pixel of his tile: the whole tile is his, not a box round his centre 7ms
+   → expected 'nothing' to be 'caught' // Object.is equality
+ ✓ |core| src/core/rules/collision.test.ts > resolveCollision > compares the row as well as the column: a ghost one tile above pac-man is nothing 6ms
+ ✓ |core| src/core/rules/collision.test.ts > resolveCollision > never collides when pac-man and a ghost swap tiles in a single frame - faithful arcade pass-through 3ms
+ × |core| src/core/rules/score.test.ts > the point values > scores a plain pellet at 10, a power pellet at 50, a level 1 cherry at 100 and the extra life at 10000 20ms
+   → expected +0 to be 10 // Object.is equality
+ × |core| src/core/rules/score.test.ts > addScore > adds points to the running score 5ms
+   → expected +0 to be 10 // Object.is equality
+ × |core| src/core/rules/score.test.ts > addScore > awards the extra life on the addition that crosses 10000, and never below or again above 2ms
+   → expected false to be true // Object.is equality
+ × |core| src/core/rules/score.test.ts > addScore > awards the extra life when a 3000-point ghost chain leaps clean over 10000 2ms
+   → expected +0 to be 12000 // Object.is equality
+ × |core| src/core/ghost/frightened-turn.test.ts > chooseFrightenedDirection > turns the draw into an index over the legal exits, in order 42ms
+   → expected [ 'right', 'right', 'right', 'right' ] to deeply equal [ 'up', 'left', 'down', 'right' ]
+ × |core| src/core/ghost/frightened-turn.test.ts > chooseFrightenedDirection > consumes exactly one draw per decision 16ms
+   → expected 'right' to be 'down' // Object.is equality
+ ✓ |core| src/core/ghost/frightened-turn.test.ts > chooseFrightenedDirection > produces the same route twice from the same script 5ms
+ × |core| src/core/ghost/frightened-turn.test.ts > chooseFrightenedDirection > only ever returns a direction from the legal list it was given 30ms
+   → Property failed after 2 tests
+{ seed: 599494739, path: "1:0", endOnFailure: true }
+Counterexample: [0,["up"]]
+Shrunk 1 time(s)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+ × |core| src/core/maze/pellets.test.ts > createPelletField > carries the 240 dots and 4 energizers of the arcade board, 244 in all, and is not cleared 20ms
+   → expected +0 to be 244 // Object.is equality
+ × |core| src/core/maze/pellets.test.ts > eatAt > returns a new field with one fewer dot and leaves the original untouched 12ms
+   → expected { columns: +0, pellets: Set{}, …(2) } not to be { columns: +0, pellets: Set{}, …(2) } // Object.is equality
+ ✓ |core| src/core/maze/pellets.test.ts > eatAt > returns the very same field for a bare tile and for a tile eaten already 2ms
+ × |core| src/core/maze/pellets.test.ts > pelletAt > tells an energizer from a dot from bare floor, and guards the column like kindAt 13ms
+   → expected 'none' to be 'powerPellet' // Object.is equality
+ × |core| src/core/maze/pellets.test.ts > isCleared > is false while one energizer remains and true only once it is gone too 7ms
+   → expected +0 to be 1 // Object.is equality
+ × |core| src/core/maze/pellets.test.ts > isCleared > clears the arcade board and reports exactly 244 eaten, whatever the order 20ms
+   → Property failed after 1 tests
+{ seed: -1866495194, path: "0", endOnFailure: true }
+Counterexample: [[{"col":26,"row":8},{"col":10,"row":8},{"col":9,"row":29},{"col":6,"row":16},{"col":12,"row":22},{"col":22,"row":5},{"col":21,"row":22},{"col":1,"row":4},{"col":6,"row":3},{"col":3,"row":1},{"col":6,"row":8},{"col":8,"row":23},{"col":7,"row":23},{"col":26,"row":28},{"col":5,"row":1},{"col":14,"row":5},{"col":21,"row":19},{"col":22,"row":26},{"col":6,"row":10},{"col":18,"row":5},{"col":1,"row":6},{"col":10,"row":1},{"col":6,"row":22},{"col":17,"row":29},{"col":3,"row":29},{"col":24,"row":23},{"col":18,"row":20},{"col":10,"row":5},{"col":17,"row":23},{"col":16,"row":8},{"col":9,"row":20},{"col":9,"row":8},{"col":8,"row":1},{"col":21,"row":3},{"col":6,"row":1},{"col":24,"row":25},{"col":1,"row":28},{"col":2,"row":26},{"col":13,"row":29},{"col":4,"row":20},{"col":4,"row":5},{"col":10,"row":29},{"col":17,"row":20},{"col":17,"row":26},{"col":3,"row":20},{"col":11,"row":29},{"col":11,"row":8},{"col":21,"row":26},{"col":10,"row":26},{"col":23,"row":20},{"col":12,"row":3},{"col":1,"row":3},{"col":9,"row":6},{"col":18,"row":24},{"col":3,"row":8},{"col":24,"row":24},{"col":6,"row":20},{"col":21,"row":16},{"col":21,"row":5},{"col":12,"row":4},{"col":2,"row":1},{"col":2,"row":23},{"col":6,"row":11},{"col":1,"row":26},{"col":21,"row":4},{"col":6,"row":26},{"col":25,"row":29},{"col":18,"row":8},{"col":21,"row":11},{"col":6,"row":5},{"col":6,"row":18},{"col":21,"row":13},{"col":9,"row":26},{"col":21,"row":7},{"col":11,"row":5},{"col":15,"row":8},{"col":21,"row":20},{"col":24,"row":1},{"col":25,"row":5},{"col":20,"row":23},{"col":6,"row":9},{"col":18,"row":6},{"col":19,"row":23},{"col":8,"row":20},{"col":4,"row":29},{"col":7,"row":20},{"col":14,"row":29},{"col":17,"row":5},{"col":5,"row":20},{"col":26,"row":27},{"col":26,"row":2},{"col":21,"row":25},{"col":1,"row":23},{"col":7,"row":5},{"col":21,"row":8},{"col":18,"row":25},{"col":21,"row":15},{"col":15,"row":22},{"col":23,"row":8},{"col":26,"row":22},{"col":26,"row":21},{"col":26,"row":4},{"col":21,"row":1},{"col":26,"row":6},{"col":12,"row":20},{"col":3,"row":5},{"col":15,"row":2},{"col":22,"row":29},{"col":7,"row":1},{"col":21,"row":10},{"col":25,"row":8},{"col":3,"row":25},{"col":6,"row":2},{"col":2,"row":5},{"col":20,"row":29},{"col":22,"row":8},{"col":12,"row":27},{"col":6,"row":7},{"col":12,"row":26},{"col":3,"row":24},{"col":20,"row":1},{"col":6,"row":29},{"col":24,"row":26},{"col":19,"row":5},{"col":15,"row":29},{"col":7,"row":29},{"col":9,"row":7},{"col":2,"row":8},{"col":26,"row":26},{"col":26,"row":29},{"col":6,"row":4},{"col":21,"row":12},{"col":15,"row":21},{"col":6,"row":25},{"col":12,"row":21},{"col":6,"row":6},{"col":21,"row":21},{"col":23,"row":1},{"col":1,"row":1},{"col":15,"row":3},{"col":1,"row":5},{"col":2,"row":20},{"col":12,"row":1},{"col":9,"row":24},{"col":3,"row":26},{"col":16,"row":23},{"col":12,"row":29},{"col":20,"row":20},{"col":5,"row":5},{"col":6,"row":23},{"col":21,"row":29},{"col":16,"row":1},{"col":1,"row":2},{"col":20,"row":5},{"col":8,"row":29},{"col":1,"row":20},{"col":21,"row":17},{"col":1,"row":29},{"col":6,"row":12},{"col":21,"row":2},{"col":12,"row":23},{"col":18,"row":7},{"col":25,"row":20},{"col":26,"row":5},{"col":23,"row":29},{"col":9,"row":23},{"col":19,"row":29},{"col":19,"row":1},{"col":26,"row":1},{"col":15,"row":27},{"col":21,"row":24},{"col":9,"row":25},{"col":4,"row":26},{"col":24,"row":29},{"col":18,"row":26},{"col":11,"row":23},{"col":12,"row":28},{"col":22,"row":1},{"col":13,"row":5},{"col":6,"row":21},{"col":12,"row":5},{"col":16,"row":20},{"col":6,"row":24},{"col":18,"row":23},{"col":25,"row":26},{"col":21,"row":9},{"col":1,"row":7},{"col":16,"row":26},{"col":5,"row":29},{"col":17,"row":1},{"col":1,"row":27},{"col":16,"row":5},{"col":21,"row":14},{"col":10,"row":23},{"col":15,"row":1},{"col":1,"row":21},{"col":18,"row":29},{"col":24,"row":20},{"col":22,"row":20},{"col":6,"row":15},{"col":15,"row":20},{"col":5,"row":8},{"col":6,"row":19},{"col":6,"row":13},{"col":26,"row":23},{"col":17,"row":8},{"col":21,"row":23},{"col":8,"row":5},{"col":12,"row":2},{"col":15,"row":26},{"col":10,"row":20},{"col":12,"row":8},{"col":26,"row":20},{"col":24,"row":8},{"col":23,"row":5},{"col":11,"row":1},{"col":11,"row":20},{"col":4,"row":8},{"col":6,"row":14},{"col":3,"row":23},{"col":6,"row":17},{"col":16,"row":29},{"col":2,"row":29},{"col":15,"row":4},{"col":21,"row":6},{"col":25,"row":23},{"col":19,"row":20},{"col":15,"row":23},{"col":1,"row":22},{"col":26,"row":7},{"col":24,"row":5},{"col":25,"row":1},{"col":4,"row":1},{"col":23,"row":26},{"col":1,"row":8},{"col":15,"row":5},{"col":21,"row":18},{"col":5,"row":26},{"col":9,"row":1},{"col":15,"row":28},{"col":18,"row":1},{"col":11,"row":26},{"col":9,"row":5},{"col":26,"row":3}]]
+Shrunk 0 time(s)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+ × |core| src/core/pacman/eat.test.ts > eat > takes the dot, freezes Pac-Man for exactly 1 frame, and awards nothing 26ms
+   → expected { Object (pellets, events, ...) } to deeply equal { Object (pellets, events, ...) }
+ × |core| src/core/pacman/eat.test.ts > eat > takes the energizer, freezes Pac-Man for exactly 3 frames, and reports the level-1 fright of 360 frames 3ms
+   → expected { Object (pellets, events, ...) } to deeply equal { Object (pellets, events, ...) }
+ × |core| src/core/pacman/eat.test.ts > eat > still freezes Pac-Man for 3 frames at level 19, where an energizer starts no fright 4ms
+   → expected { Object (pellets, events, ...) } to deeply equal { Object (pellets, events, ...) }
+ ✓ |core| src/core/pacman/eat.test.ts > eat > does nothing at all on a tile with no food on it 2ms
+ × |core| src/core/ghost/choose-direction.test.ts > chooseDirection > takes the exit whose neighbour tile is nearest the target by squared distance 19ms
+   → expected 'right' to be 'left' // Object.is equality
+ × |core| src/core/ghost/choose-direction.test.ts > chooseDirection > never reverses, even when the reversal is the nearest exit to the target 3ms
+   → expected 'right' to be 'down' // Object.is equality
+ × |core| src/core/ghost/choose-direction.test.ts > chooseDirection > breaks an exact distance tie in ALL_DIRECTIONS order: up, then left, then down 2ms
+   → expected 'right' to be 'up' // Object.is equality
+ × |core| src/core/ghost/choose-direction.test.ts > chooseDirection > never chooses up out of a no-up tile, though it would choose up out of the same tile otherwise 3ms
+   → expected 'right' to be 'up' // Object.is equality
+ × |core| src/core/ghost/choose-direction.test.ts > chooseDirection > takes the reversal in a dead end, where it is the only legal exit 2ms
+   → expected 'right' to be 'left' // Object.is equality
+ × |core| src/core/ghost/choose-direction.test.ts > chooseDirection > never walks into a wall, never reverses unless cornered, and never turns up on a no-up tile 22ms
+   → Property failed after 2 tests
+{ seed: 1084673999, path: "1:0:0:0:0", endOnFailure: true }
+Counterexample: [0,"up",{"col":0,"row":0}]
+Shrunk 4 time(s)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+ × |core| src/core/game/new-game.test.ts > phase durations > gives ready 120 frames, dying 180 and levelComplete 120, and leaves playing and gameOver untimed 30ms
+   → expected { ready: +0, playing: +0, …(3) } to deeply equal { ready: 120, playing: +0, …(3) }
+ × |core| src/core/game/new-game.test.ts > startGame > starts on level 1 with three lives, no score and the ready countdown running 5ms
+   → expected { level: +0, lives: +0, …(7) } to deeply equal { level: 1, lives: 3, score: +0, …(6) }
+ × |core| src/core/game/new-game.test.ts > startGame > places every actor on the centre of its arcade spawn tile, facing the documented way 11ms
+   → expected { position: { x: +0, y: +0 }, …(3) } to deeply equal { position: { x: 108, y: 188 }, …(3) }
+ × |core| src/core/game/new-game.test.ts > startGame > honours the options it is given: the start level, the lives and the carried-in high score 2ms
+   → expected { level: +0, lives: +0, highScore: +0 } to deeply equal { Object (level, lives, ...) }
+ × |core| src/core/game/new-game.test.ts > startGame > fills the board with the maze full of dots: 240 plain, 4 energizers, none eaten 7ms
+   → expected +0 to be 240 // Object.is equality
+ ✓ |core| src/core/game/new-game.test.ts > startGame > is plain data: it survives a structured clone unchanged, and holds no maze 8ms
+ × |core| src/core/game/new-game.test.ts > startRound > starts the next level fresh but carries the score, the lives and the high score across 2ms
+   → expected +0 to be 14260 // Object.is equality
+ × |core| src/core/rules/fruit.test.ts > stepFruit > brings the level own fruit out on the seventieth dot eaten, and not on the sixty-ninth 36ms
+   → expected null to be 'cherry' // Object.is equality
+ × |core| src/core/pacman/pacman-turn.test.ts > pacmanTurnPolicy > takes a legal queued turn at once, and keeps facing when it is illegal or absent 34ms
+   → expected 'right' to be 'up' // Object.is equality
+ × |core| src/core/pacman/pacman-turn.test.ts > pacmanTurnPolicy > takes a queued reversal immediately, at a pixel that is not a tile centre 2ms
+   → expected 'right' to be 'left' // Object.is equality
+ ✓ |core| src/core/pacman/pacman-turn.test.ts > pacmanTurnPolicy > refuses a queued perpendicular turn off a tile centre, which is what keeps corners square 3ms
+ × |core| src/core/pacman/pacman-turn.test.ts > pacmanTurnPolicy > asks the context for door permission instead of hard-coding it 3ms
+   → expected 'down' to be 'up' // Object.is equality
+ × |core| src/core/rules/fruit.test.ts > stepFruit > brings the second fruit out on the hundred-and-seventieth dot, and never a third 91ms
+   → expected { onBoard: null, framesLeft: +0, …(1) } to deeply equal { onBoard: null, framesLeft: +0, …(1) }
+ × |core| src/core/rules/fruit.test.ts > stepFruit > takes an uneaten fruit off the board on the last frame of its 570-frame life 3ms
+   → expected null to be 'cherry' // Object.is equality
+ × |core| src/core/rules/fruit.test.ts > eatFruit > pays the level own fruit points: a 100-point cherry at level 1, a 700-point apple at level 5 2ms
+   → expected null to be 'cherry' // Object.is equality
+ ✓ |core| src/core/rules/fruit.test.ts > eatFruit > scores nothing for crossing the fruit tile when no fruit is there 2ms
+ × |core| src/core/testing/state-builder.test.ts > buildState > starts from a real started game, moved on to the playing phase 32ms
+   → expected { level: +0, frame: +0, …(13) } to deeply equal { level: +0, frame: +0, …(13) }
+ × |core| src/core/testing/state-builder.test.ts > buildState > applies the fields named in the patch and leaves every other field at its default 12ms
+   → expected { level: +0, frame: +0, …(13) } to deeply equal { level: 5, frame: +0, …(13) }
+ × |core| src/core/testing/state-builder.test.ts > buildState > merges as deep as the patch goes, leaving the other ghosts and Pac-Man's facing alone 9ms
+   → expected { …(4) } to deeply equal { …(4) }
+ × |core| src/core/pacman/pacman.test.ts > spawnPacman > places Pac-Man centred on the P tile, facing left, with nothing queued or pending 26ms
+   → expected { actor: { …(4) }, …(3) } to deeply equal { actor: { …(4) }, …(3) }
+ × |core| src/core/pacman/pacman.test.ts > Pac-Man moving through the maze > remembers a turn pressed a whole corridor early and takes it at the junction 17ms
+   → expected { x: 45, y: 36 } to deeply equal { x: 44, y: 35 }
+ × |core| src/core/pacman/pacman.test.ts > Pac-Man moving through the maze > turns around on the very next frame, mid-corridor, without waiting for a junction 3ms
+   → expected { x: 48, y: 36 } to deeply equal { x: 46, y: 36 }
+ ✓ |core| src/core/pacman/pacman.test.ts > Pac-Man moving through the maze > stops flush at the wall, keeps facing left, and reports blocked 1ms
+ × |core| src/core/ghost/house.test.ts > releaseDecision > releases pinky at zero dots, inky at thirty and clyde at sixty on level 1 18ms
+   → expected null to be 'pinky' // Object.is equality
+ × |core| src/core/ghost/house.test.ts > releaseDecision > takes the personal limits from the level: at level 2 inky leaves at once and clyde at fifty 4ms
+   → expected null to be 'inky' // Object.is equality
+ × |core| src/core/ghost/house.test.ts > releaseDecision > names one ghost per frame, the earliest still waiting, when several are eligible 3ms
+   → expected null to be 'pinky' // Object.is equality
+ × |core| src/core/ghost/house.test.ts > releaseDecision > ignores the personal counters entirely while the global counter is active 2ms
+   → expected null to be 'pinky' // Object.is equality
+ × |core| src/core/ghost/house.test.ts > releaseDecision > releases the longest-waiting ghost after four seconds with no dot eaten, three from level 5 2ms
+   → expected null to be 'inky' // Object.is equality
+ × |core| src/core/ghost/house.test.ts > releaseDecision > names nobody when the house is empty, and names the one ghost that is back in it 1ms
+   → expected null to be 'clyde' // Object.is equality
+ × |core| src/core/ghost/house.test.ts > the house counters > ages the stall timer each frame, and a dot resets it while advancing the global counter 8ms
+   → expected { globalCounter: 3, …(2) } to deeply equal { globalCounter: 3, …(2) }
+ × |core| src/core/ghost/ghost-speed.test.ts > ghostSpeed > gives an ordinary ghost the level spec ghost speed 17ms
+   → expected +0 to be 240 // Object.is equality
+ × |core| src/core/ghost/ghost-speed.test.ts > ghostSpeed > slows a ghost to the tunnel speed, and keeps it there when frightened or elroy 1ms
+   → expected +0 to be 128 // Object.is equality
+ × |core| src/core/ghost/ghost-speed.test.ts > ghostSpeed > slows a frightened ghost, and a frightened cruise-elroy blinky with it 1ms
+   → expected +0 to be 160 // Object.is equality
+ × |core| src/core/ghost/ghost-speed.test.ts > ghostSpeed > sends eyes home fastest of all, unslowed by the tunnel or by fright 1ms
+   → expected +0 to be 480 // Object.is equality
+ × |core| src/core/ghost/ghost-speed.test.ts > ghostSpeed > reads blinky's cruise elroy stage from the level spec 1ms
+   → expected +0 to be 256 // Object.is equality
+ × |core| src/core/ghost/ghost-speed.test.ts > ghostSpeed > orders the level-1 speeds eyes, base, frightened, tunnel — fastest to slowest 43ms
+   → expected [ +0, +0, +0, +0 ] to deeply equal [ 480, 240, 160, 128 ]
+ × |core| src/core/rules/ghost-combo.test.ts > ghostPoints > awards 200, 400, 800 then 1600 for the first through fourth ghost of one fright 112ms
+   → expected +0 to be 200 // Object.is equality
+ × |core| src/core/rules/ghost-combo.test.ts > ghostPoints > caps an impossible fifth ghost at 1600 rather than reading off the end of the ladder 3ms
+   → expected +0 to be 1600 // Object.is equality
+ × |core| src/core/rules/ghost-combo.test.ts > ghostPoints > pays 3000 for a complete chain of four ghosts in one fright 12ms
+   → expected +0 to be 3000 // Object.is equality
+ × |core| src/core/rules/ghost-combo.test.ts > chainAfterGhostEaten > climbs the ladder when a ghost is eaten, because a capture is what advances it 2ms
+   → expected +0 to be 1 // Object.is equality
+ × |core| src/core/rules/ghost-combo.test.ts > chainAfterPowerPellet > keeps the ladder where it is when a power pellet is taken while the ghosts are still blue 2ms
+   → expected +0 to be 2 // Object.is equality
+ ✓ |core| src/core/rules/ghost-combo.test.ts > chainAfterPowerPellet > starts the ladder again at the first rung when a power pellet is taken with no fright running 7ms
+ × |core| src/core/rules/lives.test.ts > loseLife > spends one life and asks for a respawn while pac-man still has one in reserve 34ms
+   → expected +0 to be 2 // Object.is equality
+ × |core| src/core/rules/lives.test.ts > loseLife > ends the game on the last life and leaves nothing in reserve 6ms
+   → expected 'respawn' to be 'gameOver' // Object.is equality
+ × |core| src/core/rules/lives.test.ts > loseLife > never counts below zero when a life is lost with none left 3ms
+   → expected 'respawn' to be 'gameOver' // Object.is equality
+ ✓ |core| src/core/rng/rng.test.ts > createRng > determinism > produces an identical sequence for the same seed 90ms
+ ✓ |core| src/core/rng/rng.test.ts > createRng > determinism > produces a different sequence for a different seed 1ms
+ ✓ |core| src/core/game/system.test.ts > NEUTRAL_INPUT > asks for nothing: no direction held and neither edge triggered 7ms
+ × |core| src/core/ghost/elroy.test.ts > elroyStage > engages stage 1 at twenty dots remaining and stage 2 at ten, on level 1 22ms
+   → expected +0 to be 1 // Object.is equality
+ × |core| src/core/ghost/elroy.test.ts > elroyStage > takes both thresholds from the level spec, so level 5 engages at forty and twenty 4ms
+   → expected +0 to be 1 // Object.is equality
+ ✓ |core| src/core/ghost/elroy.test.ts > elroyStage > suspends cruise elroy entirely while any ghost is still inside the house 1ms
+ × |core| src/core/game/system.test.ts > runSystems > threads each system into the next and returns the events in emission order 234ms
+   → expected +0 to be 123 // Object.is equality
+ × |core| src/core/game/system.test.ts > runSystems > hands each system every event emitted earlier in the same frame 13ms
+   → expected [] to deeply equal [ [], …(2) ]
+ × |core| src/core/game/system.test.ts > runSystems > threads the state by reference: a system that changes nothing changes nothing 18ms
+   → expected { level: +0, frame: +0, …(13) } to be { level: +0, frame: +0, …(13) } // Object.is equality
+ ✓ |core| src/core/rng/rng.test.ts > createRng > determinism > replays the same sequence for any seed 41ms
+ ✓ |core| src/core/rng/rng.test.ts > createRng > next > returns values within [0, 1) 357ms
+ ✓ |core| src/core/rng/rng.test.ts > createRng > next > does not immediately repeat itself 1ms
+ ✓ |core| src/core/rng/rng.test.ts > createRng > nextInt > returns integers within [0, maxExclusive) 28ms
+ ✓ |core| src/core/rng/rng.test.ts > createRng > nextInt > always returns 0 when the range is 1 3ms
+ ✓ |core| src/core/rng/rng.test.ts > createRng > nextInt > reaches every value in a small range 3ms
+ ✓ |core| src/core/rng/rng.test.ts > createRng > nextInt > rejects a non-positive range rather than returning nonsense 9ms
+ ✓ |core| src/core/rng/rng.test.ts > createRng > independence from ambient state > is unaffected by how many other generators exist 1ms
+ ✓ |core| src/core/geometry/tile.test.ts > TILE_SIZE and centreOf > TILE_SIZE is 8 arcade pixels and centreOf({col:2,row:3}) is the pixel {x:20,y:28} 18ms
+ ✓ |core| src/core/geometry/tile.test.ts > tileAt > floors rather than truncates, so a pixel at x=-1 is column -1 and not column 0 10ms
+ ✓ |core| src/core/geometry/tile.test.ts > tileAt > maps every pixel of a tile to that tile, and the next pixel to the next tile 3ms
+ ✓ |core| src/core/geometry/tile.test.ts > tileAt > maps the centre pixel of any tile back to that same tile 214ms
+ ✓ |core| src/core/geometry/tile.test.ts > tileEquals > compares two tiles by value, not by reference 2ms
+ ✓ |core| src/core/geometry/tile.test.ts > Tile as a type > is not interchangeable with Vector2, so a tile/pixel mix-up is a compile error 8ms
+ ✓ |core| src/core/geometry/tile.test.ts > neighbour > steps exactly one tile in each direction, and up decreases the row 4ms
+ ✓ |core| assets/transform.test.ts > rotateClockwise > moves the top-left pixel to the top-right 3ms
+ ✓ |core| assets/transform.test.ts > rotateClockwise > moves the pixel right of the corner to below the corner 1ms
+ ✓ |core| assets/transform.test.ts > rotateClockwise > returns to the original after four quarter turns 2ms
+ ✓ |core| assets/transform.test.ts > rotateClockwise > preserves the 16x16 shape 89ms
+ ✓ |core| assets/transform.test.ts > rotateClockwise > does not mutate its input 2ms
+ ✓ |core| assets/transform.test.ts > rotateClockwise > takes a new name for the derived sprite 0ms
+ ✓ |core| assets/sprites.test.ts > the sprite roster > contains a Pac-Man frame for every direction and mouth position 4ms
+ ✓ |core| assets/sprites.test.ts > the sprite roster > contains a closed Pac-Man, shared across directions 1ms
+ ✓ |core| assets/sprites.test.ts > the sprite roster > contains two animation frames for every ghost in every direction 17ms
+ ✓ |core| assets/sprites.test.ts > the sprite roster > contains frightened and flashing ghost frames 2ms
+ ✓ |core| assets/sprites.test.ts > the sprite roster > contains eyes for every direction, for ghosts returning to the house 4ms
+ ✓ |core| assets/sprites.test.ts > the sprite roster > contains the pellet, power pellet and fruit 0ms
+ ✓ |core| assets/sprites.test.ts > derivation is real, not duplication > gives all four ghosts identical pixel data 1ms
+ ✓ |core| assets/sprites.test.ts > derivation is real, not duplication > gives each ghost its own arcade colour 1ms
+ ✓ |core| assets/sprites.test.ts > derivation is real, not duplication > derives left-facing Pac-Man as the mirror of right-facing 2ms
+ ✓ |core| assets/sprites.test.ts > derivation is real, not duplication > derives exactly one ghost per entry in the colour table 1ms
+ ✓ |core| assets/transform.test.ts > mirrorHorizontal > reverses each row 0ms
+ ✓ |core| assets/transform.test.ts > mirrorHorizontal > returns to the original when applied twice 0ms
+ ✓ |core| assets/transform.test.ts > mirrorHorizontal > does not mutate its input 1ms
+ ✓ |core| assets/transform.test.ts > recolour > replaces the colour of a palette entry 0ms
+ ✓ |core| assets/transform.test.ts > recolour > leaves other palette entries untouched 0ms
+ ✓ |core| assets/transform.test.ts > recolour > does not change the pixels 0ms
+ ✓ |core| assets/transform.test.ts > recolour > rejects recolouring a key that is not in the palette 5ms
+ ✓ |core| assets/transform.test.ts > recolour > does not mutate its input 3ms
+ ✓ |core| assets/sprites.test.ts > the roster as a whole > is entirely valid 72ms
+ ✓ |core| assets/sprites.test.ts > the roster as a whole > gives every sprite a unique name 1ms
+ ✓ |core| assets/sprites.test.ts > the roster as a whole > compiles into an atlas with a frame for every sprite 25ms
+ ✓ |core| assets/sprites.test.ts > the roster as a whole > contains the full 52-sprite arcade set 2ms
+ ✓ |core| assets/atlas.test.ts > validateSprite > accepts a well-formed 16x16 sprite 7ms
+ ✓ |core| assets/atlas.test.ts > validateSprite > rejects a sprite with the wrong number of rows 2ms
+ ✓ |core| assets/atlas.test.ts > validateSprite > rejects a row of the wrong width 4ms
+ ✓ |core| assets/atlas.test.ts > validateSprite > rejects a pixel character that is missing from the palette 0ms
+ ✓ |core| assets/atlas.test.ts > buildAtlas > places every sprite in the manifest 2ms
+ ✓ |core| assets/atlas.test.ts > buildAtlas > lays sprites out left to right without overlapping 4ms
+ ✓ |core| assets/atlas.test.ts > buildAtlas > reports an atlas wide enough to hold every sprite 2ms
+ ✓ |core| assets/atlas.test.ts > buildAtlas > produces RGBA pixel data sized to the atlas 1ms
+ ✓ |core| assets/atlas.test.ts > buildAtlas > writes an opaque pixel where the palette gives a colour 1ms
+ ✓ |core| assets/atlas.test.ts > buildAtlas > writes a fully transparent pixel where the palette gives null 1ms
+ ✓ |core| assets/atlas.test.ts > buildAtlas > rejects two sprites sharing a name, rather than silently dropping one 1ms
+ ✓ |core| assets/atlas.test.ts > buildAtlas > rejects an empty sprite list 1ms
+ ✓ |core| assets/atlas.test.ts > the committed sprite set > contains at least one sprite 0ms
+ ✓ |core| assets/atlas.test.ts > the committed sprite set > is entirely valid 11ms
+ ✓ |core| assets/atlas.test.ts > the committed sprite set > uses the arcade yellow for pac-man 0ms
+ ✓ |core| assets/atlas.test.ts > the committed sprite set > gives every sprite a unique name 0ms
+ ✓ |core| src/core/ghost/targeting/inky.test.ts > inkyTarget > doubles the vector from blinky through the tile two ahead of pac-man 9ms
+ ✓ |core| src/core/ghost/targeting/inky.test.ts > inkyTarget > inherits the up-overflow in its pivot: facing up, the pivot is two up and two left 1ms
+ ✓ |core| src/core/ghost/targeting/inky.test.ts > inkyTarget > returns an off-board target unclamped, because the arcade never clamps one 1ms
+ ✓ |core| src/core/geometry/tile-distance.test.ts > squaredDistance > is the sum of the squared column and row differences, in either argument order 4ms
+ ✓ |core| src/core/geometry/tile-distance.test.ts > squaredDistance > returns an exact integer even when the true distance is irrational 1ms
+ ✓ |core| src/core/geometry/tile-distance.test.ts > squaredDistance > makes eight tiles exactly 64, the literal boundary in Clyde's rule 1ms
+ ✓ |core| src/core/geometry/tile-distance.test.ts > squaredDistance > gives two equidistant tiles exactly the same value, which is what makes the tie-break deterministic 1ms
+ ✓ |core| src/core/geometry/tile-distance.test.ts > squaredDistance > is zero for a tile and itself, and greater than zero for any other tile 0ms
+ ✓ |core| src/core/geometry/tile-distance.test.ts > squaredDistance > strictly decreases as a ghost steps one tile closer to its target 88ms
+ ✓ |core| src/core/geometry/tile-distance.test.ts > squaredDistance > is symmetric for any pair of tiles, on or off the board 17ms
+ ✓ |core| src/core/testing/scripted-rng.test.ts > createScriptedRng > returns its scripted values in order, one per draw 9ms
+ ✓ |core| src/core/testing/scripted-rng.test.ts > createScriptedRng > throws when the script is exhausted, so a silent extra draw fails loudly 4ms
+ ✓ |core| src/core/testing/scripted-rng.test.ts > createScriptedRng > maps a scripted value into [0, maxExclusive) exactly as the real Rng does 1ms
+ ✓ |core| src/core/testing/scripted-rng.test.ts > createScriptedRng > draws next and nextInt from one shared stream, in call order 1ms
+ ✓ |core| src/core/testing/scripted-rng.test.ts > createScriptedRng > rejects a script value outside [0, 1) when it is created, not when it is drawn 1ms
+ ✓ |core| src/core/testing/scripted-rng.test.ts > createScriptedRng > rejects a non-positive range exactly as the real Rng does, without consuming a draw 1ms
+ ✓ |core| src/core/testing/scripted-rng.test.ts > createScriptedRng > does not consume or otherwise mutate the array it was given 1ms
+ ✓ |core| src/core/actor/move-actor.test.ts > moveActor > sub-pixel carry > moves a whole pixel on exactly the frame the banked carry reaches 256 14ms
+ ✓ |core| src/core/actor/move-actor.test.ts > moveActor > sub-pixel carry > is at an exactly predicted pixel after 600 frames at a fractional speed, with no drift 2ms
+ ✓ |core| src/core/actor/move-actor.test.ts > moveActor > sub-pixel carry > keeps the carry in [0, 256) after any sequence of speeds 1189ms
+ ✓ |core| src/core/actor/move-actor.test.ts > moveActor > walls > stops flush on the last tile centre before a wall, keeps facing and reports blocked 4ms
+ ✓ |core| src/core/actor/move-actor.test.ts > moveActor > walls > never leaves the actor inside a wall, whatever the directions and speeds 1896ms
+ ✓ |core| src/core/actor/move-actor.test.ts > moveActor > turning > takes a queued turn at the junction centre and never overshoots it 7ms
+ ✓ |core| src/core/actor/move-actor.test.ts > moveActor > turning > holds a queued direction until the first junction that allows it, however long that takes 1ms
+ ✓ |core| src/core/actor/move-actor.test.ts > moveActor > turning > reverses immediately mid-corridor, without waiting for a tile centre 0ms
+ ✓ |core| src/core/actor/move-actor.test.ts > moveActor > turning > turns at the tile centre it passed through, even at two and a half pixels per frame 1ms
+ ✓ |core| src/core/actor/move-actor.test.ts > moveActor > reporting and wrapping > reports the tile newly entered, and null on every frame that stays put 1ms
+ ✓ |core| src/core/actor/move-actor.test.ts > moveActor > reporting and wrapping > wraps across the tunnel edge with the sub-pixel carry preserved 1ms
+ ✓ |core| src/core/maze/parse-maze.test.ts > parseMaze > rejects a row that is not the declared width, naming the offending row 30ms
+ ✓ |core| src/core/maze/parse-maze.test.ts > parseMaze > rejects an unknown legend character instead of treating it as open floor 11ms
+ ✓ |core| src/core/maze/parse-maze.test.ts > parseMaze > rejects a layout with no ghost-house door 40ms
+ ✓ |core| src/core/maze/parse-maze.test.ts > parseMaze > rejects a layout with no Pac-Man spawn 5ms
+ ✓ |core| src/core/maze/parse-maze.test.ts > renderMaze > renders a parsed maze back to the exact ASCII it was parsed from 21ms
+ ✓ |core| src/core/time/frame-clock.test.ts > FRAME_MS > is one sixtieth of a second, not the 16 ms that "60 fps" tempts you into 23ms
+ ✓ |core| src/core/time/frame-clock.test.ts > advanceClock > yields no frame for a delta shorter than one frame, and banks it 1ms
+ ✓ |core| src/core/time/frame-clock.test.ts > advanceClock > accumulates sub-frame deltas across calls until a whole frame is due 1ms
+ ✓ |core| src/core/time/frame-clock.test.ts > advanceClock > yields exactly three frames and no remainder for exactly three frames of time 2ms
+ ✓ |core| src/core/time/frame-clock.test.ts > advanceClock > clamps a long stall to five frames, reports the clamp, and forgives the rest 5ms
+ ✓ |core| src/core/time/frame-clock.test.ts > advanceClock > treats a negative delta as zero rather than rewinding the game 0ms
+ ✓ |core| src/core/time/frame-clock.test.ts > advanceClock > treats a NaN delta as zero rather than poisoning the banked time 0ms
+ ✓ |core| src/core/ghost/targeting/clyde.test.ts > clydeTarget > chases pac-man's tile when he is further than eight tiles away 4ms
+ ✓ |core| src/core/ghost/targeting/clyde.test.ts > clydeTarget > retreats to his scatter corner at exactly eight tiles, the boundary itself 1ms
+ ✓ |core| src/core/ghost/targeting/clyde.test.ts > clydeTarget > retreats to his scatter corner when he is nearer than eight tiles 1ms
+ ✓ |core| src/core/ghost/targeting/clyde.test.ts > clydeTarget > measures the radius over both axes, so a column gap and a city block are not distances 1ms
+ ✓ |core| src/core/ghost/targeting/scatter-corners.test.ts > SCATTER_CORNERS > are the four arcade corners, keyed by ghost 4ms
+ ✓ |core| src/core/ghost/targeting/scatter-corners.test.ts > SCATTER_CORNERS > all sit outside the walkable maze, so no ghost can ever arrive at one 1ms
+ ✓ |core| src/core/testing/tiny-maze.test.ts > the tiny maze fixtures > each parses as a legal maze 8ms
+ ✓ |core| src/core/testing/tiny-maze.test.ts > the tiny maze fixtures > the corridor gives an interior tile exactly two exits, left and right 4ms
+ ✓ |core| src/core/testing/tiny-maze.test.ts > the tiny maze fixtures > the crossroads gives its junction all four exits 1ms
+ ✓ |core| src/core/testing/tiny-maze.test.ts > the tiny maze fixtures > the dead end leaves only the way back 1ms
+ ✓ |core| src/core/maze/arcade-maze.test.ts > ARCADE_MAZE > pins the ghost spawns, house door, house centre and fruit tile to their documented coordinates 4ms
+ ✓ |core| src/core/maze/arcade-maze.test.ts > ARCADE_MAZE > splits the 244 dots into 240 pellets and the 4 energizers at (1,3) (26,3) (1,23) (26,23) 3ms
+ ✓ |core| src/core/maze/arcade-maze.test.ts > ARCADE_MAZE > forbids an upward turn on exactly the four no-up tiles (12,11) (15,11) (12,23) (15,23) 2ms
+ ✓ |core| src/core/maze/arcade-maze.test.ts > ARCADE_MAZE > runs its tunnel along row 14, open at both edges of the board 1ms
+ ✓ |core| src/core/maze/arcade-maze.test.ts > mazeForLevel > resolves every level to the one 28 by 31 board, built once 10ms
+ ✓ |core| src/core/maze/arcade-maze.test.ts > the playable board > reaches all 244 dots from Pac-Man spawn without crossing the house door 11ms
+ ✓ |core| src/core/rules/level-table.test.ts > levelSpec > gives level 1 the arcade row: 80% pac-man, 75% ghosts, a 6-second fright and a 100-point cherry 5ms
+ ✓ |core| src/core/rules/level-table.test.ts > levelSpec > steps up at level 2: 90% pac-man, 85% ghosts, a 5-second fright and a 300-point strawberry 1ms
+ ✓ |core| src/core/rules/level-table.test.ts > levelSpec > reaches full speed at level 5: 100% pac-man, 95% ghosts, a 2-second fright and a 700-point apple 3ms
+ ✓ |core| src/core/rules/level-table.test.ts > levelSpec > uses level 21 for every level above it, and level 1 for level 0 and below 8ms
+ ✓ |core| src/core/rules/level-table.test.ts > levelSpec > has no fright at all from level 19 on, and none at level 17 either, while level 18 still has one second 0ms
+ ✓ |core| src/core/rules/level-table.test.ts > levelSpec > runs level 1 as scatter 7s, chase 20s, scatter 7s, chase 20s, scatter 5s, chase 20s, scatter 5s, then chase forever 1ms
+ ✓ |core| src/core/rules/mode-schedule.test.ts > wavesForLevel > runs level 1 with two 7-second scatters and a 20-second sixth wave 6ms
+ ✓ |core| src/core/rules/mode-schedule.test.ts > wavesForLevel > runs levels 2 to 4 with a 1033-second sixth wave followed by a single frame of scatter 2ms
+ ✓ |core| src/core/rules/mode-schedule.test.ts > wavesForLevel > shortens the opening scatters to 5 seconds and stretches the sixth wave to 1037 seconds from level 5 on 5ms
+ ✓ |core| src/core/rules/mode-schedule.test.ts > currentMode > reads the mode from the current wave, and answers the final endless chase past the end of the schedule 5ms
+ ✓ |core| src/core/rules/mode-schedule.test.ts > advanceModes > requires a reversal on exactly the frame a wave changes, and on neither the frame before nor the frame after 1ms
+ ✓ |core| src/core/rules/mode-schedule.test.ts > advanceModes > never flips or reverses while parked on the final endless chase 1ms
+ ✓ |core| src/core/rules/mode-schedule.test.ts > advanceModes > advances the wave clock during normal play, freezes it completely while frightened, then resumes where it stopped 3ms
+ ✓ |core| src/core/rules/mode-schedule.test.ts > advanceModes > reports frightened ended on the single frame the timer reaches zero, freezing that frame too, and never again 4ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > toUnitVector > maps up to negative y, because screen y grows downward 4ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > toUnitVector > maps down to positive y 1ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > toUnitVector > maps left to negative x 1ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > toUnitVector > maps right to positive x 0ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > toUnitVector > returns unit vectors for every direction 1ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > opposite > reverses up to down 0ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > opposite > reverses left to right 0ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > opposite > is its own inverse for every direction 4ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > opposite > never returns the direction it was given 6ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > isOpposite > is true for a direction and its reverse 43ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > isOpposite > is false for perpendicular directions 18ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > isOpposite > is false for the same direction 4ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > ALL_DIRECTIONS > contains exactly the four cardinal directions 3ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > ALL_DIRECTIONS > is ordered up, left, down, right to match arcade tie-breaking 0ms
+ ✓ |core| src/core/actor/speed.test.ts > speed > full speed is 320 sub-pixels per frame, which is one and a quarter pixels per frame 8ms
+ ✓ |core| src/core/actor/speed.test.ts > speed > converts the documented level-1 percentages into whole sub-pixels per frame 5ms
+ ✓ |core| src/core/actor/speed.test.ts > speed > returns a stable integer for every fraction in the arcade level table 9ms
+ ✓ |core| src/core/actor/speed.test.ts > speed > converts a zero speed to a zero step, because a frozen actor really does not move 1ms
+ ✓ |core| src/core/ghost/ghost-id.test.ts > GhostId > is ordered blinky, pinky, inky, clyde — release, collision, Rng and draw order all at once 4ms
+ ✓ |core| src/core/ghost/ghost-id.test.ts > GhostId > lists each of the four ghosts exactly once 2ms
+ ✓ |core| src/core/ghost/ghost.test.ts > isFrightened > is true for a ghost still inside the house, because fright is a timer and not a phase 12ms
+ ✓ |core| src/core/ghost/ghost.test.ts > isFrightened > is true in every phase while the timer is running 2ms
+ ✓ |core| src/core/ghost/ghost.test.ts > isFrightened > is false on the frame the timer reaches zero 0ms
+ ✓ |core| src/core/ghost/ghost.test.ts > GhostPhase > has five phases and no frightened phase, because fright is a timer 2ms
+ ✓ |core| src/core/maze/maze.test.ts > the maze grid > is 28 columns by 31 rows, matching the arcade playfield 7ms
+ ✓ |core| src/core/maze/maze.test.ts > kindAt > returns the declared kind for an in-bounds tile and Wall for any tile off the grid 5ms
+ ✓ |core| src/core/maze/maze.test.ts > isWalkable > lets an actor through the ghost-house door only when mayPassDoor is true 1ms
+ ✓ |core| src/core/maze/maze.test.ts > isWalkable > accepts open, tunnel and house floor, and never accepts a wall 1ms
+ ✓ |core| src/core/maze/maze.test.ts > walkableNeighbours > returns candidates in ALL_DIRECTIONS order: up, left, down, right 7ms
+ ✓ |core| src/core/maze/maze.test.ts > walkableNeighbours > offers the ghost-house door as an exit only to an actor that may pass it 2ms
+ ✓ |core| src/core/maze/maze.test.ts > wrapPosition > warps only on the tunnel row, and the two mouths are exact mirror images 1ms
+ ✓ |core| src/core/maze/maze.test.ts > wrapPosition > leaves an already-wrapped position alone, however far it overshot 56ms
+ ✓ |core| src/core/maze/classic-layout.test.ts > CLASSIC_LAYOUT > is exactly 28 columns by 31 rows, the original arcade playfield 29ms
+ ✓ |core| src/core/maze/classic-layout.test.ts > CLASSIC_LAYOUT > holds exactly 240 dots and 4 energizers, the arcade total of 244 per level 1ms
+ ✓ |core| src/core/maze/classic-layout.test.ts > CLASSIC_LAYOUT > places the four energizers at the arcade coordinates (1,3) (26,3) (1,23) (26,23) 2ms
+ ✓ |core| src/core/maze/classic-layout.test.ts > CLASSIC_LAYOUT > is left/right symmetric about the vertical centre line in its walls and its dots 58ms
+ ✓ |core| src/core/actor/actor.test.ts > Actor > divides each pixel into 256 sub-pixels 4ms
+ ✓ |core| src/core/actor/actor.test.ts > Actor > tileOf > maps a pixel to the tile containing it, flooring across zero 4ms
+ ✓ |core| src/core/actor/actor.test.ts > Actor > isAtTileCentre > is true only on the exact centre pixel of the tile 1ms
+ ✓ |core| src/core/actor/actor.test.ts > Actor > isAtTileCentre > is true on the centre of a tile far from the origin 1ms
+ ✓ |core| src/core/ghost/targeting/blinky.test.ts > blinkyTarget > targets pac-man's tile exactly, whichever way pac-man is facing 5ms
+ ✓ |core| src/core/ghost/targeting/target-for.test.ts > targetFor > returns the ghost's own scatter corner in scatter mode, ignoring pac-man 4ms
+ ✓ |core| src/core/ghost/targeting/target-for.test.ts > targetFor > sends eyes to the house door whatever the mode or the personality 1ms
+ ✓ |core| src/core/ghost/targeting/target-for.test.ts > targetFor > delegates to the personality when a ghost is hunting in chase mode 1ms
+ ✓ |core| src/core/ghost/targeting/pinky.test.ts > pinkyTarget > targets four tiles ahead of pac-man when pac-man faces left, right or down 15ms
+ ✓ |core| src/core/ghost/targeting/pinky.test.ts > pinkyTarget > targets four up AND four left when pac-man faces up, reproducing the original hardware overflow 1ms
+ ✓ |dom| src/render/render-scene.test.ts > renderScene > clears the surface before drawing anything 16ms
+ ✓ |dom| src/render/render-scene.test.ts > renderScene > clears even when there is nothing to draw 1ms
+ ✓ |dom| src/render/render-scene.test.ts > renderScene > draws every sprite in the scene 1ms
+ ✓ |dom| src/render/render-scene.test.ts > renderScene > draws sprites in array order, so the array is the z-order 1ms
+ ✓ |dom| src/render/render-scene.test.ts > renderScene > pixel snapping > snaps fractional positions to whole pixels 2ms
+ ✓ |dom| src/render/render-scene.test.ts > renderScene > pixel snapping > snaps negative fractional positions consistently 10ms
+ ✓ |dom| src/render/render-scene.test.ts > renderScene > does not mutate the scene it was given 6ms
+ ✓ |dom| src/platform/load-atlas.test.ts > loadAtlas > returns the manifest and the image together 16ms
+ ✓ |dom| src/platform/load-atlas.test.ts > loadAtlas > reads the manifest and image from the given base path 4ms
+ ✓ |dom| src/platform/load-atlas.test.ts > loadAtlas > validation > rejects a manifest that is not an object 17ms
+ ✓ |dom| src/platform/load-atlas.test.ts > loadAtlas > validation > rejects a manifest with no frames 2ms
+ ✓ |dom| src/platform/load-atlas.test.ts > loadAtlas > validation > rejects a frame that is missing a coordinate 5ms
+ ✓ |dom| src/platform/load-atlas.test.ts > loadAtlas > validation > rejects non-numeric dimensions 7ms
+ ✓ |dom| src/platform/load-atlas.test.ts > loadAtlas > propagates a network failure rather than returning an empty atlas 1ms
+ ✓ |dom| src/render/canvas-surface.test.ts > createCanvasSurface > disables image smoothing so pixel art stays sharp 9ms
+ ✓ |dom| src/render/canvas-surface.test.ts > createCanvasSurface > clears the whole canvas 4ms
+ ✓ |dom| src/render/canvas-surface.test.ts > createCanvasSurface > draws the correct atlas region for a named sprite 5ms
+ ✓ |dom| src/render/canvas-surface.test.ts > createCanvasSurface > draws a different region for a different sprite 1ms
+ ✓ |dom| src/render/canvas-surface.test.ts > createCanvasSurface > throws on an unknown sprite name rather than drawing nothing 3ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 68 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |core| src/core/game/new-game.test.ts > phase durations > gives ready 120 frames, dying 180 and levelComplete 120, and leaves playing and gameOver untimed
+AssertionError: expected { ready: +0, playing: +0, …(3) } to deeply equal { ready: 120, playing: +0, …(3) }
+
+- Expected
++ Received
+
+  {
+-   "dying": 180,
++   "dying": 0,
+    "gameOver": 0,
+-   "levelComplete": 120,
++   "levelComplete": 0,
+    "playing": 0,
+-   "ready": 120,
++   "ready": 0,
+  }
+
+ ❯ src/core/game/new-game.test.ts:88:26
+     86|    */
+     87|   it('gives ready 120 frames, dying 180 and levelComplete 120, and lea…
+     88|     expect(PHASE_FRAMES).toEqual({
+       |                          ^
+     89|       [RoundPhase.Ready]: 120, // 2 s
+     90|       [RoundPhase.Playing]: 0, // no timer: ends on an event
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/68]⎯
+
+ FAIL  |core| src/core/game/new-game.test.ts > startGame > starts on level 1 with three lives, no score and the ready countdown running
+AssertionError: expected { level: +0, lives: +0, …(7) } to deeply equal { level: 1, lives: 3, score: +0, …(6) }
+
+- Expected
++ Received
+
+  {
+    "extraLifeAwarded": false,
+    "frame": 0,
+    "highScore": 0,
+-   "level": 1,
+-   "lives": 3,
++   "level": 0,
++   "lives": 0,
+    "pendingMs": 0,
+    "phase": "ready",
+-   "phaseFramesLeft": 120,
++   "phaseFramesLeft": 0,
+    "score": 0,
+  }
+
+ ❯ src/core/game/new-game.test.ts:132:8
+    130|       phaseFramesLeft: state.phaseFramesLeft,
+    131|       extraLifeAwarded: state.extraLifeAwarded,
+    132|     }).toEqual({
+       |        ^
+    133|       level: 1,
+    134|       lives: 3,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/68]⎯
+
+ FAIL  |core| src/core/game/new-game.test.ts > startGame > places every actor on the centre of its arcade spawn tile, facing the documented way
+AssertionError: expected { position: { x: +0, y: +0 }, …(3) } to deeply equal { position: { x: 108, y: 188 }, …(3) }
+
+- Expected
++ Received
+
+  {
+    "carrySubPixels": 0,
+-   "facing": "left",
++   "facing": "up",
+    "position": {
+-     "x": 108,
+-     "y": 188,
++     "x": 0,
++     "y": 0,
+    },
+    "queued": null,
+  }
+
+ ❯ src/core/game/new-game.test.ts:180:32
+    178|     const state = startGame();
+    179|
+    180|     expect(state.pacman.actor).toEqual({
+       |                                ^
+    181|       position: centreOf(ARCADE_MAZE.pacmanSpawn),
+    182|       facing: Direction.Left,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/68]⎯
+
+ FAIL  |core| src/core/game/new-game.test.ts > startGame > honours the options it is given: the start level, the lives and the carried-in high score
+AssertionError: expected { level: +0, lives: +0, highScore: +0 } to deeply equal { Object (level, lives, ...) }
+
+- Expected
++ Received
+
+  {
+-   "highScore": 19000,
+-   "level": 5,
+-   "lives": 1,
++   "highScore": 0,
++   "level": 0,
++   "lives": 0,
+  }
+
+ ❯ src/core/game/new-game.test.ts:243:84
+    241|     const state = startGame({ startLevel: 5, lives: 1, highScore: 1900…
+    242|
+    243|     expect({ level: state.level, lives: state.lives, highScore: state.…
+       |                                                                                    ^
+    244|       level: 5,
+    245|       lives: 1,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/68]⎯
+
+ FAIL  |core| src/core/game/new-game.test.ts > startGame > fills the board with the maze full of dots: 240 plain, 4 energizers, none eaten
+AssertionError: expected +0 to be 240 // Object.is equality
+
+- Expected
++ Received
+
+- 240
++ 0
+
+ ❯ src/core/game/new-game.test.ts:273:40
+    271|     const state = startGame();
+    272|
+    273|     expect(state.pellets.pellets.size).toBe(240);
+       |                                        ^
+    274|     expect(state.pellets.powerPellets.size).toBe(4);
+    275|     expect(state.pellets.eaten).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/68]⎯
+
+ FAIL  |core| src/core/game/new-game.test.ts > startRound > starts the next level fresh but carries the score, the lives and the high score across
+AssertionError: expected +0 to be 14260 // Object.is equality
+
+- Expected
++ Received
+
+- 14260
++ 0
+
+ ❯ src/core/game/new-game.test.ts:440:24
+    438|
+    439|     /* Kept: these belong to the GAME. */
+    440|     expect(next.score).toBe(14260);
+       |                        ^
+    441|     expect(next.lives).toBe(2);
+    442|     expect(next.highScore).toBe(19000);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/68]⎯
+
+ FAIL  |core| src/core/game/system.test.ts > runSystems > threads each system into the next and returns the events in emission order
+AssertionError: expected +0 to be 123 // Object.is equality
+
+- Expected
++ Received
+
+- 123
++ 0
+
+ ❯ src/core/game/system.test.ts:133:32
+    131|     );
+    132|
+    133|     expect(result.state.score).toBe(123);
+       |                                ^
+    134|     expect(result.events).toEqual([CAUGHT, DIED, OVER]);
+    135|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/68]⎯
+
+ FAIL  |core| src/core/game/system.test.ts > runSystems > hands each system every event emitted earlier in the same frame
+AssertionError: expected [] to deeply equal [ [], …(2) ]
+
+- Expected
++ Received
+
+- [
+-   [],
+-   [
+-     {
+-       "ghost": "blinky",
+-       "kind": "pacmanCaught",
+-     },
+-   ],
+-   [
+-     {
+-       "ghost": "blinky",
+-       "kind": "pacmanCaught",
+-     },
+-     {
+-       "kind": "pacmanDied",
+-       "livesLeft": 2,
+-     },
+-   ],
+- ]
++ []
+
+ ❯ src/core/game/system.test.ts:179:30
+    177|     );
+    178|
+    179|     expect(seenByEachSystem).toEqual([[], [CAUGHT], [CAUGHT, DIED]]);
+       |                              ^
+    180|   });
+    181|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/68]⎯
+
+ FAIL  |core| src/core/game/system.test.ts > runSystems > threads the state by reference: a system that changes nothing changes nothing
+AssertionError: expected { level: +0, frame: +0, …(13) } to be { level: +0, frame: +0, …(13) } // Object.is equality
+
+- Expected
++ Received
+
+@@ -114,7 +114,7 @@
+      "powerPellets": Set {},
+    },
+    "pendingMs": 0,
+    "phase": "ready",
+    "phaseFramesLeft": 0,
+-   "score": 999,
++   "score": 0,
+  }
+
+ ❯ src/core/game/system.test.ts:218:26
+    216|     );
+    217|
+    218|     expect(result.state).toBe(replacement);
+       |                          ^
+    219|     expect(result.events).toEqual([]);
+    220|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/68]⎯
+
+ FAIL  |core| src/core/ghost/choose-direction.test.ts > chooseDirection > takes the exit whose neighbour tile is nearest the target by squared distance
+AssertionError: expected 'right' to be 'left' // Object.is equality
+
+Expected: "left"
+Received: "right"
+
+ ❯ src/core/ghost/choose-direction.test.ts:148:7
+    146|         mayPassDoor: true,
+    147|       }),
+    148|     ).toBe(Direction.Left);
+       |       ^
+    149|
+    150|     expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/68]⎯
+
+ FAIL  |core| src/core/ghost/choose-direction.test.ts > chooseDirection > never reverses, even when the reversal is the nearest exit to the target
+AssertionError: expected 'right' to be 'down' // Object.is equality
+
+Expected: "down"
+Received: "right"
+
+ ❯ src/core/ghost/choose-direction.test.ts:190:7
+    188|         mayPassDoor: true,
+    189|       }),
+    190|     ).toBe(Direction.Down);
+       |       ^
+    191|   });
+    192|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/68]⎯
+
+ FAIL  |core| src/core/ghost/choose-direction.test.ts > chooseDirection > breaks an exact distance tie in ALL_DIRECTIONS order: up, then left, then down
+AssertionError: expected 'right' to be 'up' // Object.is equality
+
+Expected: "up"
+Received: "right"
+
+ ❯ src/core/ghost/choose-direction.test.ts:227:7
+    225|         mayPassDoor: true,
+    226|       }),
+    227|     ).toBe(firstInArcadeOrder([Direction.Up, Direction.Left]));
+       |       ^
+    228|
+    229|     expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/68]⎯
+
+ FAIL  |core| src/core/ghost/choose-direction.test.ts > chooseDirection > never chooses up out of a no-up tile, though it would choose up out of the same tile otherwise
+AssertionError: expected 'right' to be 'up' // Object.is equality
+
+Expected: "up"
+Received: "right"
+
+ ❯ src/core/ghost/choose-direction.test.ts:271:66
+    269|     };
+    270|
+    271|     expect(chooseDirection({ ...turn, maze: crossroadsMaze() })).toBe(…
+       |                                                                  ^
+    272|     expect(chooseDirection({ ...turn, maze: noUpCrossroads() })).toBe(…
+    273|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/68]⎯
+
+ FAIL  |core| src/core/ghost/choose-direction.test.ts > chooseDirection > takes the reversal in a dead end, where it is the only legal exit
+AssertionError: expected 'right' to be 'left' // Object.is equality
+
+Expected: "left"
+Received: "right"
+
+ ❯ src/core/ghost/choose-direction.test.ts:303:7
+    301|         mayPassDoor: true,
+    302|       }),
+    303|     ).toBe(Direction.Left);
+       |       ^
+    304|   });
+    305|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/68]⎯
+
+ FAIL  |core| src/core/ghost/choose-direction.test.ts > chooseDirection > never walks into a wall, never reverses unless cornered, and never turns up on a no-up tile
+Error: Property failed after 2 tests
+{ seed: 1084673999, path: "1:0:0:0:0", endOnFailure: true }
+Counterexample: [0,"up",{"col":0,"row":0}]
+Shrunk 4 time(s)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+ ❯ src/core/ghost/choose-direction.test.ts:366:8
+    364|     let checks = 0;
+    365|
+    366|     fc.assert(
+       |        ^
+    367|       fc.property(
+    368|         fc.integer({ min: 0, max: places.length - 1 }),
+
+Caused by: AssertionError: expected [ 'down' ] to include 'right'
+ ❯ src/core/ghost/choose-direction.test.ts:387:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/68]⎯
+
+ FAIL  |core| src/core/ghost/elroy.test.ts > elroyStage > engages stage 1 at twenty dots remaining and stage 2 at ten, on level 1
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/core/ghost/elroy.test.ts:104:20
+    102|
+    103|     expect(at(21)).toBe(0);
+    104|     expect(at(20)).toBe(1);
+       |                    ^
+    105|     expect(at(11)).toBe(1);
+    106|     expect(at(10)).toBe(2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/68]⎯
+
+ FAIL  |core| src/core/ghost/elroy.test.ts > elroyStage > takes both thresholds from the level spec, so level 5 engages at forty and twenty
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/core/ghost/elroy.test.ts:131:20
+    129|
+    130|     expect(at(41)).toBe(0);
+    131|     expect(at(40)).toBe(1);
+       |                    ^
+    132|     expect(at(21)).toBe(1);
+    133|     expect(at(20)).toBe(2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/68]⎯
+
+ FAIL  |core| src/core/ghost/frightened-turn.test.ts > chooseFrightenedDirection > turns the draw into an index over the legal exits, in order
+AssertionError: expected [ 'right', 'right', 'right', 'right' ] to deeply equal [ 'up', 'left', 'down', 'right' ]
+
+- Expected
++ Received
+
+  [
+-   "up",
+-   "left",
+-   "down",
++   "right",
++   "right",
++   "right",
+    "right",
+  ]
+
+ ❯ src/core/ghost/frightened-turn.test.ts:74:19
+     72|     const route = [0, 1, 2, 3].map(() => chooseFrightenedDirection(rng…
+     73|
+     74|     expect(route).toEqual([Direction.Up, Direction.Left, Direction.Dow…
+       |                   ^
+     75|   });
+     76|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/68]⎯
+
+ FAIL  |core| src/core/ghost/frightened-turn.test.ts > chooseFrightenedDirection > consumes exactly one draw per decision
+AssertionError: expected 'right' to be 'down' // Object.is equality
+
+Expected: "down"
+Received: "right"
+
+ ❯ src/core/ghost/frightened-turn.test.ts:100:56
+     98|     const rng = createScriptedRng([0.5]);
+     99|
+    100|     expect(chooseFrightenedDirection(rng, FOUR_EXITS)).toBe(Direction.…
+       |                                                        ^
+    101|     expect(() => chooseFrightenedDirection(rng, FOUR_EXITS)).toThrow(/…
+    102|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/68]⎯
+
+ FAIL  |core| src/core/ghost/frightened-turn.test.ts > chooseFrightenedDirection > only ever returns a direction from the legal list it was given
+Error: Property failed after 2 tests
+{ seed: 599494739, path: "1:0", endOnFailure: true }
+Counterexample: [0,["up"]]
+Shrunk 1 time(s)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+ ❯ src/core/ghost/frightened-turn.test.ts:168:8
+    166|     let checks = 0;
+    167|
+    168|     fc.assert(
+       |        ^
+    169|       fc.property(
+    170|         fc.double({ min: 0, max: 1, maxExcluded: true, noNaN: true }),
+
+Caused by: AssertionError: expected [ 'up' ] to include 'right'
+ ❯ src/core/ghost/frightened-turn.test.ts:175:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/68]⎯
+
+ FAIL  |core| src/core/ghost/ghost-speed.test.ts > ghostSpeed > gives an ordinary ghost the level spec ghost speed
+AssertionError: expected +0 to be 240 // Object.is equality
+
+- Expected
++ Received
+
+- 240
++ 0
+
+ ❯ src/core/ghost/ghost-speed.test.ts:82:91
+     80|    */
+     81|   it('gives an ordinary ghost the level spec ghost speed', () => {
+     82|     expect(ghostSpeed({ ghost: HUNTING_BLINKY, spec: LEVEL_1, tileKind…
+       |                                                                                           ^
+     83|
+     84|     expect(ghostSpeed({ ghost: HUNTING_BLINKY, spec: levelSpec(5), til…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/68]⎯
+
+ FAIL  |core| src/core/ghost/ghost-speed.test.ts > ghostSpeed > slows a ghost to the tunnel speed, and keeps it there when frightened or elroy
+AssertionError: expected +0 to be 128 // Object.is equality
+
+- Expected
++ Received
+
+- 128
++ 0
+
+ ❯ src/core/ghost/ghost-speed.test.ts:111:93
+    109|    */
+    110|   it('slows a ghost to the tunnel speed, and keeps it there when frigh…
+    111|     expect(ghostSpeed({ ghost: HUNTING_BLINKY, spec: LEVEL_1, tileKind…
+       |                                                                                             ^
+    112|       128,
+    113|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/68]⎯
+
+ FAIL  |core| src/core/ghost/ghost-speed.test.ts > ghostSpeed > slows a frightened ghost, and a frightened cruise-elroy blinky with it
+AssertionError: expected +0 to be 160 // Object.is equality
+
+- Expected
++ Received
+
+- 160
++ 0
+
+ ❯ src/core/ghost/ghost-speed.test.ts:156:7
+    154|         tileKind: TileKind.Open,
+    155|       }),
+    156|     ).toBe(160);
+       |       ^
+    157|
+    158|     expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/68]⎯
+
+ FAIL  |core| src/core/ghost/ghost-speed.test.ts > ghostSpeed > sends eyes home fastest of all, unslowed by the tunnel or by fright
+AssertionError: expected +0 to be 480 // Object.is equality
+
+- Expected
++ Received
+
+- 480
++ 0
+
+ ❯ src/core/ghost/ghost-speed.test.ts:190:81
+    188|     const eyes: Ghost = { ...HUNTING_BLINKY, phase: GhostPhase.Eyes };
+    189|
+    190|     expect(ghostSpeed({ ghost: eyes, spec: LEVEL_1, tileKind: TileKind…
+       |                                                                                 ^
+    191|     expect(ghostSpeed({ ghost: eyes, spec: LEVEL_1, tileKind: TileKind…
+    192|     expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/68]⎯
+
+ FAIL  |core| src/core/ghost/ghost-speed.test.ts > ghostSpeed > reads blinky's cruise elroy stage from the level spec
+AssertionError: expected +0 to be 256 // Object.is equality
+
+- Expected
++ Received
+
+- 256
++ 0
+
+ ❯ src/core/ghost/ghost-speed.test.ts:226:7
+    224|         tileKind: TileKind.Open,
+    225|       }),
+    226|     ).toBe(256);
+       |       ^
+    227|
+    228|     expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/68]⎯
+
+ FAIL  |core| src/core/ghost/ghost-speed.test.ts > ghostSpeed > orders the level-1 speeds eyes, base, frightened, tunnel — fastest to slowest
+AssertionError: expected [ +0, +0, +0, +0 ] to deeply equal [ 480, 240, 160, 128 ]
+
+- Expected
++ Received
+
+  [
+-   480,
+-   240,
+-   160,
+-   128,
++   0,
++   0,
++   0,
++   0,
+  ]
+
+ ❯ src/core/ghost/ghost-speed.test.ts:272:20
+    270|     ];
+    271|
+    272|     expect(speeds).toEqual([480, 240, 160, 128]);
+       |                    ^
+    273|   });
+    274| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/68]⎯
+
+ FAIL  |core| src/core/ghost/house.test.ts > releaseDecision > releases pinky at zero dots, inky at thirty and clyde at sixty on level 1
+AssertionError: expected null to be 'pinky' // Object.is equality
+
+- Expected:
+"pinky"
+
++ Received:
+null
+
+ ❯ src/core/ghost/house.test.ts:135:7
+    133|         level: 1,
+    134|       }),
+    135|     ).toBe(GhostId.Pinky);
+       |       ^
+    136|
+    137|     const withPinkyOut = (dots: number): Readonly<Record<GhostId, Ghos…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/68]⎯
+
+ FAIL  |core| src/core/ghost/house.test.ts > releaseDecision > takes the personal limits from the level: at level 2 inky leaves at once and clyde at fifty
+AssertionError: expected null to be 'inky' // Object.is equality
+
+- Expected:
+"inky"
+
++ Received:
+null
+
+ ❯ src/core/ghost/house.test.ts:182:7
+    180|         level: 2,
+    181|       }),
+    182|     ).toBe(GhostId.Inky);
+       |       ^
+    183|
+    184|     const clydeAlone = (dots: number): Readonly<Record<GhostId, Ghost>…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/68]⎯
+
+ FAIL  |core| src/core/ghost/house.test.ts > releaseDecision > names one ghost per frame, the earliest still waiting, when several are eligible
+AssertionError: expected null to be 'pinky' // Object.is equality
+
+- Expected:
+"pinky"
+
++ Received:
+null
+
+ ❯ src/core/ghost/house.test.ts:218:7
+    216|         level: 1,
+    217|       }),
+    218|     ).toBe(GhostId.Pinky);
+       |       ^
+    219|   });
+    220|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[29/68]⎯
+
+ FAIL  |core| src/core/ghost/house.test.ts > releaseDecision > ignores the personal counters entirely while the global counter is active
+AssertionError: expected null to be 'pinky' // Object.is equality
+
+- Expected:
+"pinky"
+
++ Received:
+null
+
+ ❯ src/core/ghost/house.test.ts:249:84
+    247|
+    248|     expect(releaseDecision({ house: afterDeath(5), ghosts: allPenned, …
+    249|     expect(releaseDecision({ house: afterDeath(7), ghosts: allPenned, …
+       |                                                                                    ^
+    250|       GhostId.Pinky,
+    251|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[30/68]⎯
+
+ FAIL  |core| src/core/ghost/house.test.ts > releaseDecision > releases the longest-waiting ghost after four seconds with no dot eaten, three from level 5
+AssertionError: expected null to be 'inky' // Object.is equality
+
+- Expected:
+"inky"
+
++ Received:
+null
+
+ ❯ src/core/ghost/house.test.ts:313:92
+    311|       releaseDecision({ house: stalled(239), ghosts: inkyAndClydePenne…
+    312|     ).toBeNull();
+    313|     expect(releaseDecision({ house: stalled(240), ghosts: inkyAndClyde…
+       |                                                                                            ^
+    314|       GhostId.Inky,
+    315|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[31/68]⎯
+
+ FAIL  |core| src/core/ghost/house.test.ts > releaseDecision > names nobody when the house is empty, and names the one ghost that is back in it
+AssertionError: expected null to be 'clyde' // Object.is equality
+
+- Expected:
+"clyde"
+
++ Received:
+null
+
+ ❯ src/core/ghost/house.test.ts:383:7
+    381|         level: 1,
+    382|       }),
+    383|     ).toBe(GhostId.Clyde);
+       |       ^
+    384|   });
+    385| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[32/68]⎯
+
+ FAIL  |core| src/core/ghost/house.test.ts > the house counters > ages the stall timer each frame, and a dot resets it while advancing the global counter
+AssertionError: expected { globalCounter: 3, …(2) } to deeply equal { globalCounter: 3, …(2) }
+
+- Expected
++ Received
+
+  {
+-   "framesSinceDot": 12,
++   "framesSinceDot": 11,
+    "globalCounter": 3,
+    "globalCounterActive": true,
+  }
+
+ ❯ src/core/ghost/house.test.ts:414:7
+    412|     expect(
+    413|       houseAfterFrame({ globalCounter: 3, globalCounterActive: true, f…
+    414|     ).toEqual({ globalCounter: 3, globalCounterActive: true, framesSin…
+       |       ^
+    415|
+    416|     expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[33/68]⎯
+
+ FAIL  |core| src/core/maze/pellets.test.ts > createPelletField > carries the 240 dots and 4 energizers of the arcade board, 244 in all, and is not cleared
+AssertionError: expected +0 to be 244 // Object.is equality
+
+- Expected
++ Received
+
+- 244
++ 0
+
+ ❯ src/core/maze/pellets.test.ts:123:30
+    121|     const field = createPelletField(ARCADE_MAZE);
+    122|
+    123|     expect(remaining(field)).toBe(244);
+       |                              ^
+    124|     expect(field.eaten).toBe(0);
+    125|     expect(isCleared(field)).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[34/68]⎯
+
+ FAIL  |core| src/core/maze/pellets.test.ts > eatAt > returns a new field with one fewer dot and leaves the original untouched
+AssertionError: expected { columns: +0, pellets: Set{}, …(2) } not to be { columns: +0, pellets: Set{}, …(2) } // Object.is equality
+
+Compared values have no visual difference.
+
+ ❯ src/core/maze/pellets.test.ts:153:23
+    151|     const after = eatAt(before, FIRST_DOT);
+    152|
+    153|     expect(after).not.toBe(before);
+       |                       ^
+    154|     expect(remaining(after)).toBe(5);
+    155|     expect(after.eaten).toBe(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[35/68]⎯
+
+ FAIL  |core| src/core/maze/pellets.test.ts > pelletAt > tells an energizer from a dot from bare floor, and guards the column like kindAt
+AssertionError: expected 'none' to be 'powerPellet' // Object.is equality
+
+Expected: "powerPellet"
+Received: "none"
+
+ ❯ src/core/maze/pellets.test.ts:224:40
+    222|     const field = createPelletField(foodMaze());
+    223|
+    224|     expect(pelletAt(field, ENERGIZER)).toBe(PelletKind.PowerPellet);
+       |                                        ^
+    225|     expect(pelletAt(field, FIRST_DOT)).toBe(PelletKind.Pellet);
+    226|     expect(pelletAt(field, BARE_TILE)).toBe(PelletKind.None);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[36/68]⎯
+
+ FAIL  |core| src/core/maze/pellets.test.ts > isCleared > is false while one energizer remains and true only once it is gone too
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/core/maze/pellets.test.ts:255:33
+    253|
+    254|     const dotsGone = eatAll(field, DOTS);
+    255|     expect(remaining(dotsGone)).toBe(1);
+       |                                 ^
+    256|     expect(dotsGone.eaten).toBe(5);
+    257|     expect(isCleared(dotsGone)).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[37/68]⎯
+
+ FAIL  |core| src/core/maze/pellets.test.ts > isCleared > clears the arcade board and reports exactly 244 eaten, whatever the order
+Error: Property failed after 1 tests
+{ seed: -1866495194, path: "0", endOnFailure: true }
+Counterexample: [[{"col":26,"row":8},{"col":10,"row":8},{"col":9,"row":29},{"col":6,"row":16},{"col":12,"row":22},{"col":22,"row":5},{"col":21,"row":22},{"col":1,"row":4},{"col":6,"row":3},{"col":3,"row":1},{"col":6,"row":8},{"col":8,"row":23},{"col":7,"row":23},{"col":26,"row":28},{"col":5,"row":1},{"col":14,"row":5},{"col":21,"row":19},{"col":22,"row":26},{"col":6,"row":10},{"col":18,"row":5},{"col":1,"row":6},{"col":10,"row":1},{"col":6,"row":22},{"col":17,"row":29},{"col":3,"row":29},{"col":24,"row":23},{"col":18,"row":20},{"col":10,"row":5},{"col":17,"row":23},{"col":16,"row":8},{"col":9,"row":20},{"col":9,"row":8},{"col":8,"row":1},{"col":21,"row":3},{"col":6,"row":1},{"col":24,"row":25},{"col":1,"row":28},{"col":2,"row":26},{"col":13,"row":29},{"col":4,"row":20},{"col":4,"row":5},{"col":10,"row":29},{"col":17,"row":20},{"col":17,"row":26},{"col":3,"row":20},{"col":11,"row":29},{"col":11,"row":8},{"col":21,"row":26},{"col":10,"row":26},{"col":23,"row":20},{"col":12,"row":3},{"col":1,"row":3},{"col":9,"row":6},{"col":18,"row":24},{"col":3,"row":8},{"col":24,"row":24},{"col":6,"row":20},{"col":21,"row":16},{"col":21,"row":5},{"col":12,"row":4},{"col":2,"row":1},{"col":2,"row":23},{"col":6,"row":11},{"col":1,"row":26},{"col":21,"row":4},{"col":6,"row":26},{"col":25,"row":29},{"col":18,"row":8},{"col":21,"row":11},{"col":6,"row":5},{"col":6,"row":18},{"col":21,"row":13},{"col":9,"row":26},{"col":21,"row":7},{"col":11,"row":5},{"col":15,"row":8},{"col":21,"row":20},{"col":24,"row":1},{"col":25,"row":5},{"col":20,"row":23},{"col":6,"row":9},{"col":18,"row":6},{"col":19,"row":23},{"col":8,"row":20},{"col":4,"row":29},{"col":7,"row":20},{"col":14,"row":29},{"col":17,"row":5},{"col":5,"row":20},{"col":26,"row":27},{"col":26,"row":2},{"col":21,"row":25},{"col":1,"row":23},{"col":7,"row":5},{"col":21,"row":8},{"col":18,"row":25},{"col":21,"row":15},{"col":15,"row":22},{"col":23,"row":8},{"col":26,"row":22},{"col":26,"row":21},{"col":26,"row":4},{"col":21,"row":1},{"col":26,"row":6},{"col":12,"row":20},{"col":3,"row":5},{"col":15,"row":2},{"col":22,"row":29},{"col":7,"row":1},{"col":21,"row":10},{"col":25,"row":8},{"col":3,"row":25},{"col":6,"row":2},{"col":2,"row":5},{"col":20,"row":29},{"col":22,"row":8},{"col":12,"row":27},{"col":6,"row":7},{"col":12,"row":26},{"col":3,"row":24},{"col":20,"row":1},{"col":6,"row":29},{"col":24,"row":26},{"col":19,"row":5},{"col":15,"row":29},{"col":7,"row":29},{"col":9,"row":7},{"col":2,"row":8},{"col":26,"row":26},{"col":26,"row":29},{"col":6,"row":4},{"col":21,"row":12},{"col":15,"row":21},{"col":6,"row":25},{"col":12,"row":21},{"col":6,"row":6},{"col":21,"row":21},{"col":23,"row":1},{"col":1,"row":1},{"col":15,"row":3},{"col":1,"row":5},{"col":2,"row":20},{"col":12,"row":1},{"col":9,"row":24},{"col":3,"row":26},{"col":16,"row":23},{"col":12,"row":29},{"col":20,"row":20},{"col":5,"row":5},{"col":6,"row":23},{"col":21,"row":29},{"col":16,"row":1},{"col":1,"row":2},{"col":20,"row":5},{"col":8,"row":29},{"col":1,"row":20},{"col":21,"row":17},{"col":1,"row":29},{"col":6,"row":12},{"col":21,"row":2},{"col":12,"row":23},{"col":18,"row":7},{"col":25,"row":20},{"col":26,"row":5},{"col":23,"row":29},{"col":9,"row":23},{"col":19,"row":29},{"col":19,"row":1},{"col":26,"row":1},{"col":15,"row":27},{"col":21,"row":24},{"col":9,"row":25},{"col":4,"row":26},{"col":24,"row":29},{"col":18,"row":26},{"col":11,"row":23},{"col":12,"row":28},{"col":22,"row":1},{"col":13,"row":5},{"col":6,"row":21},{"col":12,"row":5},{"col":16,"row":20},{"col":6,"row":24},{"col":18,"row":23},{"col":25,"row":26},{"col":21,"row":9},{"col":1,"row":7},{"col":16,"row":26},{"col":5,"row":29},{"col":17,"row":1},{"col":1,"row":27},{"col":16,"row":5},{"col":21,"row":14},{"col":10,"row":23},{"col":15,"row":1},{"col":1,"row":21},{"col":18,"row":29},{"col":24,"row":20},{"col":22,"row":20},{"col":6,"row":15},{"col":15,"row":20},{"col":5,"row":8},{"col":6,"row":19},{"col":6,"row":13},{"col":26,"row":23},{"col":17,"row":8},{"col":21,"row":23},{"col":8,"row":5},{"col":12,"row":2},{"col":15,"row":26},{"col":10,"row":20},{"col":12,"row":8},{"col":26,"row":20},{"col":24,"row":8},{"col":23,"row":5},{"col":11,"row":1},{"col":11,"row":20},{"col":4,"row":8},{"col":6,"row":14},{"col":3,"row":23},{"col":6,"row":17},{"col":16,"row":29},{"col":2,"row":29},{"col":15,"row":4},{"col":21,"row":6},{"col":25,"row":23},{"col":19,"row":20},{"col":15,"row":23},{"col":1,"row":22},{"col":26,"row":7},{"col":24,"row":5},{"col":25,"row":1},{"col":4,"row":1},{"col":23,"row":26},{"col":1,"row":8},{"col":15,"row":5},{"col":21,"row":18},{"col":5,"row":26},{"col":9,"row":1},{"col":15,"row":28},{"col":18,"row":1},{"col":11,"row":26},{"col":9,"row":5},{"col":26,"row":3}]]
+Shrunk 0 time(s)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+ ❯ src/core/maze/pellets.test.ts:288:8
+    286|     expect(allFood).toHaveLength(244);
+    287|
+    288|     fc.assert(
+       |        ^
+    289|       fc.property(
+    290|         fc.shuffledSubarray(allFood, { minLength: 244, maxLength: 244 …
+
+Caused by: AssertionError: expected +0 to be 244 // Object.is equality
+
+- Expected
++ Received
+
+- 244
++ 0
+
+ ❯ src/core/maze/pellets.test.ts:295:33
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[38/68]⎯
+
+ FAIL  |core| src/core/pacman/eat.test.ts > eat > takes the dot, freezes Pac-Man for exactly 1 frame, and awards nothing
+AssertionError: expected { Object (pellets, events, ...) } to deeply equal { Object (pellets, events, ...) }
+
+- Expected
++ Received
+
+  {
+-   "events": [
+-     {
+-       "kind": "pelletEaten",
+-       "remaining": 5,
+-       "tile": {
+-         "col": 1,
+-         "row": 3,
+-       },
+-     },
+-   ],
++   "events": [],
+    "pellets": {
+      "columns": 0,
+      "eaten": 0,
+      "pellets": Set {},
+      "powerPellets": Set {},
+    },
+-   "stopFrames": 1,
++   "stopFrames": 0,
+  }
+
+ ❯ src/core/pacman/eat.test.ts:84:43
+     82|     const field = createPelletField(foodMaze());
+     83|
+     84|     expect(eat(field, DOT, levelSpec(1))).toEqual({
+       |                                           ^
+     85|       pellets: eatAt(field, DOT),
+     86|       events: [{ kind: 'pelletEaten', tile: DOT, remaining: 5 }],
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39/68]⎯
+
+ FAIL  |core| src/core/pacman/eat.test.ts > eat > takes the energizer, freezes Pac-Man for exactly 3 frames, and reports the level-1 fright of 360 frames
+AssertionError: expected { Object (pellets, events, ...) } to deeply equal { Object (pellets, events, ...) }
+
+- Expected
++ Received
+
+  {
+-   "events": [
+-     {
+-       "frames": 360,
+-       "kind": "powerPelletEaten",
+-       "tile": {
+-         "col": 2,
+-         "row": 3,
+-       },
+-     },
+-   ],
++   "events": [],
+    "pellets": {
+      "columns": 0,
+      "eaten": 0,
+      "pellets": Set {},
+      "powerPellets": Set {},
+    },
+-   "stopFrames": 3,
++   "stopFrames": 0,
+  }
+
+ ❯ src/core/pacman/eat.test.ts:112:49
+    110|     const field = createPelletField(foodMaze());
+    111|
+    112|     expect(eat(field, ENERGIZER, levelSpec(1))).toEqual({
+       |                                                 ^
+    113|       pellets: eatAt(field, ENERGIZER),
+    114|       events: [{ kind: 'powerPelletEaten', tile: ENERGIZER, frames: 36…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[40/68]⎯
+
+ FAIL  |core| src/core/pacman/eat.test.ts > eat > still freezes Pac-Man for 3 frames at level 19, where an energizer starts no fright
+AssertionError: expected { Object (pellets, events, ...) } to deeply equal { Object (pellets, events, ...) }
+
+- Expected
++ Received
+
+  {
+-   "events": [
+-     {
+-       "frames": 0,
+-       "kind": "powerPelletEaten",
+-       "tile": {
+-         "col": 2,
+-         "row": 3,
+-       },
+-     },
+-   ],
++   "events": [],
+    "pellets": {
+      "columns": 0,
+      "eaten": 0,
+      "pellets": Set {},
+      "powerPellets": Set {},
+    },
+-   "stopFrames": 3,
++   "stopFrames": 0,
+  }
+
+ ❯ src/core/pacman/eat.test.ts:141:50
+    139|     const field = createPelletField(foodMaze());
+    140|
+    141|     expect(eat(field, ENERGIZER, levelSpec(19))).toEqual({
+       |                                                  ^
+    142|       pellets: eatAt(field, ENERGIZER),
+    143|       events: [{ kind: 'powerPelletEaten', tile: ENERGIZER, frames: 0 …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[41/68]⎯
+
+ FAIL  |core| src/core/pacman/pacman-turn.test.ts > pacmanTurnPolicy > takes a legal queued turn at once, and keeps facing when it is illegal or absent
+AssertionError: expected 'right' to be 'up' // Object.is equality
+
+Expected: "up"
+Received: "right"
+
+ ❯ src/core/pacman/pacman-turn.test.ts:100:96
+     98|
+     99|     /* At the junction centre, with up open: the turn happens now. */
+    100|     expect(pacmanTurnPolicy(contextAt(maze, { x: 44, y: 36 }, Directio…
+       |                                                                                                ^
+    101|       Direction.Up,
+    102|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[42/68]⎯
+
+ FAIL  |core| src/core/pacman/pacman-turn.test.ts > pacmanTurnPolicy > takes a queued reversal immediately, at a pixel that is not a tile centre
+AssertionError: expected 'right' to be 'left' // Object.is equality
+
+Expected: "left"
+Received: "right"
+
+ ❯ src/core/pacman/pacman-turn.test.ts:140:7
+    138|     expect(
+    139|       pacmanTurnPolicy(contextAt(maze, { x: 41, y: 36 }, Direction.Rig…
+    140|     ).toBe(Direction.Left);
+       |       ^
+    141|   });
+    142|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[43/68]⎯
+
+ FAIL  |core| src/core/pacman/pacman-turn.test.ts > pacmanTurnPolicy > asks the context for door permission instead of hard-coding it
+AssertionError: expected 'down' to be 'up' // Object.is equality
+
+Expected: "up"
+Received: "down"
+
+ ❯ src/core/pacman/pacman-turn.test.ts:211:7
+    209|     expect(
+    210|       pacmanTurnPolicy(contextAt(maze, belowTheGate, Direction.Down, D…
+    211|     ).toBe(Direction.Up);
+       |       ^
+    212|   });
+    213| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[44/68]⎯
+
+ FAIL  |core| src/core/pacman/pacman.test.ts > spawnPacman > places Pac-Man centred on the P tile, facing left, with nothing queued or pending
+AssertionError: expected { actor: { …(4) }, …(3) } to deeply equal { actor: { …(4) }, …(3) }
+
+- Expected
++ Received
+
+@@ -1,12 +1,12 @@
+  {
+    "actor": {
+      "carrySubPixels": 0,
+-     "facing": "left",
++     "facing": "right",
+      "position": {
+-       "x": 36,
+-       "y": 28,
++       "x": 0,
++       "y": 0,
+      },
+      "queued": null,
+    },
+    "animationFrame": 0,
+    "pendingDirection": null,
+
+ ❯ src/core/pacman/pacman.test.ts:88:41
+     86|    */
+     87|   it('places Pac-Man centred on the P tile, facing left, with nothing …
+     88|     expect(spawnPacman(corridorMaze())).toEqual({
+       |                                         ^
+     89|       actor: {
+     90|         position: { x: 36, y: 28 },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[45/68]⎯
+
+ FAIL  |core| src/core/pacman/pacman.test.ts > Pac-Man moving through the maze > remembers a turn pressed a whole corridor early and takes it at the junction
+AssertionError: expected { x: 45, y: 36 } to deeply equal { x: 44, y: 35 }
+
+- Expected
++ Received
+
+  {
+-   "x": 44,
+-   "y": 35,
++   "x": 45,
++   "y": 36,
+  }
+
+ ❯ src/core/pacman/pacman.test.ts:146:41
+    144|
+    145|     const afterTurning = runFrames(maze, start, 25);
+    146|     expect(afterTurning.actor.position).toEqual({ x: 44, y: 35 });
+       |                                         ^
+    147|     expect(afterTurning.actor.facing).toBe(Direction.Up);
+    148|     expect(afterTurning.turned).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[46/68]⎯
+
+ FAIL  |core| src/core/pacman/pacman.test.ts > Pac-Man moving through the maze > turns around on the very next frame, mid-corridor, without waiting for a junction
+AssertionError: expected { x: 48, y: 36 } to deeply equal { x: 46, y: 36 }
+
+- Expected
++ Received
+
+  {
+-   "x": 46,
++   "x": 48,
+    "y": 36,
+  }
+
+ ❯ src/core/pacman/pacman.test.ts:185:37
+    183|
+    184|     const reversed = runFrames(maze, { ...travelling.actor, queued: Di…
+    185|     expect(reversed.actor.position).toEqual({ x: 46, y: 36 });
+       |                                     ^
+    186|     expect(reversed.actor.facing).toBe(Direction.Left);
+    187|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[47/68]⎯
+
+ FAIL  |core| src/core/rules/collision.test.ts > resolveCollision > eats a frightened ghost on pac-man tile and lets a hunting one catch him
+AssertionError: expected 'nothing' to be 'eaten' // Object.is equality
+
+Expected: "eaten"
+Received: "nothing"
+
+ ❯ src/core/rules/collision.test.ts:87:49
+     85|     const hunting = ghostOn(PACMAN_TILE, GhostPhase.Hunting, 0);
+     86|
+     87|     expect(resolveCollision(PACMAN_TILE, blue)).toBe(CollisionOutcome.…
+       |                                                 ^
+     88|     expect(resolveCollision(PACMAN_TILE, hunting)).toBe(CollisionOutco…
+     89|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[48/68]⎯
+
+ FAIL  |core| src/core/rules/collision.test.ts > resolveCollision > catches pac-man from the first pixel of his tile: the whole tile is his, not a box round his centre
+AssertionError: expected 'nothing' to be 'caught' // Object.is equality
+
+Expected: "caught"
+Received: "nothing"
+
+ ❯ src/core/rules/collision.test.ts:197:55
+    195|     const lastPixel = ghostAtPixel({ x: 47, y: 47 }, GhostPhase.Huntin…
+    196|
+    197|     expect(resolveCollision(PACMAN_TILE, firstPixel)).toBe(CollisionOu…
+       |                                                       ^
+    198|     expect(resolveCollision(PACMAN_TILE, lastPixel)).toBe(CollisionOut…
+    199|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[49/68]⎯
+
+ FAIL  |core| src/core/rules/fruit.test.ts > stepFruit > brings the level own fruit out on the seventieth dot eaten, and not on the sixty-ninth
+AssertionError: expected null to be 'cherry' // Object.is equality
+
+- Expected:
+"cherry"
+
++ Received:
+null
+
+ ❯ src/core/rules/fruit.test.ts:70:27
+     68|     const step = stepFruit(NO_FRUIT, 70, LEVEL_1);
+     69|
+     70|     expect(step.appeared).toBe(FruitKind.Cherry);
+       |                           ^
+     71|     expect(step.fruit.onBoard).toBe(FruitKind.Cherry);
+     72|     expect(step.fruit.framesLeft).toBe(570); // 9.5 s
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[50/68]⎯
+
+ FAIL  |core| src/core/rules/fruit.test.ts > stepFruit > brings the second fruit out on the hundred-and-seventieth dot, and never a third
+AssertionError: expected { onBoard: null, framesLeft: +0, …(1) } to deeply equal { onBoard: null, framesLeft: +0, …(1) }
+
+- Expected
++ Received
+
+  {
+    "framesLeft": 0,
+    "onBoard": null,
+-   "spawned": 1,
++   "spawned": 0,
+  }
+
+ ❯ src/core/rules/fruit.test.ts:108:53
+    106|
+    107|     expect(stepFruit(oneSpent, 100, LEVEL_1).appeared).toBe(null);
+    108|     expect(stepFruit(oneSpent, 100, LEVEL_1).fruit).toEqual(oneSpent);
+       |                                                     ^
+    109|     expect(stepFruit(oneSpent, 169, LEVEL_1).appeared).toBe(null);
+    110|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[51/68]⎯
+
+ FAIL  |core| src/core/rules/fruit.test.ts > stepFruit > takes an uneaten fruit off the board on the last frame of its 570-frame life
+AssertionError: expected null to be 'cherry' // Object.is equality
+
+- Expected:
+"cherry"
+
++ Received:
+null
+
+ ❯ src/core/rules/fruit.test.ts:156:27
+    154|     }
+    155|
+    156|     expect(state.onBoard).toBe(FruitKind.Cherry);
+       |                           ^
+    157|     expect(state.framesLeft).toBe(1);
+    158|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[52/68]⎯
+
+ FAIL  |core| src/core/rules/fruit.test.ts > eatFruit > pays the level own fruit points: a 100-point cherry at level 1, a 700-point apple at level 5
+AssertionError: expected null to be 'cherry' // Object.is equality
+
+- Expected:
+"cherry"
+
++ Received:
+null
+
+ ❯ src/core/rules/fruit.test.ts:193:24
+    191|     const bite = eatFruit(cherry, LEVEL_1);
+    192|
+    193|     expect(bite.eaten).toBe(FruitKind.Cherry);
+       |                        ^
+    194|     expect(bite.points).toBe(100);
+    195|     expect(bite.fruit.onBoard).toBe(null);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[53/68]⎯
+
+ FAIL  |core| src/core/rules/ghost-combo.test.ts > ghostPoints > awards 200, 400, 800 then 1600 for the first through fourth ghost of one fright
+AssertionError: expected +0 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 0
+
+ ❯ src/core/rules/ghost-combo.test.ts:47:28
+     45|     expect.assertions(4);
+     46|
+     47|     expect(ghostPoints(0)).toBe(200);
+       |                            ^
+     48|     expect(ghostPoints(1)).toBe(400);
+     49|     expect(ghostPoints(2)).toBe(800);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[54/68]⎯
+
+ FAIL  |core| src/core/rules/ghost-combo.test.ts > ghostPoints > caps an impossible fifth ghost at 1600 rather than reading off the end of the ladder
+AssertionError: expected +0 to be 1600 // Object.is equality
+
+- Expected
++ Received
+
+- 1600
++ 0
+
+ ❯ src/core/rules/ghost-combo.test.ts:72:28
+     70|    */
+     71|   it('caps an impossible fifth ghost at 1600 rather than reading off t…
+     72|     expect(ghostPoints(4)).toBe(1600);
+       |                            ^
+     73|   });
+     74|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[55/68]⎯
+
+ FAIL  |core| src/core/rules/ghost-combo.test.ts > ghostPoints > pays 3000 for a complete chain of four ghosts in one fright
+AssertionError: expected +0 to be 3000 // Object.is equality
+
+- Expected
++ Received
+
+- 3000
++ 0
+
+ ❯ src/core/rules/ghost-combo.test.ts:104:19
+    102|     }
+    103|
+    104|     expect(total).toBe(3000);
+       |                   ^
+    105|     expect(chain).toBe(4);
+    106|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[56/68]⎯
+
+ FAIL  |core| src/core/rules/ghost-combo.test.ts > chainAfterGhostEaten > climbs the ladder when a ghost is eaten, because a capture is what advances it
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/core/rules/ghost-combo.test.ts:128:37
+    126|     expect.assertions(3);
+    127|
+    128|     expect(chainAfterGhostEaten(0)).toBe(1);
+       |                                     ^
+    129|     expect(chainAfterGhostEaten(1)).toBe(2);
+    130|     expect(chainAfterGhostEaten(3)).toBe(4);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[57/68]⎯
+
+ FAIL  |core| src/core/rules/ghost-combo.test.ts > chainAfterPowerPellet > keeps the ladder where it is when a power pellet is taken while the ghosts are still blue
+AssertionError: expected +0 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 0
+
+ ❯ src/core/rules/ghost-combo.test.ts:161:42
+    159|
+    160|     /* Two ghosts already eaten, 45 frames of fright still to run. */
+    161|     expect(chainAfterPowerPellet(2, 45)).toBe(2);
+       |                                          ^
+    162|     /* And the very last frame of fright is still fright. */
+    163|     expect(chainAfterPowerPellet(2, 1)).toBe(2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[58/68]⎯
+
+ FAIL  |core| src/core/rules/lives.test.ts > loseLife > spends one life and asks for a respawn while pac-man still has one in reserve
+AssertionError: expected +0 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 0
+
+ ❯ src/core/rules/lives.test.ts:41:31
+     39|     expect.assertions(4);
+     40|
+     41|     expect(loseLife(3).lives).toBe(2);
+       |                               ^
+     42|     expect(loseLife(3).outcome).toBe(LifeOutcome.Respawn);
+     43|     expect(loseLife(2).lives).toBe(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[59/68]⎯
+
+ FAIL  |core| src/core/rules/lives.test.ts > loseLife > ends the game on the last life and leaves nothing in reserve
+AssertionError: expected 'respawn' to be 'gameOver' // Object.is equality
+
+Expected: "gameOver"
+Received: "respawn"
+
+ ❯ src/core/rules/lives.test.ts:65:33
+     63|
+     64|     expect(loseLife(1).lives).toBe(0);
+     65|     expect(loseLife(1).outcome).toBe(LifeOutcome.GameOver);
+       |                                 ^
+     66|   });
+     67|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[60/68]⎯
+
+ FAIL  |core| src/core/rules/lives.test.ts > loseLife > never counts below zero when a life is lost with none left
+AssertionError: expected 'respawn' to be 'gameOver' // Object.is equality
+
+Expected: "gameOver"
+Received: "respawn"
+
+ ❯ src/core/rules/lives.test.ts:89:33
+     87|
+     88|     expect(loseLife(0).lives).toBe(0);
+     89|     expect(loseLife(0).outcome).toBe(LifeOutcome.GameOver);
+       |                                 ^
+     90|   });
+     91| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[61/68]⎯
+
+ FAIL  |core| src/core/rules/score.test.ts > the point values > scores a plain pellet at 10, a power pellet at 50, a level 1 cherry at 100 and the extra life at 10000
+AssertionError: expected +0 to be 10 // Object.is equality
+
+- Expected
++ Received
+
+- 10
++ 0
+
+ ❯ src/core/rules/score.test.ts:46:27
+     44|    */
+     45|   it('scores a plain pellet at 10, a power pellet at 50, a level 1 che…
+     46|     expect(POINTS.pellet).toBe(10);
+       |                           ^
+     47|     expect(POINTS.powerPellet).toBe(50);
+     48|     expect(EXTRA_LIFE_AT).toBe(10000);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[62/68]⎯
+
+ FAIL  |core| src/core/rules/score.test.ts > addScore > adds points to the running score
+AssertionError: expected +0 to be 10 // Object.is equality
+
+- Expected
++ Received
+
+- 10
++ 0
+
+ ❯ src/core/rules/score.test.ts:79:35
+     77|     expect.assertions(2);
+     78|
+     79|     expect(addScore(0, 10).score).toBe(10);
+       |                                   ^
+     80|     expect(addScore(1230, 800).score).toBe(2030);
+     81|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[63/68]⎯
+
+ FAIL  |core| src/core/rules/score.test.ts > addScore > awards the extra life on the addition that crosses 10000, and never below or again above
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/core/rules/score.test.ts:117:49
+    115|
+    116|     /* The crossing itself. */
+    117|     expect(addScore(9990, 10).extraLifeAwarded).toBe(true);
+       |                                                 ^
+    118|
+    119|     /* And never again, however far the score climbs. */
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[64/68]⎯
+
+ FAIL  |core| src/core/rules/score.test.ts > addScore > awards the extra life when a 3000-point ghost chain leaps clean over 10000
+AssertionError: expected +0 to be 12000 // Object.is equality
+
+- Expected
++ Received
+
+- 12000
++ 0
+
+ ❯ src/core/rules/score.test.ts:144:26
+    142|     const result = addScore(9000, 3000);
+    143|
+    144|     expect(result.score).toBe(12000);
+       |                          ^
+    145|     expect(result.extraLifeAwarded).toBe(true);
+    146|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[65/68]⎯
+
+ FAIL  |core| src/core/testing/state-builder.test.ts > buildState > starts from a real started game, moved on to the playing phase
+AssertionError: expected { level: +0, frame: +0, …(13) } to deeply equal { level: +0, frame: +0, …(13) }
+
+- Expected
++ Received
+
+@@ -112,9 +112,9 @@
+      "eaten": 0,
+      "pellets": Set {},
+      "powerPellets": Set {},
+    },
+    "pendingMs": 0,
+-   "phase": "playing",
++   "phase": "ready",
+    "phaseFramesLeft": 0,
+    "score": 0,
+  }
+
+ ❯ src/core/testing/state-builder.test.ts:60:26
+     58|    */
+     59|   it('starts from a real started game, moved on to the playing phase',…
+     60|     expect(buildState()).toEqual({
+       |                          ^
+     61|       ...startGame(),
+     62|       phase: RoundPhase.Playing,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[66/68]⎯
+
+ FAIL  |core| src/core/testing/state-builder.test.ts > buildState > applies the fields named in the patch and leaves every other field at its default
+AssertionError: expected { level: +0, frame: +0, …(13) } to deeply equal { level: 5, frame: +0, …(13) }
+
+- Expected
++ Received
+
+@@ -84,12 +84,12 @@
+    "house": {
+      "framesSinceDot": 0,
+      "globalCounter": 0,
+      "globalCounterActive": false,
+    },
+-   "level": 5,
+-   "lives": 1,
++   "level": 0,
++   "lives": 0,
+    "modes": {
+      "frightenedFramesLeft": 0,
+      "waveFrames": 0,
+      "waveIndex": 0,
+    },
+@@ -114,7 +114,7 @@
+      "powerPellets": Set {},
+    },
+    "pendingMs": 0,
+    "phase": "ready",
+    "phaseFramesLeft": 0,
+-   "score": 4260,
++   "score": 0,
+  }
+
+ ❯ src/core/testing/state-builder.test.ts:88:21
+     86|     const patched = buildState({ score: 4260, lives: 1, level: 5 });
+     87|
+     88|     expect(patched).toEqual({
+       |                     ^
+     89|       ...buildState(),
+     90|       score: 4260,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[67/68]⎯
+
+ FAIL  |core| src/core/testing/state-builder.test.ts > buildState > merges as deep as the patch goes, leaving the other ghosts and Pac-Man's facing alone
+AssertionError: expected { …(4) } to deeply equal { …(4) }
+
+- Expected
++ Received
+
+@@ -48,11 +48,11 @@
+      "dotCounter": 0,
+      "dotCounterActive": false,
+      "elroyStage": 0,
+      "frightenedFramesLeft": 0,
+      "id": "inky",
+-     "phase": "hunting",
++     "phase": "inHouse",
+      "reverseQueued": false,
+    },
+    "pinky": {
+      "actor": {
+        "carrySubPixels": 0,
+
+ ❯ src/core/testing/state-builder.test.ts:128:28
+    126|     });
+    127|
+    128|     expect(patched.ghosts).toEqual({
+       |                            ^
+    129|       ...base.ghosts,
+    130|       [GhostId.Inky]: { ...base.ghosts[GhostId.Inky], phase: GhostPhas…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[68/68]⎯
+
+
+ Test Files  17 failed | 30 passed (47)
+      Tests  68 failed | 210 passed (278)
+   Start at  20:43:23
+   Duration  18.42s (transform 13.80s, setup 21.68s, import 22.56s, tests 6.83s, environment 10.94s)
+

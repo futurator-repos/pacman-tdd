@@ -1,0 +1,84 @@
+
+ RUN  v4.1.10 /Users/ricardoarayafarias/GetReal/pacman
+
+ × |core| assets/music/note.test.ts > midiToFrequency > maps MIDI note 69 to concert A at 440Hz 4ms
+   → expected +0 to be close to 440, received difference is 440, but expected 5e-11
+ × |core| assets/music/note.test.ts > midiToFrequency > doubles the frequency one octave up 1ms
+   → expected +0 to be close to 880, received difference is 880, but expected 5e-11
+ × |core| assets/music/note.test.ts > midiToFrequency > maps MIDI note 60 to middle C 1ms
+   → expected +0 to be close to 261.6255653, received difference is 261.6255653, but expected 5e-7
+ × |core| assets/music/note.test.ts > sixteenthSeconds > gives an eighth of a second per sixteenth at 120 BPM 0ms
+   → expected +0 to be close to 0.125, received difference is 0.125, but expected 5e-11
+ ✓ |core| assets/music/note.test.ts > sixteenthSeconds > halves the note length when the tempo doubles 0ms
+ × |core| assets/music/note.test.ts > songSeconds > sums note durations, counting rests as time that passes 1ms
+   → expected +0 to be close to 0.875, received difference is 0.875, but expected 5e-11
+ ✓ |core| assets/music/note.test.ts > songSeconds > takes no time when there are no notes 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |core| assets/music/note.test.ts > midiToFrequency > maps MIDI note 69 to concert A at 440Hz
+AssertionError: expected +0 to be close to 440, received difference is 440, but expected 5e-11
+ ❯ assets/music/note.test.ts:32:33
+     30|    */
+     31|   it('maps MIDI note 69 to concert A at 440Hz', () => {
+     32|     expect(midiToFrequency(69)).toBeCloseTo(440, 10);
+       |                                 ^
+     33|   });
+     34|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  |core| assets/music/note.test.ts > midiToFrequency > doubles the frequency one octave up
+AssertionError: expected +0 to be close to 880, received difference is 880, but expected 5e-11
+ ❯ assets/music/note.test.ts:44:33
+     42|    */
+     43|   it('doubles the frequency one octave up', () => {
+     44|     expect(midiToFrequency(81)).toBeCloseTo(880, 10);
+       |                                 ^
+     45|     expect(midiToFrequency(57)).toBeCloseTo(220, 10);
+     46|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  |core| assets/music/note.test.ts > midiToFrequency > maps MIDI note 60 to middle C
+AssertionError: expected +0 to be close to 261.6255653, received difference is 261.6255653, but expected 5e-7
+ ❯ assets/music/note.test.ts:64:33
+     62|    */
+     63|   it('maps MIDI note 60 to middle C', () => {
+     64|     expect(midiToFrequency(60)).toBeCloseTo(261.6255653, 6);
+       |                                 ^
+     65|   });
+     66| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  |core| assets/music/note.test.ts > sixteenthSeconds > gives an eighth of a second per sixteenth at 120 BPM
+AssertionError: expected +0 to be close to 0.125, received difference is 0.125, but expected 5e-11
+ ❯ assets/music/note.test.ts:79:35
+     77|    */
+     78|   it('gives an eighth of a second per sixteenth at 120 BPM', () => {
+     79|     expect(sixteenthSeconds(120)).toBeCloseTo(0.125, 10);
+       |                                   ^
+     80|   });
+     81|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  |core| assets/music/note.test.ts > songSeconds > sums note durations, counting rests as time that passes
+AssertionError: expected +0 to be close to 0.875, received difference is 0.875, but expected 5e-11
+ ❯ assets/music/note.test.ts:132:31
+    130|    */
+    131|   it('sums note durations, counting rests as time that passes', () => {
+    132|     expect(songSeconds(song)).toBeCloseTo(0.875, 10);
+       |                               ^
+    133|   });
+    134|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 2 passed (7)
+   Start at  21:24:37
+   Duration  242ms (transform 36ms, setup 56ms, import 18ms, tests 9ms, environment 0ms)
+

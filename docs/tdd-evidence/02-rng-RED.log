@@ -1,0 +1,98 @@
+
+> pacman-tdd@0.1.0 test /Users/ricardoarayafarias/GetReal/pacman
+> vitest run
+
+
+ RUN  v4.1.10 /Users/ricardoarayafarias/GetReal/pacman
+
+ ✓ |core| src/core/geometry/direction.test.ts (14 tests) 35ms
+ ❯ |core| src/core/rng/rng.test.ts (10 tests | 4 failed) 168ms
+       ✓ produces an identical sequence for the same seed 12ms
+       × produces a different sequence for a different seed 20ms
+       ✓ replays the same sequence for any seed 20ms
+       ✓ returns values within [0, 1) 51ms
+       × does not immediately repeat itself 11ms
+       ✓ returns integers within [0, maxExclusive) 17ms
+       ✓ always returns 0 when the range is 1 2ms
+       × reaches every value in a small range 6ms
+       × rejects a non-positive range rather than returning nonsense 10ms
+       ✓ is unaffected by how many other generators exist 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |core| src/core/rng/rng.test.ts > createRng > determinism > produces a different sequence for a different seed
+AssertionError: expected [ +0, +0, +0, +0, +0, +0, +0, …(43) ] to not deeply equal [ +0, +0, +0, +0, +0, +0, +0, …(43) ]
+
+Compared values have no visual difference.
+
+ ❯ src/core/rng/rng.test.ts:32:25
+     30|       const fromB = Array.from({ length: 50 }, () => b.next());
+     31|
+     32|       expect(fromA).not.toEqual(fromB);
+       |                         ^
+     33|     });
+     34|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  |core| src/core/rng/rng.test.ts > createRng > next > does not immediately repeat itself
+AssertionError: expected 1 to be greater than 190
+ ❯ src/core/rng/rng.test.ts:62:27
+     60|       /* A generator stuck on one value would still satisfy the range …
+     61|          above. This is what catches it. */
+     62|       expect(values.size).toBeGreaterThan(190);
+       |                           ^
+     63|     });
+     64|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  |core| src/core/rng/rng.test.ts > createRng > nextInt > reaches every value in a small range
+AssertionError: expected [ +0 ] to deeply equal [ +0, 1, 2, 3 ]
+
+- Expected
++ Received
+
+  [
+    0,
+-   1,
+-   2,
+-   3,
+  ]
+
+ ❯ src/core/rng/rng.test.ts:95:47
+     93|          that never returned 3 would bias movement in a way no range c…
+     94|          would notice. */
+     95|       expect([...seen].sort((a, b) => a - b)).toEqual([0, 1, 2, 3]);
+       |                                               ^
+     96|     });
+     97|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  |core| src/core/rng/rng.test.ts > createRng > nextInt > rejects a non-positive range rather than returning nonsense
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/core/rng/rng.test.ts:100:36
+     98|     it('rejects a non-positive range rather than returning nonsense', …
+     99|       const rng = createRng(1);
+    100|       expect(() => rng.nextInt(0)).toThrow(/positive/i);
+       |                                    ^
+    101|       expect(() => rng.nextInt(-5)).toThrow(/positive/i);
+    102|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  4 failed | 20 passed (24)
+   Start at  22:01:03
+   Duration  1.65s (transform 473ms, setup 562ms, import 359ms, tests 203ms, environment 0ms)
+
+ ELIFECYCLE  Test failed. See above for more details.

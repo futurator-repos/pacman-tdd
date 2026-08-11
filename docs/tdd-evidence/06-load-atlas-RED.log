@@ -1,0 +1,212 @@
+
+> pacman-tdd@0.1.0 test /Users/ricardoarayafarias/GetReal/pacman
+> vitest run
+
+
+ RUN  v4.1.10 /Users/ricardoarayafarias/GetReal/pacman
+
+ ✓ |core| assets/atlas.test.ts (16 tests) 57ms
+ ✓ |core| src/core/geometry/direction.test.ts (14 tests) 35ms
+ ✓ |core| src/core/rng/rng.test.ts (10 tests) 306ms
+ ✓ |dom| src/render/canvas-surface.test.ts (5 tests) 38ms
+ ❯ |dom| src/platform/load-atlas.test.ts (7 tests | 7 failed) 85ms
+     × returns the manifest and the image together 48ms
+     × reads the manifest and image from the given base path 3ms
+       × rejects a manifest that is not an object 6ms
+       × rejects a manifest with no frames 4ms
+       × rejects a frame that is missing a coordinate 2ms
+       × rejects non-numeric dimensions 3ms
+     × propagates a network failure rather than returning an empty atlas 7ms
+ ✓ |dom| src/render/render-scene.test.ts (7 tests) 33ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |dom| src/platform/load-atlas.test.ts > loadAtlas > returns the manifest and the image together
+AssertionError: expected { width: +0, height: +0, frames: {} } to deeply equal { width: 64, height: 16, …(1) }
+
+- Expected
++ Received
+
+  {
+-   "frames": {
+-     "pellet": {
+-       "h": 16,
+-       "w": 16,
+-       "x": 48,
+-       "y": 0,
+-     },
+-   },
+-   "height": 16,
+-   "width": 64,
++   "frames": {},
++   "height": 0,
++   "width": 0,
+  }
+
+ ❯ src/platform/load-atlas.test.ts:25:29
+     23|     const bundle = await loadAtlas(deps(), '/assets');
+     24|
+     25|     expect(bundle.manifest).toEqual(validManifest);
+       |                             ^
+     26|     expect(bundle.image).toBe(fakeImage);
+     27|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  |dom| src/platform/load-atlas.test.ts > loadAtlas > reads the manifest and image from the given base path
+AssertionError: expected "vi.fn()" to be called with arguments: [ '/assets/atlas.json' ]
+
+Number of calls: 0
+
+ ❯ src/platform/load-atlas.test.ts:34:25
+     32|     await loadAtlas(d, '/assets');
+     33|
+     34|     expect(d.fetchJson).toHaveBeenCalledWith('/assets/atlas.json');
+       |                         ^
+     35|     expect(d.loadImage).toHaveBeenCalledWith('/assets/atlas.png');
+     36|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  |dom| src/platform/load-atlas.test.ts > loadAtlas > validation > rejects a manifest that is not an object
+AssertionError: promise resolved "{ manifest: { width: +0, …(2) }, …(1) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "image": {},
++   "manifest": {
++     "frames": {},
++     "height": 0,
++     "width": 0,
++   },
+  }
+
+ ❯ src/platform/load-atlas.test.ts:47:44
+     45|       const d = deps({ fetchJson: vi.fn().mockResolvedValue('nonsense'…
+     46|
+     47|       await expect(loadAtlas(d, '/assets')).rejects.toThrow(/manifest/…
+       |                                            ^
+     48|     });
+     49|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  |dom| src/platform/load-atlas.test.ts > loadAtlas > validation > rejects a manifest with no frames
+AssertionError: promise resolved "{ manifest: { width: +0, …(2) }, …(1) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "image": {},
++   "manifest": {
++     "frames": {},
++     "height": 0,
++     "width": 0,
++   },
+  }
+
+ ❯ src/platform/load-atlas.test.ts:53:44
+     51|       const d = deps({ fetchJson: vi.fn().mockResolvedValue({ width: 1…
+     52|
+     53|       await expect(loadAtlas(d, '/assets')).rejects.toThrow(/frames/i);
+       |                                            ^
+     54|     });
+     55|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  |dom| src/platform/load-atlas.test.ts > loadAtlas > validation > rejects a frame that is missing a coordinate
+AssertionError: promise resolved "{ manifest: { width: +0, …(2) }, …(1) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "image": {},
++   "manifest": {
++     "frames": {},
++     "height": 0,
++     "width": 0,
++   },
+  }
+
+ ❯ src/platform/load-atlas.test.ts:65:44
+     63|       });
+     64|
+     65|       await expect(loadAtlas(d, '/assets')).rejects.toThrow(/pellet/);
+       |                                            ^
+     66|     });
+     67|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  |dom| src/platform/load-atlas.test.ts > loadAtlas > validation > rejects non-numeric dimensions
+AssertionError: promise resolved "{ manifest: { width: +0, …(2) }, …(1) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "image": {},
++   "manifest": {
++     "frames": {},
++     "height": 0,
++     "width": 0,
++   },
+  }
+
+ ❯ src/platform/load-atlas.test.ts:73:44
+     71|       });
+     72|
+     73|       await expect(loadAtlas(d, '/assets')).rejects.toThrow(/width/i);
+       |                                            ^
+     74|     });
+     75|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  |dom| src/platform/load-atlas.test.ts > loadAtlas > propagates a network failure rather than returning an empty atlas
+AssertionError: promise resolved "{ manifest: { width: +0, …(2) }, …(1) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "image": {},
++   "manifest": {
++     "frames": {},
++     "height": 0,
++     "width": 0,
++   },
+  }
+
+ ❯ src/platform/load-atlas.test.ts:80:42
+     78|     const d = deps({ fetchJson: vi.fn().mockRejectedValue(new Error('o…
+     79|
+     80|     await expect(loadAtlas(d, '/assets')).rejects.toThrow('offline');
+       |                                          ^
+     81|   });
+     82| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  7 failed | 52 passed (59)
+   Start at  22:28:02
+   Duration  4.25s (transform 1.25s, setup 1.19s, import 1.62s, tests 554ms, environment 8.76s)
+
+ ELIFECYCLE  Test failed. See above for more details.

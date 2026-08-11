@@ -1,0 +1,194 @@
+
+> pacman-tdd@0.1.0 test /Users/ricardoarayafarias/GetReal/pacman
+> vitest run
+
+
+ RUN  v4.1.10 /Users/ricardoarayafarias/GetReal/pacman
+
+ ✓ |core| assets/atlas.test.ts (16 tests) 36ms
+ ✓ |core| src/core/geometry/direction.test.ts (14 tests) 24ms
+ ❯ |core| assets/sprites.test.ts (14 tests | 11 failed) 43ms
+     × contains a Pac-Man frame for every direction and mouth position 7ms
+     × contains a closed Pac-Man, shared across directions 1ms
+     × contains two animation frames for every ghost in every direction 3ms
+     × contains frightened and flashing ghost frames 1ms
+     × contains eyes for every direction, for ghosts returning to the house 1ms
+     × contains the pellet, power pellet and fruit 1ms
+     × gives all four ghosts identical pixel data 3ms
+     × gives each ghost its own arcade colour 2ms
+     × derives left-facing Pac-Man as the mirror of right-facing 2ms
+     × derives exactly one ghost per entry in the colour table 10ms
+     ✓ is entirely valid 4ms
+     ✓ gives every sprite a unique name 1ms
+     ✓ compiles into an atlas with a frame for every sprite 2ms
+     × contains the full 52-sprite arcade set 2ms
+ ✓ |core| assets/transform.test.ts (14 tests) 50ms
+ ✓ |core| src/core/rng/rng.test.ts (10 tests) 93ms
+ ✓ |dom| src/platform/load-atlas.test.ts (7 tests) 23ms
+ ✓ |dom| src/render/canvas-surface.test.ts (5 tests) 17ms
+ ✓ |dom| src/render/render-scene.test.ts (7 tests) 11ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 11 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |core| assets/sprites.test.ts > the sprite roster > contains a Pac-Man frame for every direction and mouth position
+AssertionError: expected undefined to be defined
+ ❯ assets/sprites.test.ts:68:61
+     66|     for (const direction of DIRECTIONS) {
+     67|       for (const mouth of ['open', 'half']) {
+     68|         expect(spriteNamed(`pacman-${direction}-${mouth}`)).toBeDefine…
+       |                                                             ^
+     69|       }
+     70|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/11]⎯
+
+ FAIL  |core| assets/sprites.test.ts > the sprite roster > contains a closed Pac-Man, shared across directions
+AssertionError: expected undefined to be defined
+ ❯ assets/sprites.test.ts:77:42
+     75|        directions. Deriving four identical copies would waste atlas sp…
+     76|        invite them to drift apart. */
+     77|     expect(spriteNamed('pacman-closed')).toBeDefined();
+       |                                          ^
+     78|   });
+     79|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/11]⎯
+
+ FAIL  |core| assets/sprites.test.ts > the sprite roster > contains two animation frames for every ghost in every direction
+AssertionError: expected undefined to be defined
+ ❯ assets/sprites.test.ts:92:73
+     90|       for (const direction of DIRECTIONS) {
+     91|         for (const frame of [1, 2]) {
+     92|           expect(spriteNamed(`${ghost}-${direction}-${String(frame)}`)…
+       |                                                                         ^
+     93|         }
+     94|       }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/11]⎯
+
+ FAIL  |core| assets/sprites.test.ts > the sprite roster > contains frightened and flashing ghost frames
+AssertionError: expected undefined to be defined
+ ❯ assets/sprites.test.ts:102:41
+    100|        is about to expire. Without the flashing frames the player gets…
+    101|        warning, which changes how the game plays. */
+    102|     expect(spriteNamed('frightened-1')).toBeDefined();
+       |                                         ^
+    103|     expect(spriteNamed('frightened-2')).toBeDefined();
+    104|     expect(spriteNamed('flashing-1')).toBeDefined();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/11]⎯
+
+ FAIL  |core| assets/sprites.test.ts > the sprite roster > contains eyes for every direction, for ghosts returning to the house
+AssertionError: expected undefined to be defined
+ ❯ assets/sprites.test.ts:111:48
+    109|     expect.assertions(DIRECTIONS.length);
+    110|     for (const direction of DIRECTIONS) {
+    111|       expect(spriteNamed(`eyes-${direction}`)).toBeDefined();
+       |                                                ^
+    112|     }
+    113|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/11]⎯
+
+ FAIL  |core| assets/sprites.test.ts > the sprite roster > contains the pellet, power pellet and fruit
+AssertionError: expected undefined to be defined
+ ❯ assets/sprites.test.ts:116:35
+    114|
+    115|   it('contains the pellet, power pellet and fruit', () => {
+    116|     expect(spriteNamed('pellet')).toBeDefined();
+       |                                   ^
+    117|     expect(spriteNamed('power-pellet')).toBeDefined();
+    118|     expect(spriteNamed('cherry')).toBeDefined();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/11]⎯
+
+ FAIL  |core| assets/sprites.test.ts > derivation is real, not duplication > gives all four ghosts identical pixel data
+Error: No sprite named 'blinky-right-1' in the roster
+ ❯ requireSprite assets/sprites.test.ts:40:11
+     38|   const sprite = spriteNamed(name);
+     39|   if (sprite === undefined) {
+     40|     throw new Error(`No sprite named '${name}' in the roster`);
+       |           ^
+     41|   }
+     42|   return sprite;
+ ❯ assets/sprites.test.ts:141:23
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/11]⎯
+
+ FAIL  |core| assets/sprites.test.ts > derivation is real, not duplication > gives each ghost its own arcade colour
+Error: No sprite named 'blinky-right-1' in the roster
+ ❯ requireSprite assets/sprites.test.ts:40:11
+     38|   const sprite = spriteNamed(name);
+     39|   if (sprite === undefined) {
+     40|     throw new Error(`No sprite named '${name}' in the roster`);
+       |           ^
+     41|   }
+     42|   return sprite;
+ ❯ assets/sprites.test.ts:158:47
+ ❯ assets/sprites.test.ts:158:32
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/11]⎯
+
+ FAIL  |core| assets/sprites.test.ts > derivation is real, not duplication > derives left-facing Pac-Man as the mirror of right-facing
+Error: No sprite named 'pacman-right-open' in the roster
+ ❯ requireSprite assets/sprites.test.ts:40:11
+     38|   const sprite = spriteNamed(name);
+     39|   if (sprite === undefined) {
+     40|     throw new Error(`No sprite named '${name}' in the roster`);
+       |           ^
+     41|   }
+     42|   return sprite;
+ ❯ assets/sprites.test.ts:180:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/11]⎯
+
+ FAIL  |core| assets/sprites.test.ts > derivation is real, not duplication > derives exactly one ghost per entry in the colour table
+AssertionError: expected [] to deeply equal [ 'blinky', 'pinky', 'inky', 'clyde' ]
+
+- Expected
++ Received
+
+- [
+-   "blinky",
+-   "pinky",
+-   "inky",
+-   "clyde",
+- ]
++ []
+
+ ❯ assets/sprites.test.ts:196:40
+    194|    */
+    195|   it('derives exactly one ghost per entry in the colour table', () => {
+    196|     expect(Object.keys(GHOST_COLOURS)).toEqual([...GHOSTS]);
+       |                                        ^
+    197|   });
+    198| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/11]⎯
+
+ FAIL  |core| assets/sprites.test.ts > the roster as a whole > contains the full 52-sprite arcade set
+AssertionError: expected [ { …(3) }, { …(3) }, { …(3) }, …(1) ] to have a length of 52 but got 4
+
+- Expected
++ Received
+
+- 52
++ 4
+
+ ❯ assets/sprites.test.ts:266:21
+    264|    */
+    265|   it('contains the full 52-sprite arcade set', () => {
+    266|     expect(SPRITES).toHaveLength(52);
+       |                     ^
+    267|   });
+    268| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/11]⎯
+
+
+ Test Files  1 failed | 7 passed (8)
+      Tests  11 failed | 76 passed (87)
+   Start at  17:51:42
+   Duration  1.87s (transform 824ms, setup 647ms, import 939ms, tests 298ms, environment 3.63s)
+
+ ELIFECYCLE  Test failed. See above for more details.

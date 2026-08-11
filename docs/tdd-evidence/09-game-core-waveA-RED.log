@@ -1,0 +1,2494 @@
+
+ RUN  v4.1.10 /Users/ricardoarayafarias/GetReal/pacman
+
+ × |core| src/core/rules/level-table.test.ts > levelSpec > gives level 1 the arcade row: 80% pac-man, 75% ghosts, a 6-second fright and a 100-point cherry 27ms
+   → expected +0 to be 1 // Object.is equality
+ × |core| src/core/rules/level-table.test.ts > levelSpec > steps up at level 2: 90% pac-man, 85% ghosts, a 5-second fright and a 300-point strawberry 3ms
+   → expected +0 to be 2 // Object.is equality
+ × |core| src/core/rules/level-table.test.ts > levelSpec > reaches full speed at level 5: 100% pac-man, 95% ghosts, a 2-second fright and a 700-point apple 1ms
+   → expected +0 to be 5 // Object.is equality
+ × |core| src/core/rules/level-table.test.ts > levelSpec > uses level 21 for every level above it, and level 1 for level 0 and below 2ms
+   → expected +0 to be 21 // Object.is equality
+ × |core| src/core/rules/level-table.test.ts > levelSpec > has no fright at all from level 19 on, and none at level 17 either, while level 18 still has one second 3ms
+   → expected +0 to be 60 // Object.is equality
+ × |core| src/core/rules/level-table.test.ts > levelSpec > runs level 1 as scatter 7s, chase 20s, scatter 7s, chase 20s, scatter 5s, chase 20s, scatter 5s, then chase forever 12ms
+   → expected [] to deeply equal [ { mode: 'scatter', …(1) }, …(7) ]
+ × |core| src/core/geometry/tile-distance.test.ts > squaredDistance > is the sum of the squared column and row differences, in either argument order 27ms
+   → expected +0 to be 25 // Object.is equality
+ × |core| src/core/geometry/tile-distance.test.ts > squaredDistance > returns an exact integer even when the true distance is irrational 5ms
+   → expected +0 to be 5 // Object.is equality
+ × |core| src/core/geometry/tile-distance.test.ts > squaredDistance > makes eight tiles exactly 64, the literal boundary in Clyde's rule 4ms
+   → expected +0 to be 49 // Object.is equality
+ × |core| src/core/geometry/tile-distance.test.ts > squaredDistance > gives two equidistant tiles exactly the same value, which is what makes the tie-break deterministic 2ms
+   → expected +0 to be 25 // Object.is equality
+ × |core| src/core/geometry/tile-distance.test.ts > squaredDistance > is zero for a tile and itself, and greater than zero for any other tile 3ms
+   → expected +0 to be 1 // Object.is equality
+ × |core| src/core/geometry/tile-distance.test.ts > squaredDistance > strictly decreases as a ghost steps one tile closer to its target 17ms
+   → Property failed after 1 tests
+{ seed: -1434479991, path: "0:0", endOnFailure: true }
+Counterexample: [1]
+Shrunk 1 time(s)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+ ✓ |core| src/core/geometry/tile-distance.test.ts > squaredDistance > is symmetric for any pair of tiles, on or off the board 13ms
+ × |core| src/core/geometry/tile.test.ts > TILE_SIZE and centreOf > TILE_SIZE is 8 arcade pixels and centreOf({col:2,row:3}) is the pixel {x:20,y:28} 28ms
+   → expected +0 to be 8 // Object.is equality
+ × |core| src/core/geometry/tile.test.ts > tileAt > floors rather than truncates, so a pixel at x=-1 is column -1 and not column 0 11ms
+   → expected { col: +0, row: +0 } to deeply equal { col: -1, row: -1 }
+ × |core| src/core/geometry/tile.test.ts > tileAt > maps every pixel of a tile to that tile, and the next pixel to the next tile 8ms
+   → expected { col: +0, row: +0 } to deeply equal { col: 1, row: 1 }
+ × |core| src/core/geometry/tile.test.ts > tileAt > maps the centre pixel of any tile back to that same tile 16ms
+   → Property failed after 1 tests
+{ seed: -352695250, path: "0:0:1:0", endOnFailure: true }
+Counterexample: [0,1]
+Shrunk 3 time(s)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+ × |core| src/core/geometry/tile.test.ts > tileEquals > compares two tiles by value, not by reference 2ms
+   → expected false to be true // Object.is equality
+ ✓ |core| src/core/geometry/tile.test.ts > Tile as a type > is not interchangeable with Vector2, so a tile/pixel mix-up is a compile error 4ms
+ × |core| src/core/geometry/tile.test.ts > neighbour > steps exactly one tile in each direction, and up decreases the row 5ms
+   → expected +0 to be 4 // Object.is equality
+ × |core| src/core/rules/mode-schedule.test.ts > wavesForLevel > runs level 1 with two 7-second scatters and a 20-second sixth wave 30ms
+   → expected [] to deeply equal [ { mode: 'scatter', …(1) }, …(7) ]
+ × |core| src/core/rules/mode-schedule.test.ts > wavesForLevel > runs levels 2 to 4 with a 1033-second sixth wave followed by a single frame of scatter 3ms
+   → expected [] to deeply equal [ { mode: 'scatter', …(1) }, …(7) ]
+ × |core| src/core/rules/mode-schedule.test.ts > wavesForLevel > shortens the opening scatters to 5 seconds and stretches the sixth wave to 1037 seconds from level 5 on 3ms
+   → expected [] to deeply equal [ { mode: 'scatter', …(1) }, …(7) ]
+ × |core| src/core/rules/mode-schedule.test.ts > currentMode > reads the mode from the current wave, and answers the final endless chase past the end of the schedule 10ms
+   → expected 'scatter' to be 'chase' // Object.is equality
+ × |core| src/core/rules/mode-schedule.test.ts > advanceModes > requires a reversal on exactly the frame a wave changes, and on neither the frame before nor the frame after 3ms
+   → expected { waveIndex: +0, waveFrames: +0, …(1) } to deeply equal { waveIndex: +0, waveFrames: 2, …(1) }
+ × |core| src/core/rules/mode-schedule.test.ts > advanceModes > never flips or reverses while parked on the final endless chase 5ms
+   → expected { waveIndex: +0, waveFrames: +0, …(1) } to deeply equal { waveIndex: 3, waveFrames: 50, …(1) }
+ × |core| src/core/rules/mode-schedule.test.ts > advanceModes > advances the wave clock during normal play, freezes it completely while frightened, then resumes where it stopped 4ms
+   → expected { waveIndex: +0, waveFrames: +0, …(1) } to deeply equal { waveIndex: +0, waveFrames: 15, …(1) }
+ × |core| src/core/rules/mode-schedule.test.ts > advanceModes > reports frightened ended on the single frame the timer reaches zero, freezing that frame too, and never again 5ms
+   → expected false to be true // Object.is equality
+ × |core| src/core/maze/arcade-maze.test.ts > ARCADE_MAZE > pins the ghost spawns, house door, house centre and fruit tile to their documented coordinates 27ms
+   → expected { col: +0, row: +0 } to deeply equal { col: 13, row: 23 }
+ × |core| src/core/maze/arcade-maze.test.ts > ARCADE_MAZE > splits the 244 dots into 240 pellets and the 4 energizers at (1,3) (26,3) (1,23) (26,23) 4ms
+   → expected [] to have a length of 240 but got +0
+ × |core| src/core/maze/arcade-maze.test.ts > ARCADE_MAZE > forbids an upward turn on exactly the four no-up tiles (12,11) (15,11) (12,23) (15,23) 2ms
+   → expected false to be true // Object.is equality
+ × |core| src/core/maze/arcade-maze.test.ts > ARCADE_MAZE > runs its tunnel along row 14, open at both edges of the board 1ms
+   → expected -1 to be 14 // Object.is equality
+ × |core| src/core/maze/arcade-maze.test.ts > mazeForLevel > resolves every level to the one 28 by 31 board, built once 5ms
+   → expected +0 to be 28 // Object.is equality
+ × |core| src/core/maze/arcade-maze.test.ts > the playable board > reaches all 244 dots from Pac-Man spawn without crossing the house door 2ms
+   → expected +0 to be 244 // Object.is equality
+ × |core| src/core/maze/maze.test.ts > the maze grid > is 28 columns by 31 rows, matching the arcade playfield 26ms
+   → expected +0 to be 28 // Object.is equality
+ × |core| src/core/maze/maze.test.ts > kindAt > returns the declared kind for an in-bounds tile and Wall for any tile off the grid 4ms
+   → expected 'wall' to be 'open' // Object.is equality
+ × |core| src/core/maze/maze.test.ts > isWalkable > lets an actor through the ghost-house door only when mayPassDoor is true 1ms
+   → expected false to be true // Object.is equality
+ × |core| src/core/maze/maze.test.ts > isWalkable > accepts open, tunnel and house floor, and never accepts a wall 1ms
+   → expected false to be true // Object.is equality
+ × |core| src/core/maze/maze.test.ts > walkableNeighbours > returns candidates in ALL_DIRECTIONS order: up, left, down, right 17ms
+   → expected [] to deeply equal [ 'up', 'left', 'down', 'right' ]
+ × |core| src/core/maze/maze.test.ts > walkableNeighbours > offers the ghost-house door as an exit only to an actor that may pass it 1ms
+   → expected [] to deeply equal [ 'down' ]
+ × |core| src/core/maze/maze.test.ts > wrapPosition > warps only on the tunnel row, and the two mouths are exact mirror images 3ms
+   → expected { x: +0, y: +0 } to deeply equal { x: 223, y: 116 }
+ ✓ |core| src/core/maze/maze.test.ts > wrapPosition > leaves an already-wrapped position alone, however far it overshot 78ms
+ × |core| src/core/ghost/targeting/target-for.test.ts > targetFor > returns the ghost's own scatter corner in scatter mode, ignoring pac-man 28ms
+   → expected { col: +0, row: +0 } to deeply equal { col: 25, row: +0 }
+ × |core| src/core/ghost/targeting/target-for.test.ts > targetFor > sends eyes to the house door whatever the mode or the personality 7ms
+   → expected { col: +0, row: +0 } to deeply equal { col: 21, row: 5 }
+ × |core| src/core/ghost/targeting/target-for.test.ts > targetFor > delegates to the personality when a ghost is hunting in chase mode 2ms
+   → expected { col: +0, row: +0 } to deeply equal { col: 7, row: 20 }
+ × |core| src/core/actor/actor.test.ts > Actor > divides each pixel into 256 sub-pixels 13ms
+   → expected +0 to be 256 // Object.is equality
+ × |core| src/core/actor/actor.test.ts > Actor > tileOf > maps a pixel to the tile containing it, flooring across zero 84ms
+   → expected { col: +0, row: +0 } to deeply equal { col: 2, row: 3 }
+ ✓ |core| src/core/testing/tiny-maze.test.ts > the tiny maze fixtures > each parses as a legal maze 4ms
+ × |core| src/core/testing/tiny-maze.test.ts > the tiny maze fixtures > the corridor gives an interior tile exactly two exits, left and right 35ms
+   → expected [] to deeply equal [ { direction: 'left', …(1) }, …(1) ]
+ × |core| src/core/testing/tiny-maze.test.ts > the tiny maze fixtures > the crossroads gives its junction all four exits 2ms
+   → expected [] to deeply equal [ 'up', 'left', 'down', 'right' ]
+ × |core| src/core/testing/tiny-maze.test.ts > the tiny maze fixtures > the dead end leaves only the way back 5ms
+   → expected [] to deeply equal [ { direction: 'left', …(1) } ]
+ × |core| src/core/testing/scripted-rng.test.ts > createScriptedRng > returns its scripted values in order, one per draw 57ms
+   → expected [ +0, +0, +0 ] to deeply equal [ 0.5, 0.25, 0.75 ]
+ × |core| src/core/testing/scripted-rng.test.ts > createScriptedRng > throws when the script is exhausted, so a silent extra draw fails loudly 5ms
+   → expected +0 to be 0.5 // Object.is equality
+ × |core| src/core/testing/scripted-rng.test.ts > createScriptedRng > maps a scripted value into [0, maxExclusive) exactly as the real Rng does 36ms
+   → expected [ +0, +0, +0, +0, +0 ] to deeply equal [ +0, 1, 2, 3, 3 ]
+ × |core| src/core/testing/scripted-rng.test.ts > createScriptedRng > draws next and nextInt from one shared stream, in call order 2ms
+   → expected +0 to be 0.5 // Object.is equality
+ × |core| src/core/testing/scripted-rng.test.ts > createScriptedRng > rejects a script value outside [0, 1) when it is created, not when it is drawn 4ms
+   → expected [Function] to throw an error
+ × |core| src/core/testing/scripted-rng.test.ts > createScriptedRng > rejects a non-positive range exactly as the real Rng does, without consuming a draw 3ms
+   → expected [Function] to throw an error
+ ✓ |core| src/core/testing/scripted-rng.test.ts > createScriptedRng > does not consume or otherwise mutate the array it was given 1ms
+ × |core| src/core/actor/actor.test.ts > Actor > isAtTileCentre > is true only on the exact centre pixel of the tile 3ms
+   → expected false to be true // Object.is equality
+ × |core| src/core/actor/actor.test.ts > Actor > isAtTileCentre > is true on the centre of a tile far from the origin 18ms
+   → expected false to be true // Object.is equality
+ × |core| src/core/actor/move-actor.test.ts > moveActor > sub-pixel carry > moves a whole pixel on exactly the frame the banked carry reaches 256 92ms
+   → expected +0 to be 128 // Object.is equality
+ × |core| src/core/actor/move-actor.test.ts > moveActor > sub-pixel carry > is at an exactly predicted pixel after 600 frames at a fractional speed, with no drift 4ms
+   → expected { x: 12, y: 12 } to deeply equal { x: 492, y: 12 }
+ ✓ |core| src/core/actor/move-actor.test.ts > moveActor > sub-pixel carry > keeps the carry in [0, 256) after any sequence of speeds 172ms
+ × |core| src/core/actor/move-actor.test.ts > moveActor > walls > stops flush on the last tile centre before a wall, keeps facing and reports blocked 16ms
+   → expected { x: 12, y: 12 } to deeply equal { x: 28, y: 12 }
+ ✓ |core| src/core/actor/move-actor.test.ts > moveActor > walls > never leaves the actor inside a wall, whatever the directions and speeds 549ms
+ × |core| src/core/actor/move-actor.test.ts > moveActor > turning > takes a queued turn at the junction centre and never overshoots it 1ms
+   → expected 12 to be 20 // Object.is equality
+ × |core| src/core/actor/move-actor.test.ts > moveActor > turning > holds a queued direction until the first junction that allows it, however long that takes 6ms
+   → expected { x: 17, y: 20 } to deeply equal { x: 20, y: 15 }
+ × |core| src/core/actor/move-actor.test.ts > moveActor > turning > reverses immediately mid-corridor, without waiting for a tile centre 20ms
+   → expected { x: 17, y: 12 } to deeply equal { x: 16, y: 12 }
+ × |core| src/core/actor/move-actor.test.ts > moveActor > turning > turns at the tile centre it passed through, even at two and a half pixels per frame 2ms
+   → expected { x: 12, y: 20 } to deeply equal { x: 20, y: 18 }
+ × |core| src/core/actor/move-actor.test.ts > moveActor > reporting and wrapping > reports the tile newly entered, and null on every frame that stays put 1ms
+   → expected null to deeply equal { col: 2, row: 1 }
+ × |core| src/core/actor/move-actor.test.ts > moveActor > reporting and wrapping > wraps across the tunnel edge with the sub-pixel carry preserved 5ms
+   → expected { x: +0, y: 12 } to deeply equal { x: 63, y: 12 }
+ × |core| src/core/maze/classic-layout.test.ts > CLASSIC_LAYOUT > is exactly 28 columns by 31 rows, the original arcade playfield 19ms
+   → expected [] to have a length of 31 but got +0
+ × |core| src/core/maze/classic-layout.test.ts > CLASSIC_LAYOUT > holds exactly 240 dots and 4 energizers, the arcade total of 244 per level 46ms
+   → expected +0 to be 240 // Object.is equality
+ × |core| src/core/maze/classic-layout.test.ts > CLASSIC_LAYOUT > places the four energizers at the arcade coordinates (1,3) (26,3) (1,23) (26,23) 28ms
+   → expected [] to deeply equal [ { col: 1, row: 3 }, …(3) ]
+ × |core| src/core/actor/speed.test.ts > speed > full speed is 320 sub-pixels per frame, which is one and a quarter pixels per frame 74ms
+   → expected +0 to be 320 // Object.is equality
+ × |core| src/core/actor/speed.test.ts > speed > converts the documented level-1 percentages into whole sub-pixels per frame 16ms
+   → expected +0 to be 256 // Object.is equality
+ ✓ |core| src/core/maze/classic-layout.test.ts > CLASSIC_LAYOUT > is left/right symmetric about the vertical centre line in its walls and its dots 3ms
+ ✓ |core| src/core/actor/speed.test.ts > speed > returns a stable integer for every fraction in the arcade level table 15ms
+ ✓ |core| src/core/actor/speed.test.ts > speed > converts a zero speed to a zero step, because a frozen actor really does not move 1ms
+ × |core| src/core/time/frame-clock.test.ts > FRAME_MS > is one sixtieth of a second, not the 16 ms that "60 fps" tempts you into 22ms
+   → expected +0 to be 16.666666666666668 // Object.is equality
+ × |core| src/core/time/frame-clock.test.ts > advanceClock > yields no frame for a delta shorter than one frame, and banks it 4ms
+   → expected { frames: +0, remainderMs: +0, …(1) } to deeply equal { frames: +0, remainderMs: 16, …(1) }
+ × |core| src/core/time/frame-clock.test.ts > advanceClock > accumulates sub-frame deltas across calls until a whole frame is due 3ms
+   → expected { frames: +0, remainderMs: +0, …(1) } to deeply equal { frames: +0, remainderMs: 6, …(1) }
+ × |core| src/core/time/frame-clock.test.ts > advanceClock > yields exactly three frames and no remainder for exactly three frames of time 2ms
+   → expected { frames: +0, remainderMs: +0, …(1) } to deeply equal { frames: 3, remainderMs: +0, …(1) }
+ × |core| src/core/time/frame-clock.test.ts > advanceClock > clamps a long stall to five frames, reports the clamp, and forgives the rest 1ms
+   → expected +0 to be 5 // Object.is equality
+ × |core| src/core/time/frame-clock.test.ts > advanceClock > treats a negative delta as zero rather than rewinding the game 2ms
+   → expected { frames: +0, remainderMs: +0, …(1) } to deeply equal { frames: +0, remainderMs: 10, …(1) }
+ × |core| src/core/time/frame-clock.test.ts > advanceClock > treats a NaN delta as zero rather than poisoning the banked time 1ms
+   → expected { frames: +0, remainderMs: +0, …(1) } to deeply equal { frames: +0, remainderMs: 10, …(1) }
+ × |core| src/core/ghost/targeting/scatter-corners.test.ts > SCATTER_CORNERS > are the four arcade corners, keyed by ghost 32ms
+   → expected { blinky: { col: +0, row: +0 }, …(3) } to deeply equal { blinky: { col: 25, row: +0 }, …(3) }
+ ✓ |core| src/core/ghost/targeting/scatter-corners.test.ts > SCATTER_CORNERS > all sit outside the walkable maze, so no ghost can ever arrive at one 10ms
+ × |core| src/core/ghost/targeting/clyde.test.ts > clydeTarget > chases pac-man's tile when he is further than eight tiles away 15ms
+   → expected { col: +0, row: +0 } to deeply equal { col: 10, row: 10 }
+ × |core| src/core/ghost/targeting/clyde.test.ts > clydeTarget > retreats to his scatter corner at exactly eight tiles, the boundary itself 6ms
+   → expected { col: +0, row: +0 } to deeply equal { col: +0, row: 30 }
+ × |core| src/core/ghost/targeting/clyde.test.ts > clydeTarget > retreats to his scatter corner when he is nearer than eight tiles 2ms
+   → expected { col: +0, row: +0 } to deeply equal { col: +0, row: 30 }
+ × |core| src/core/ghost/targeting/clyde.test.ts > clydeTarget > measures the radius over both axes, so a column gap and a city block are not distances 2ms
+   → expected { col: +0, row: +0 } to deeply equal { col: 10, row: 10 }
+ × |core| src/core/ghost/targeting/inky.test.ts > inkyTarget > doubles the vector from blinky through the tile two ahead of pac-man 17ms
+   → expected { col: +0, row: +0 } to deeply equal { col: 18, row: 12 }
+ × |core| src/core/ghost/targeting/inky.test.ts > inkyTarget > inherits the up-overflow in its pivot: facing up, the pivot is two up and two left 3ms
+   → expected { col: +0, row: +0 } to deeply equal { col: 6, row: 8 }
+ × |core| src/core/ghost/targeting/inky.test.ts > inkyTarget > returns an off-board target unclamped, because the arcade never clamps one 15ms
+   → expected { col: +0, row: +0 } to deeply equal { col: -20, row: -14 }
+ × |core| src/core/ghost/ghost-id.test.ts > GhostId > is ordered blinky, pinky, inky, clyde — release, collision, Rng and draw order all at once 12ms
+   → expected [] to deeply equal [ 'blinky', 'pinky', 'inky', 'clyde' ]
+ × |core| src/core/ghost/ghost-id.test.ts > GhostId > lists each of the four ghosts exactly once 4ms
+   → expected [] to have a length of 1 but got +0
+ × |core| src/core/maze/parse-maze.test.ts > parseMaze > rejects a row that is not the declared width, naming the offending row 21ms
+   → expected [Function] to throw an error
+ × |core| src/core/maze/parse-maze.test.ts > parseMaze > rejects an unknown legend character instead of treating it as open floor 8ms
+   → expected [Function] to throw an error
+ × |core| src/core/maze/parse-maze.test.ts > parseMaze > rejects a layout with no ghost-house door 31ms
+   → expected [Function] to throw an error
+ × |core| src/core/maze/parse-maze.test.ts > parseMaze > rejects a layout with no Pac-Man spawn 1ms
+   → expected [Function] to throw an error
+ × |core| src/core/maze/parse-maze.test.ts > renderMaze > renders a parsed maze back to the exact ASCII it was parsed from 6ms
+   → expected [] to have a length of 31 but got +0
+ × |core| src/core/ghost/targeting/pinky.test.ts > pinkyTarget > targets four tiles ahead of pac-man when pac-man faces left, right or down 50ms
+   → expected { col: +0, row: +0 } to deeply equal { col: 14, row: 12 }
+ × |core| src/core/ghost/targeting/pinky.test.ts > pinkyTarget > targets four up AND four left when pac-man faces up, reproducing the original hardware overflow 5ms
+   → expected { col: +0, row: +0 } to deeply equal { col: 6, row: 8 }
+ × |core| src/core/ghost/ghost.test.ts > isFrightened > is true for a ghost still inside the house, because fright is a timer and not a phase 136ms
+   → expected false to be true // Object.is equality
+ × |core| src/core/ghost/ghost.test.ts > isFrightened > is true in every phase while the timer is running 50ms
+   → expected false to be true // Object.is equality
+ ✓ |core| src/core/ghost/ghost.test.ts > isFrightened > is false on the frame the timer reaches zero 12ms
+ ✓ |core| src/core/ghost/ghost.test.ts > GhostPhase > has five phases and no frightened phase, because fright is a timer 2ms
+ ✓ |core| src/core/rng/rng.test.ts > createRng > determinism > produces an identical sequence for the same seed 6ms
+ ✓ |core| src/core/rng/rng.test.ts > createRng > determinism > produces a different sequence for a different seed 29ms
+ × |core| src/core/ghost/targeting/blinky.test.ts > blinkyTarget > targets pac-man's tile exactly, whichever way pac-man is facing 80ms
+   → expected { col: +0, row: +0 } to deeply equal { col: 21, row: 23 }
+ ✓ |core| src/core/rng/rng.test.ts > createRng > determinism > replays the same sequence for any seed 201ms
+ ✓ |core| src/core/rng/rng.test.ts > createRng > next > returns values within [0, 1) 65ms
+ ✓ |core| src/core/rng/rng.test.ts > createRng > next > does not immediately repeat itself 2ms
+ ✓ |core| src/core/rng/rng.test.ts > createRng > nextInt > returns integers within [0, maxExclusive) 10ms
+ ✓ |core| src/core/rng/rng.test.ts > createRng > nextInt > always returns 0 when the range is 1 128ms
+ ✓ |core| src/core/rng/rng.test.ts > createRng > nextInt > reaches every value in a small range 1ms
+ ✓ |core| src/core/rng/rng.test.ts > createRng > nextInt > rejects a non-positive range rather than returning nonsense 2ms
+ ✓ |core| src/core/rng/rng.test.ts > createRng > independence from ambient state > is unaffected by how many other generators exist 0ms
+ ✓ |core| assets/sprites.test.ts > the sprite roster > contains a Pac-Man frame for every direction and mouth position 5ms
+ ✓ |core| assets/sprites.test.ts > the sprite roster > contains a closed Pac-Man, shared across directions 1ms
+ ✓ |core| assets/sprites.test.ts > the sprite roster > contains two animation frames for every ghost in every direction 3ms
+ ✓ |core| assets/sprites.test.ts > the sprite roster > contains frightened and flashing ghost frames 3ms
+ ✓ |core| assets/sprites.test.ts > the sprite roster > contains eyes for every direction, for ghosts returning to the house 1ms
+ ✓ |core| assets/sprites.test.ts > the sprite roster > contains the pellet, power pellet and fruit 1ms
+ ✓ |core| assets/sprites.test.ts > derivation is real, not duplication > gives all four ghosts identical pixel data 4ms
+ ✓ |core| assets/sprites.test.ts > derivation is real, not duplication > gives each ghost its own arcade colour 1ms
+ ✓ |core| assets/sprites.test.ts > derivation is real, not duplication > derives left-facing Pac-Man as the mirror of right-facing 16ms
+ ✓ |core| assets/sprites.test.ts > derivation is real, not duplication > derives exactly one ghost per entry in the colour table 8ms
+ ✓ |core| assets/atlas.test.ts > validateSprite > accepts a well-formed 16x16 sprite 3ms
+ ✓ |core| assets/atlas.test.ts > validateSprite > rejects a sprite with the wrong number of rows 1ms
+ ✓ |core| assets/atlas.test.ts > validateSprite > rejects a row of the wrong width 1ms
+ ✓ |core| assets/atlas.test.ts > validateSprite > rejects a pixel character that is missing from the palette 1ms
+ ✓ |core| assets/atlas.test.ts > buildAtlas > places every sprite in the manifest 12ms
+ ✓ |core| assets/atlas.test.ts > buildAtlas > lays sprites out left to right without overlapping 24ms
+ ✓ |core| assets/atlas.test.ts > buildAtlas > reports an atlas wide enough to hold every sprite 9ms
+ ✓ |core| assets/atlas.test.ts > buildAtlas > produces RGBA pixel data sized to the atlas 1ms
+ ✓ |core| assets/atlas.test.ts > buildAtlas > writes an opaque pixel where the palette gives a colour 2ms
+ ✓ |core| assets/atlas.test.ts > buildAtlas > writes a fully transparent pixel where the palette gives null 3ms
+ ✓ |core| assets/atlas.test.ts > buildAtlas > rejects two sprites sharing a name, rather than silently dropping one 1ms
+ ✓ |core| assets/atlas.test.ts > buildAtlas > rejects an empty sprite list 8ms
+ ✓ |core| assets/atlas.test.ts > the committed sprite set > contains at least one sprite 0ms
+ ✓ |core| assets/atlas.test.ts > the committed sprite set > is entirely valid 12ms
+ ✓ |core| assets/atlas.test.ts > the committed sprite set > uses the arcade yellow for pac-man 0ms
+ ✓ |core| assets/atlas.test.ts > the committed sprite set > gives every sprite a unique name 0ms
+ ✓ |core| assets/sprites.test.ts > the roster as a whole > is entirely valid 45ms
+ ✓ |core| assets/sprites.test.ts > the roster as a whole > gives every sprite a unique name 0ms
+ ✓ |core| assets/sprites.test.ts > the roster as a whole > compiles into an atlas with a frame for every sprite 58ms
+ ✓ |core| assets/sprites.test.ts > the roster as a whole > contains the full 52-sprite arcade set 2ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > toUnitVector > maps up to negative y, because screen y grows downward 4ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > toUnitVector > maps down to positive y 1ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > toUnitVector > maps left to negative x 1ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > toUnitVector > maps right to positive x 1ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > toUnitVector > returns unit vectors for every direction 3ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > opposite > reverses up to down 1ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > opposite > reverses left to right 0ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > opposite > is its own inverse for every direction 1ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > opposite > never returns the direction it was given 2ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > isOpposite > is true for a direction and its reverse 0ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > isOpposite > is false for perpendicular directions 0ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > isOpposite > is false for the same direction 0ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > ALL_DIRECTIONS > contains exactly the four cardinal directions 0ms
+ ✓ |core| src/core/geometry/direction.test.ts > Direction > ALL_DIRECTIONS > is ordered up, left, down, right to match arcade tie-breaking 1ms
+ ✓ |core| assets/transform.test.ts > rotateClockwise > moves the top-left pixel to the top-right 3ms
+ ✓ |core| assets/transform.test.ts > rotateClockwise > moves the pixel right of the corner to below the corner 1ms
+ ✓ |core| assets/transform.test.ts > rotateClockwise > returns to the original after four quarter turns 2ms
+ ✓ |core| assets/transform.test.ts > rotateClockwise > preserves the 16x16 shape 7ms
+ ✓ |core| assets/transform.test.ts > rotateClockwise > does not mutate its input 1ms
+ ✓ |core| assets/transform.test.ts > rotateClockwise > takes a new name for the derived sprite 0ms
+ ✓ |core| assets/transform.test.ts > mirrorHorizontal > reverses each row 1ms
+ ✓ |core| assets/transform.test.ts > mirrorHorizontal > returns to the original when applied twice 0ms
+ ✓ |core| assets/transform.test.ts > mirrorHorizontal > does not mutate its input 1ms
+ ✓ |core| assets/transform.test.ts > recolour > replaces the colour of a palette entry 0ms
+ ✓ |core| assets/transform.test.ts > recolour > leaves other palette entries untouched 0ms
+ ✓ |core| assets/transform.test.ts > recolour > does not change the pixels 0ms
+ ✓ |core| assets/transform.test.ts > recolour > rejects recolouring a key that is not in the palette 1ms
+ ✓ |core| assets/transform.test.ts > recolour > does not mutate its input 1ms
+ ✓ |dom| src/render/render-scene.test.ts > renderScene > clears the surface before drawing anything 3ms
+ ✓ |dom| src/render/render-scene.test.ts > renderScene > clears even when there is nothing to draw 1ms
+ ✓ |dom| src/render/render-scene.test.ts > renderScene > draws every sprite in the scene 1ms
+ ✓ |dom| src/render/render-scene.test.ts > renderScene > draws sprites in array order, so the array is the z-order 1ms
+ ✓ |dom| src/render/render-scene.test.ts > renderScene > pixel snapping > snaps fractional positions to whole pixels 1ms
+ ✓ |dom| src/render/render-scene.test.ts > renderScene > pixel snapping > snaps negative fractional positions consistently 1ms
+ ✓ |dom| src/render/render-scene.test.ts > renderScene > does not mutate the scene it was given 1ms
+ ✓ |dom| src/platform/load-atlas.test.ts > loadAtlas > returns the manifest and the image together 5ms
+ ✓ |dom| src/platform/load-atlas.test.ts > loadAtlas > reads the manifest and image from the given base path 3ms
+ ✓ |dom| src/platform/load-atlas.test.ts > loadAtlas > validation > rejects a manifest that is not an object 2ms
+ ✓ |dom| src/platform/load-atlas.test.ts > loadAtlas > validation > rejects a manifest with no frames 1ms
+ ✓ |dom| src/platform/load-atlas.test.ts > loadAtlas > validation > rejects a frame that is missing a coordinate 1ms
+ ✓ |dom| src/platform/load-atlas.test.ts > loadAtlas > validation > rejects non-numeric dimensions 1ms
+ ✓ |dom| src/platform/load-atlas.test.ts > loadAtlas > propagates a network failure rather than returning an empty atlas 1ms
+ ✓ |dom| src/render/canvas-surface.test.ts > createCanvasSurface > disables image smoothing so pixel art stays sharp 6ms
+ ✓ |dom| src/render/canvas-surface.test.ts > createCanvasSurface > clears the whole canvas 3ms
+ ✓ |dom| src/render/canvas-surface.test.ts > createCanvasSurface > draws the correct atlas region for a named sprite 2ms
+ ✓ |dom| src/render/canvas-surface.test.ts > createCanvasSurface > draws a different region for a different sprite 3ms
+ ✓ |dom| src/render/canvas-surface.test.ts > createCanvasSurface > throws on an unknown sprite name rather than drawing nothing 6ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 96 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |core| src/core/geometry/tile-distance.test.ts > squaredDistance > is the sum of the squared column and row differences, in either argument order
+AssertionError: expected +0 to be 25 // Object.is equality
+
+- Expected
++ Received
+
+- 25
++ 0
+
+ ❯ src/core/geometry/tile-distance.test.ts:45:35
+     43|     const b: Tile = { col: 13, row: 14 };
+     44|
+     45|     expect(squaredDistance(a, b)).toBe(25);
+       |                                   ^
+     46|     expect(squaredDistance(b, a)).toBe(25);
+     47|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/96]⎯
+
+ FAIL  |core| src/core/geometry/tile-distance.test.ts > squaredDistance > returns an exact integer even when the true distance is irrational
+AssertionError: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ src/core/geometry/tile-distance.test.ts:70:22
+     68|     const distance = squaredDistance({ col: 0, row: 0 }, { col: 1, row…
+     69|
+     70|     expect(distance).toBe(5);
+       |                      ^
+     71|     expect(Number.isInteger(distance)).toBe(true);
+     72|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/96]⎯
+
+ FAIL  |core| src/core/geometry/tile-distance.test.ts > squaredDistance > makes eight tiles exactly 64, the literal boundary in Clyde's rule
+AssertionError: expected +0 to be 49 // Object.is equality
+
+- Expected
++ Received
+
+- 49
++ 0
+
+ ❯ src/core/geometry/tile-distance.test.ts:93:58
+     91|     const clyde: Tile = { col: 10, row: 20 };
+     92|
+     93|     expect(squaredDistance(clyde, { col: 17, row: 20 })).toBe(49);
+       |                                                          ^
+     94|     expect(squaredDistance(clyde, { col: 18, row: 20 })).toBe(64);
+     95|     expect(squaredDistance(clyde, { col: 19, row: 20 })).toBe(81);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/96]⎯
+
+ FAIL  |core| src/core/geometry/tile-distance.test.ts > squaredDistance > gives two equidistant tiles exactly the same value, which is what makes the tie-break deterministic
+AssertionError: expected +0 to be 25 // Object.is equality
+
+- Expected
++ Received
+
+- 25
++ 0
+
+ ❯ src/core/geometry/tile-distance.test.ts:122:20
+    120|     const otherWay = squaredDistance({ col: 6, row: 7 }, target);
+    121|
+    122|     expect(oneWay).toBe(25);
+       |                    ^
+    123|     expect(otherWay).toBe(25);
+    124|     expect(oneWay).toBe(otherWay);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/96]⎯
+
+ FAIL  |core| src/core/geometry/tile-distance.test.ts > squaredDistance > is zero for a tile and itself, and greater than zero for any other tile
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/core/geometry/tile-distance.test.ts:147:55
+    145|
+    146|     expect(squaredDistance(tile, tile)).toBe(0);
+    147|     expect(squaredDistance(tile, { col: 4, row: 8 })).toBe(1);
+       |                                                       ^
+    148|   });
+    149|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/96]⎯
+
+ FAIL  |core| src/core/geometry/tile-distance.test.ts > squaredDistance > strictly decreases as a ghost steps one tile closer to its target
+Error: Property failed after 1 tests
+{ seed: -1434479991, path: "0:0", endOnFailure: true }
+Counterexample: [1]
+Shrunk 1 time(s)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+ ❯ src/core/geometry/tile-distance.test.ts:171:8
+    169|     const target: Tile = { col: 0, row: 0 };
+    170|
+    171|     fc.assert(
+       |        ^
+    172|       fc.property(fc.integer({ min: 1, max: 27 }), (gap) => {
+    173|         const further = squaredDistance({ col: gap, row: 0 }, target);
+
+Caused by: AssertionError: expected 0 to be greater than 0
+ ❯ src/core/geometry/tile-distance.test.ts:175:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/96]⎯
+
+ FAIL  |core| src/core/geometry/tile.test.ts > TILE_SIZE and centreOf > TILE_SIZE is 8 arcade pixels and centreOf({col:2,row:3}) is the pixel {x:20,y:28}
+AssertionError: expected +0 to be 8 // Object.is equality
+
+- Expected
++ Received
+
+- 8
++ 0
+
+ ❯ src/core/geometry/tile.test.ts:51:23
+     49|    */
+     50|   it('TILE_SIZE is 8 arcade pixels and centreOf({col:2,row:3}) is the …
+     51|     expect(TILE_SIZE).toBe(8);
+       |                       ^
+     52|     expect(centreOf({ col: 2, row: 3 })).toEqual({ x: 20, y: 28 });
+     53|     /* The origin tile too: half of 8 is 4, not 0 and not 8. */
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/96]⎯
+
+ FAIL  |core| src/core/geometry/tile.test.ts > tileAt > floors rather than truncates, so a pixel at x=-1 is column -1 and not column 0
+AssertionError: expected { col: +0, row: +0 } to deeply equal { col: -1, row: -1 }
+
+- Expected
++ Received
+
+  {
+-   "col": -1,
+-   "row": -1,
++   "col": 0,
++   "row": 0,
+  }
+
+ ❯ src/core/geometry/tile.test.ts:76:38
+     74|    */
+     75|   it('floors rather than truncates, so a pixel at x=-1 is column -1 an…
+     76|     expect(tileAt({ x: -1, y: -1 })).toEqual({ col: -1, row: -1 });
+       |                                      ^
+     77|     expect(tileAt({ x: -8, y: -8 })).toEqual({ col: -1, row: -1 });
+     78|     expect(tileAt({ x: -9, y: -9 })).toEqual({ col: -2, row: -2 });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/96]⎯
+
+ FAIL  |core| src/core/geometry/tile.test.ts > tileAt > maps every pixel of a tile to that tile, and the next pixel to the next tile
+AssertionError: expected { col: +0, row: +0 } to deeply equal { col: 1, row: 1 }
+
+- Expected
++ Received
+
+  {
+-   "col": 1,
+-   "row": 1,
++   "col": 0,
++   "row": 0,
+  }
+
+ ❯ src/core/geometry/tile.test.ts:101:36
+     99|     expect(tileAt({ x: 0, y: 0 })).toEqual({ col: 0, row: 0 });
+    100|     expect(tileAt({ x: 7, y: 7 })).toEqual({ col: 0, row: 0 });
+    101|     expect(tileAt({ x: 8, y: 8 })).toEqual({ col: 1, row: 1 });
+       |                                    ^
+    102|     /* The bottom-right tile of the arcade board: 27*8+7 = 223, 30*8+7…
+    103|     expect(tileAt({ x: 223, y: 247 })).toEqual({ col: 27, row: 30 });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/96]⎯
+
+ FAIL  |core| src/core/geometry/tile.test.ts > tileAt > maps the centre pixel of any tile back to that same tile
+Error: Property failed after 1 tests
+{ seed: -352695250, path: "0:0:1:0", endOnFailure: true }
+Counterexample: [0,1]
+Shrunk 3 time(s)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+ ❯ src/core/geometry/tile.test.ts:127:8
+    125|    */
+    126|   it('maps the centre pixel of any tile back to that same tile', () =>…
+    127|     fc.assert(
+       |        ^
+    128|       fc.property(
+    129|         fc.integer({ min: 0, max: MAZE_COLUMNS - 1 }),
+
+Caused by: AssertionError: expected { col: +0, row: +0 } to deeply equal { col: +0, row: 1 }
+
+- Expected
++ Received
+
+  {
+    "col": 0,
+-   "row": 1,
++   "row": 0,
+  }
+
+ ❯ src/core/geometry/tile.test.ts:133:42
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/96]⎯
+
+ FAIL  |core| src/core/geometry/tile.test.ts > tileEquals > compares two tiles by value, not by reference
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/core/geometry/tile.test.ts:164:40
+    162|        nothing about structural equality. */
+    163|     expect(pacman).not.toBe(blinky);
+    164|     expect(tileEquals(pacman, blinky)).toBe(true);
+       |                                        ^
+    165|     expect(tileEquals(pacman, { col: 13, row: 24 })).toBe(false);
+    166|     expect(tileEquals(pacman, { col: 14, row: 23 })).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/96]⎯
+
+ FAIL  |core| src/core/geometry/tile.test.ts > neighbour > steps exactly one tile in each direction, and up decreases the row
+AssertionError: expected +0 to be 4 // Object.is equality
+
+- Expected
++ Received
+
+- 4
++ 0
+
+ ❯ src/core/geometry/tile.test.ts:241:48
+    239|
+    240|     expect.assertions(5);
+    241|     expect(neighbour(start, Direction.Up).row).toBe(start.row - 1);
+       |                                                ^
+    242|     for (const direction of ALL_DIRECTIONS) {
+    243|       expect(neighbour(start, direction)).toEqual(expected[direction]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/96]⎯
+
+ FAIL  |core| src/core/rules/level-table.test.ts > levelSpec > gives level 1 the arcade row: 80% pac-man, 75% ghosts, a 6-second fright and a 100-point cherry
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/core/rules/level-table.test.ts:48:24
+     46|     const spec = levelSpec(1);
+     47|
+     48|     expect(spec.level).toBe(1);
+       |                        ^
+     49|     expect(spec.pacmanSpeed).toBe(0.8);
+     50|     expect(spec.pacmanDotSpeed).toBe(0.71);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/96]⎯
+
+ FAIL  |core| src/core/rules/level-table.test.ts > levelSpec > steps up at level 2: 90% pac-man, 85% ghosts, a 5-second fright and a 300-point strawberry
+AssertionError: expected +0 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 0
+
+ ❯ src/core/rules/level-table.test.ts:84:24
+     82|     const spec = levelSpec(2);
+     83|
+     84|     expect(spec.level).toBe(2);
+       |                        ^
+     85|     expect(spec.pacmanSpeed).toBe(0.9);
+     86|     expect(spec.pacmanDotSpeed).toBe(0.79);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/96]⎯
+
+ FAIL  |core| src/core/rules/level-table.test.ts > levelSpec > reaches full speed at level 5: 100% pac-man, 95% ghosts, a 2-second fright and a 700-point apple
+AssertionError: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ src/core/rules/level-table.test.ts:120:24
+    118|     const spec = levelSpec(5);
+    119|
+    120|     expect(spec.level).toBe(5);
+       |                        ^
+    121|     expect(spec.pacmanSpeed).toBe(1);
+    122|     expect(spec.pacmanDotSpeed).toBe(0.87);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/96]⎯
+
+ FAIL  |core| src/core/rules/level-table.test.ts > levelSpec > uses level 21 for every level above it, and level 1 for level 0 and below
+AssertionError: expected +0 to be 21 // Object.is equality
+
+- Expected
++ Received
+
+- 21
++ 0
+
+ ❯ src/core/rules/level-table.test.ts:167:29
+    165|     const twentyOne = levelSpec(21);
+    166|
+    167|     expect(twentyOne.level).toBe(21);
+       |                             ^
+    168|     expect(twentyOne.pacmanSpeed).toBe(0.9); // slower than the ghosts…
+    169|     expect(twentyOne.pacmanDotSpeed).toBe(0.79);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/96]⎯
+
+ FAIL  |core| src/core/rules/level-table.test.ts > levelSpec > has no fright at all from level 19 on, and none at level 17 either, while level 18 still has one second
+AssertionError: expected +0 to be 60 // Object.is equality
+
+- Expected
++ Received
+
+- 60
++ 0
+
+ ❯ src/core/rules/level-table.test.ts:217:44
+    215|    */
+    216|   it('has no fright at all from level 19 on, and none at level 17 eith…
+    217|     expect(levelSpec(18).frightenedFrames).toBe(60); // 1 s x 60
+       |                                            ^
+    218|     expect(levelSpec(18).frightenedFlashes).toBe(3);
+    219|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/96]⎯
+
+ FAIL  |core| src/core/rules/level-table.test.ts > levelSpec > runs level 1 as scatter 7s, chase 20s, scatter 7s, chase 20s, scatter 5s, chase 20s, scatter 5s, then chase forever
+AssertionError: expected [] to deeply equal [ { mode: 'scatter', …(1) }, …(7) ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "durationFrames": 420,
+-     "mode": "scatter",
+-   },
+-   {
+-     "durationFrames": 1200,
+-     "mode": "chase",
+-   },
+-   {
+-     "durationFrames": 420,
+-     "mode": "scatter",
+-   },
+-   {
+-     "durationFrames": 1200,
+-     "mode": "chase",
+-   },
+-   {
+-     "durationFrames": 300,
+-     "mode": "scatter",
+-   },
+-   {
+-     "durationFrames": 1200,
+-     "mode": "chase",
+-   },
+-   {
+-     "durationFrames": 300,
+-     "mode": "scatter",
+-   },
+-   {
+-     "durationFrames": null,
+-     "mode": "chase",
+-   },
+- ]
++ []
+
+ ❯ src/core/rules/level-table.test.ts:248:32
+    246|    */
+    247|   it('runs level 1 as scatter 7s, chase 20s, scatter 7s, chase 20s, sc…
+    248|     expect(levelSpec(1).waves).toEqual([
+       |                                ^
+    249|       { mode: GlobalMode.Scatter, durationFrames: 420 }, // 7 s
+    250|       { mode: GlobalMode.Chase, durationFrames: 1200 }, // 20 s
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/96]⎯
+
+ FAIL  |core| src/core/rules/mode-schedule.test.ts > wavesForLevel > runs level 1 with two 7-second scatters and a 20-second sixth wave
+AssertionError: expected [] to deeply equal [ { mode: 'scatter', …(1) }, …(7) ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "durationFrames": 420,
+-     "mode": "scatter",
+-   },
+-   {
+-     "durationFrames": 1200,
+-     "mode": "chase",
+-   },
+-   {
+-     "durationFrames": 420,
+-     "mode": "scatter",
+-   },
+-   {
+-     "durationFrames": 1200,
+-     "mode": "chase",
+-   },
+-   {
+-     "durationFrames": 300,
+-     "mode": "scatter",
+-   },
+-   {
+-     "durationFrames": 1200,
+-     "mode": "chase",
+-   },
+-   {
+-     "durationFrames": 300,
+-     "mode": "scatter",
+-   },
+-   {
+-     "durationFrames": null,
+-     "mode": "chase",
+-   },
+- ]
++ []
+
+ ❯ src/core/rules/mode-schedule.test.ts:105:30
+    103|    */
+    104|   it('runs level 1 with two 7-second scatters and a 20-second sixth wa…
+    105|     expect(wavesForLevel(1)).toEqual([
+       |                              ^
+    106|       { mode: GlobalMode.Scatter, durationFrames: 420 }, // 7 s
+    107|       { mode: GlobalMode.Chase, durationFrames: 1200 }, // 20 s
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/96]⎯
+
+ FAIL  |core| src/core/rules/mode-schedule.test.ts > wavesForLevel > runs levels 2 to 4 with a 1033-second sixth wave followed by a single frame of scatter
+AssertionError: expected [] to deeply equal [ { mode: 'scatter', …(1) }, …(7) ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "durationFrames": 420,
+-     "mode": "scatter",
+-   },
+-   {
+-     "durationFrames": 1200,
+-     "mode": "chase",
+-   },
+-   {
+-     "durationFrames": 420,
+-     "mode": "scatter",
+-   },
+-   {
+-     "durationFrames": 1200,
+-     "mode": "chase",
+-   },
+-   {
+-     "durationFrames": 300,
+-     "mode": "scatter",
+-   },
+-   {
+-     "durationFrames": 61980,
+-     "mode": "chase",
+-   },
+-   {
+-     "durationFrames": 1,
+-     "mode": "scatter",
+-   },
+-   {
+-     "durationFrames": null,
+-     "mode": "chase",
+-   },
+- ]
++ []
+
+ ❯ src/core/rules/mode-schedule.test.ts:146:30
+    144|     ];
+    145|
+    146|     expect(wavesForLevel(2)).toEqual(expected);
+       |                              ^
+    147|     expect(wavesForLevel(4)).toEqual(expected);
+    148|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/96]⎯
+
+ FAIL  |core| src/core/rules/mode-schedule.test.ts > wavesForLevel > shortens the opening scatters to 5 seconds and stretches the sixth wave to 1037 seconds from level 5 on
+AssertionError: expected [] to deeply equal [ { mode: 'scatter', …(1) }, …(7) ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "durationFrames": 300,
+-     "mode": "scatter",
+-   },
+-   {
+-     "durationFrames": 1200,
+-     "mode": "chase",
+-   },
+-   {
+-     "durationFrames": 300,
+-     "mode": "scatter",
+-   },
+-   {
+-     "durationFrames": 1200,
+-     "mode": "chase",
+-   },
+-   {
+-     "durationFrames": 300,
+-     "mode": "scatter",
+-   },
+-   {
+-     "durationFrames": 62220,
+-     "mode": "chase",
+-   },
+-   {
+-     "durationFrames": 1,
+-     "mode": "scatter",
+-   },
+-   {
+-     "durationFrames": null,
+-     "mode": "chase",
+-   },
+- ]
++ []
+
+ ❯ src/core/rules/mode-schedule.test.ts:178:30
+    176|     ];
+    177|
+    178|     expect(wavesForLevel(5)).toEqual(expected);
+       |                              ^
+    179|     expect(wavesForLevel(21)).toEqual(expected);
+    180|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/96]⎯
+
+ FAIL  |core| src/core/rules/mode-schedule.test.ts > currentMode > reads the mode from the current wave, and answers the final endless chase past the end of the schedule
+AssertionError: expected 'scatter' to be 'chase' // Object.is equality
+
+Expected: "chase"
+Received: "scatter"
+
+ ❯ src/core/rules/mode-schedule.test.ts:214:38
+    212|
+    213|     expect(currentMode(at(0), spec)).toBe(GlobalMode.Scatter);
+    214|     expect(currentMode(at(1), spec)).toBe(GlobalMode.Chase);
+       |                                      ^
+    215|     expect(currentMode(at(3), spec)).toBe(GlobalMode.Chase);
+    216|     expect(currentMode(at(99), spec)).toBe(GlobalMode.Chase);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/96]⎯
+
+ FAIL  |core| src/core/rules/mode-schedule.test.ts > advanceModes > requires a reversal on exactly the frame a wave changes, and on neither the frame before nor the frame after
+AssertionError: expected { waveIndex: +0, waveFrames: +0, …(1) } to deeply equal { waveIndex: +0, waveFrames: 2, …(1) }
+
+- Expected
++ Received
+
+  {
+    "frightenedFramesLeft": 0,
+-   "waveFrames": 2,
++   "waveFrames": 0,
+    "waveIndex": 0,
+  }
+
+ ❯ src/core/rules/mode-schedule.test.ts:250:30
+    248|     const beforeFlip = advanceModes({ waveIndex: 0, waveFrames: 1, fri…
+    249|     expect(beforeFlip.reversalRequired).toBe(false);
+    250|     expect(beforeFlip.modes).toEqual({ waveIndex: 0, waveFrames: 2, fr…
+       |                              ^
+    251|
+    252|     const onFlip = advanceModes(beforeFlip.modes, spec);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/96]⎯
+
+ FAIL  |core| src/core/rules/mode-schedule.test.ts > advanceModes > never flips or reverses while parked on the final endless chase
+AssertionError: expected { waveIndex: +0, waveFrames: +0, …(1) } to deeply equal { waveIndex: 3, waveFrames: 50, …(1) }
+
+- Expected
++ Received
+
+  {
+    "frightenedFramesLeft": 0,
+-   "waveFrames": 50,
+-   "waveIndex": 3,
++   "waveFrames": 0,
++   "waveIndex": 0,
+  }
+
+ ❯ src/core/rules/mode-schedule.test.ts:296:19
+    294|     }
+    295|
+    296|     expect(modes).toEqual({ waveIndex: 3, waveFrames: 50, frightenedFr…
+       |                   ^
+    297|     expect(reversals).toEqual(Array.from({ length: 50 }, () => false));
+    298|     expect(currentMode(modes, spec)).toBe(GlobalMode.Chase);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/96]⎯
+
+ FAIL  |core| src/core/rules/mode-schedule.test.ts > advanceModes > advances the wave clock during normal play, freezes it completely while frightened, then resumes where it stopped
+AssertionError: expected { waveIndex: +0, waveFrames: +0, …(1) } to deeply equal { waveIndex: +0, waveFrames: 15, …(1) }
+
+- Expected
++ Received
+
+  {
+    "frightenedFramesLeft": 0,
+-   "waveFrames": 15,
++   "waveFrames": 0,
+    "waveIndex": 0,
+  }
+
+ ❯ src/core/rules/mode-schedule.test.ts:328:20
+    326|
+    327|     const played = runFrames({ waveIndex: 0, waveFrames: 5, frightened…
+    328|     expect(played).toEqual({ waveIndex: 0, waveFrames: 15, frightenedF…
+       |                    ^
+    329|
+    330|     const frightened = runFrames(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/96]⎯
+
+ FAIL  |core| src/core/rules/mode-schedule.test.ts > advanceModes > reports frightened ended on the single frame the timer reaches zero, freezing that frame too, and never again
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/core/rules/mode-schedule.test.ts:378:36
+    376|
+    377|     const ending = advanceModes({ waveIndex: 0, waveFrames: 7, frighte…
+    378|     expect(ending.frightenedEnded).toBe(true);
+       |                                    ^
+    379|     expect(ending.reversalRequired).toBe(false); // fright ending reve…
+    380|     expect(ending.modes).toEqual({ waveIndex: 0, waveFrames: 7, fright…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/96]⎯
+
+ FAIL  |core| src/core/maze/arcade-maze.test.ts > ARCADE_MAZE > pins the ghost spawns, house door, house centre and fruit tile to their documented coordinates
+AssertionError: expected { col: +0, row: +0 } to deeply equal { col: 13, row: 23 }
+
+- Expected
++ Received
+
+  {
+-   "col": 13,
+-   "row": 23,
++   "col": 0,
++   "row": 0,
+  }
+
+ ❯ src/core/maze/arcade-maze.test.ts:49:37
+     47|    */
+     48|   it('pins the ghost spawns, house door, house centre and fruit tile t…
+     49|     expect(ARCADE_MAZE.pacmanSpawn).toEqual({ col: 13, row: 23 });
+       |                                     ^
+     50|     expect(ARCADE_MAZE.ghostSpawns).toEqual({
+     51|       [GhostId.Blinky]: { col: 13, row: 11 },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/96]⎯
+
+ FAIL  |core| src/core/maze/arcade-maze.test.ts > ARCADE_MAZE > splits the 244 dots into 240 pellets and the 4 energizers at (1,3) (26,3) (1,23) (26,23)
+AssertionError: expected [] to have a length of 240 but got +0
+
+- Expected
++ Received
+
+- 240
++ 0
+
+ ❯ src/core/maze/arcade-maze.test.ts:87:37
+     85|    */
+     86|   it('splits the 244 dots into 240 pellets and the 4 energizers at (1,…
+     87|     expect(ARCADE_MAZE.pelletTiles).toHaveLength(240);
+       |                                     ^
+     88|     expect(ARCADE_MAZE.powerPelletTiles).toHaveLength(4);
+     89|     expect(new Set(ARCADE_MAZE.powerPelletTiles.map(tileKey))).toEqual(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/96]⎯
+
+ FAIL  |core| src/core/maze/arcade-maze.test.ts > ARCADE_MAZE > forbids an upward turn on exactly the four no-up tiles (12,11) (15,11) (12,23) (15,23)
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/core/maze/arcade-maze.test.ts:126:45
+    124|     ];
+    125|     for (const tile of forbidden) {
+    126|       expect(isNoUpTile(ARCADE_MAZE, tile)).toBe(true);
+       |                                             ^
+    127|     }
+    128|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[29/96]⎯
+
+ FAIL  |core| src/core/maze/arcade-maze.test.ts > ARCADE_MAZE > runs its tunnel along row 14, open at both edges of the board
+AssertionError: expected -1 to be 14 // Object.is equality
+
+- Expected
++ Received
+
+- 14
++ -1
+
+ ❯ src/core/maze/arcade-maze.test.ts:158:35
+    156|    */
+    157|   it('runs its tunnel along row 14, open at both edges of the board', …
+    158|     expect(ARCADE_MAZE.tunnelRow).toBe(14);
+       |                                   ^
+    159|     expect(kindAt(ARCADE_MAZE, { col: 0, row: 14 })).toBe(TileKind.Tun…
+    160|     expect(kindAt(ARCADE_MAZE, { col: 27, row: 14 })).toBe(TileKind.Tu…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[30/96]⎯
+
+ FAIL  |core| src/core/maze/arcade-maze.test.ts > mazeForLevel > resolves every level to the one 28 by 31 board, built once
+AssertionError: expected +0 to be 28 // Object.is equality
+
+- Expected
++ Received
+
+- 28
++ 0
+
+ ❯ src/core/maze/arcade-maze.test.ts:187:37
+    185|    */
+    186|   it('resolves every level to the one 28 by 31 board, built once', () …
+    187|     expect(mazeForLevel(1).columns).toBe(28);
+       |                                     ^
+    188|     expect(mazeForLevel(1).rows).toBe(31);
+    189|     expect(mazeForLevel(7)).toBe(ARCADE_MAZE);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[31/96]⎯
+
+ FAIL  |core| src/core/maze/arcade-maze.test.ts > the playable board > reaches all 244 dots from Pac-Man spawn without crossing the house door
+AssertionError: expected +0 to be 244 // Object.is equality
+
+- Expected
++ Received
+
+- 244
++ 0
+
+ ❯ src/core/maze/arcade-maze.test.ts:253:23
+    251|     }
+    252|
+    253|     expect(dots.size).toBe(244);
+       |                       ^
+    254|     expect(reachedDots).toBe(244);
+    255|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[32/96]⎯
+
+ FAIL  |core| src/core/maze/classic-layout.test.ts > CLASSIC_LAYOUT > is exactly 28 columns by 31 rows, the original arcade playfield
+AssertionError: expected [] to have a length of 31 but got +0
+
+- Expected
++ Received
+
+- 31
++ 0
+
+ ❯ src/core/maze/classic-layout.test.ts:83:28
+     81|   it('is exactly 28 columns by 31 rows, the original arcade playfield'…
+     82|     expect.assertions(32);
+     83|     expect(CLASSIC_LAYOUT).toHaveLength(31);
+       |                            ^
+     84|     for (const row of CLASSIC_LAYOUT) {
+     85|       expect(row).toHaveLength(28);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[33/96]⎯
+
+ FAIL  |core| src/core/maze/classic-layout.test.ts > CLASSIC_LAYOUT > holds exactly 240 dots and 4 energizers, the arcade total of 244 per level
+AssertionError: expected +0 to be 240 // Object.is equality
+
+- Expected
++ Received
+
+- 240
++ 0
+
+ ❯ src/core/maze/classic-layout.test.ts:120:18
+    118|     }
+    119|
+    120|     expect(dots).toBe(240);
+       |                  ^
+    121|     expect(energizers).toBe(4);
+    122|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[34/96]⎯
+
+ FAIL  |core| src/core/maze/classic-layout.test.ts > CLASSIC_LAYOUT > places the four energizers at the arcade coordinates (1,3) (26,3) (1,23) (26,23)
+AssertionError: expected [] to deeply equal [ { col: 1, row: 3 }, …(3) ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "col": 1,
+-     "row": 3,
+-   },
+-   {
+-     "col": 26,
+-     "row": 3,
+-   },
+-   {
+-     "col": 1,
+-     "row": 23,
+-   },
+-   {
+-     "col": 26,
+-     "row": 23,
+-   },
+- ]
++ []
+
+ ❯ src/core/maze/classic-layout.test.ts:151:19
+    149|     }
+    150|
+    151|     expect(found).toEqual([
+       |                   ^
+    152|       { col: 1, row: 3 },
+    153|       { col: 26, row: 3 },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[35/96]⎯
+
+ FAIL  |core| src/core/maze/maze.test.ts > the maze grid > is 28 columns by 31 rows, matching the arcade playfield
+AssertionError: expected +0 to be 28 // Object.is equality
+
+- Expected
++ Received
+
+- 28
++ 0
+
+ ❯ src/core/maze/maze.test.ts:88:26
+     86|    */
+     87|   it('is 28 columns by 31 rows, matching the arcade playfield', () => {
+     88|     expect(MAZE_COLUMNS).toBe(28);
+       |                          ^
+     89|     expect(MAZE_ROWS).toBe(31);
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[36/96]⎯
+
+ FAIL  |core| src/core/maze/maze.test.ts > kindAt > returns the declared kind for an in-bounds tile and Wall for any tile off the grid
+AssertionError: expected 'wall' to be 'open' // Object.is equality
+
+Expected: "open"
+Received: "wall"
+
+ ❯ src/core/maze/maze.test.ts:130:34
+    128|     ];
+    129|     for (const { tile, kind } of inBounds) {
+    130|       expect(kindAt(maze, tile)).toBe(kind);
+       |                                  ^
+    131|     }
+    132|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[37/96]⎯
+
+ FAIL  |core| src/core/maze/maze.test.ts > isWalkable > lets an actor through the ghost-house door only when mayPassDoor is true
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/core/maze/maze.test.ts:165:42
+    163|     const door = { col: 1, row: 2 };
+    164|
+    165|     expect(isWalkable(maze, door, true)).toBe(true);
+       |                                          ^
+    166|     expect(isWalkable(maze, door, false)).toBe(false);
+    167|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[38/96]⎯
+
+ FAIL  |core| src/core/maze/maze.test.ts > isWalkable > accepts open, tunnel and house floor, and never accepts a wall
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/core/maze/maze.test.ts:198:45
+    196|     ];
+    197|     for (const { tile, walkable } of cases) {
+    198|       expect(isWalkable(maze, tile, false)).toBe(walkable);
+       |                                             ^
+    199|     }
+    200|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39/96]⎯
+
+ FAIL  |core| src/core/maze/maze.test.ts > walkableNeighbours > returns candidates in ALL_DIRECTIONS order: up, left, down, right
+AssertionError: expected [] to deeply equal [ 'up', 'left', 'down', 'right' ]
+
+- Expected
++ Received
+
+- [
+-   "up",
+-   "left",
+-   "down",
+-   "right",
+- ]
++ []
+
+ ❯ src/core/maze/maze.test.ts:229:64
+    227|     const neighbours = walkableNeighbours(maze, { col: 5, row: 4 }, fa…
+    228|
+    229|     expect(neighbours.map((neighbour) => neighbour.direction)).toEqual…
+       |                                                                ^
+    230|     expect(neighbours.map((neighbour) => neighbour.tile)).toEqual([
+    231|       { col: 5, row: 3 },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[40/96]⎯
+
+ FAIL  |core| src/core/maze/maze.test.ts > walkableNeighbours > offers the ghost-house door as an exit only to an actor that may pass it
+AssertionError: expected [] to deeply equal [ 'down' ]
+
+- Expected
++ Received
+
+- [
+-   "down",
+- ]
++ []
+
+ ❯ src/core/maze/maze.test.ts:260:63
+    258|     const forGhost = walkableNeighbours(maze, belowTheDoor, true);
+    259|
+    260|     expect(forPacman.map((neighbour) => neighbour.direction)).toEqual(…
+       |                                                               ^
+    261|     expect(forGhost.map((neighbour) => neighbour.direction)).toEqual([
+    262|       Direction.Up,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[41/96]⎯
+
+ FAIL  |core| src/core/maze/maze.test.ts > wrapPosition > warps only on the tunnel row, and the two mouths are exact mirror images
+AssertionError: expected { x: +0, y: +0 } to deeply equal { x: 223, y: 116 }
+
+- Expected
++ Received
+
+  {
+-   "x": 223,
+-   "y": 116,
++   "x": 0,
++   "y": 0,
+  }
+
+ ❯ src/core/maze/maze.test.ts:300:58
+    298|    */
+    299|   it('warps only on the tunnel row, and the two mouths are exact mirro…
+    300|     expect(wrapPosition(ARCADE_MAZE, { x: -1, y: 116 })).toEqual({ x: …
+       |                                                          ^
+    301|     expect(wrapPosition(ARCADE_MAZE, { x: 224, y: 116 })).toEqual({ x:…
+    302|     expect(wrapPosition(ARCADE_MAZE, { x: 100, y: 116 })).toEqual({ x:…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[42/96]⎯
+
+ FAIL  |core| src/core/maze/parse-maze.test.ts > parseMaze > rejects a row that is not the declared width, naming the offending row
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/core/maze/parse-maze.test.ts:50:42
+     48|    */
+     49|   it('rejects a row that is not the declared width, naming the offendi…
+     50|     expect(() => parseMaze(RAGGED_ROWS)).toThrow(/row 2/);
+       |                                          ^
+     51|     expect(() => parseMaze(RAGGED_ROWS)).toThrow(/2 columns/);
+     52|     expect(() => parseMaze(RAGGED_ROWS)).toThrow(/expected 3/);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[43/96]⎯
+
+ FAIL  |core| src/core/maze/parse-maze.test.ts > parseMaze > rejects an unknown legend character instead of treating it as open floor
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/core/maze/parse-maze.test.ts:72:49
+     70|    */
+     71|   it('rejects an unknown legend character instead of treating it as op…
+     72|     expect(() => parseMaze(UNKNOWN_GLYPH_ROWS)).toThrow(/row 1/);
+       |                                                 ^
+     73|     expect(() => parseMaze(UNKNOWN_GLYPH_ROWS)).toThrow(/column 2/);
+     74|     expect(() => parseMaze(UNKNOWN_GLYPH_ROWS)).toThrow(/'X'/);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[44/96]⎯
+
+ FAIL  |core| src/core/maze/parse-maze.test.ts > parseMaze > rejects a layout with no ghost-house door
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/core/maze/parse-maze.test.ts:94:43
+     92|    */
+     93|   it('rejects a layout with no ghost-house door', () => {
+     94|     expect(() => parseMaze(NO_DOOR_ROWS)).toThrow(/door/i);
+       |                                           ^
+     95|   });
+     96|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[45/96]⎯
+
+ FAIL  |core| src/core/maze/parse-maze.test.ts > parseMaze > rejects a layout with no Pac-Man spawn
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/core/maze/parse-maze.test.ts:113:44
+    111|    */
+    112|   it('rejects a layout with no Pac-Man spawn', () => {
+    113|     expect(() => parseMaze(NO_SPAWN_ROWS)).toThrow(/Pac-Man/i);
+       |                                            ^
+    114|     expect(() => parseMaze(NO_SPAWN_ROWS)).toThrow(/spawn/i);
+    115|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[46/96]⎯
+
+ FAIL  |core| src/core/maze/parse-maze.test.ts > renderMaze > renders a parsed maze back to the exact ASCII it was parsed from
+AssertionError: expected [] to have a length of 31 but got +0
+
+- Expected
++ Received
+
+- 31
++ 0
+
+ ❯ src/core/maze/parse-maze.test.ts:144:22
+    142|     const rendered = renderMaze(parseMaze(CLASSIC_LAYOUT));
+    143|
+    144|     expect(rendered).toHaveLength(31);
+       |                      ^
+    145|     expect(rendered).toEqual(CLASSIC_LAYOUT);
+    146|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[47/96]⎯
+
+ FAIL  |core| src/core/testing/scripted-rng.test.ts > createScriptedRng > returns its scripted values in order, one per draw
+AssertionError: expected [ +0, +0, +0 ] to deeply equal [ 0.5, 0.25, 0.75 ]
+
+- Expected
++ Received
+
+  [
+-   0.5,
+-   0.25,
+-   0.75,
++   0,
++   0,
++   0,
+  ]
+
+ ❯ src/core/testing/scripted-rng.test.ts:57:50
+     55|     const rng = createScriptedRng([0.5, 0.25, 0.75]);
+     56|
+     57|     expect([rng.next(), rng.next(), rng.next()]).toEqual([0.5, 0.25, 0…
+       |                                                  ^
+     58|   });
+     59|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[48/96]⎯
+
+ FAIL  |core| src/core/testing/scripted-rng.test.ts > createScriptedRng > throws when the script is exhausted, so a silent extra draw fails loudly
+AssertionError: expected +0 to be 0.5 // Object.is equality
+
+- Expected
++ Received
+
+- 0.5
++ 0
+
+ ❯ src/core/testing/scripted-rng.test.ts:82:24
+     80|     const rng = createScriptedRng([0.5]);
+     81|
+     82|     expect(rng.next()).toBe(0.5);
+       |                        ^
+     83|     expect(() => rng.next()).toThrow(/script exhausted/i);
+     84|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[49/96]⎯
+
+ FAIL  |core| src/core/testing/scripted-rng.test.ts > createScriptedRng > maps a scripted value into [0, maxExclusive) exactly as the real Rng does
+AssertionError: expected [ +0, +0, +0, +0, +0 ] to deeply equal [ +0, 1, 2, 3, 3 ]
+
+- Expected
++ Received
+
+  [
+    0,
+-   1,
+-   2,
+-   3,
+-   3,
++   0,
++   0,
++   0,
++   0,
+  ]
+
+ ❯ src/core/testing/scripted-rng.test.ts:116:8
+    114|       rng.nextInt(4),
+    115|       rng.nextInt(4),
+    116|     ]).toEqual([0, 1, 2, 3, 3]);
+       |        ^
+    117|   });
+    118|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[50/96]⎯
+
+ FAIL  |core| src/core/testing/scripted-rng.test.ts > createScriptedRng > draws next and nextInt from one shared stream, in call order
+AssertionError: expected +0 to be 0.5 // Object.is equality
+
+- Expected
++ Received
+
+- 0.5
++ 0
+
+ ❯ src/core/testing/scripted-rng.test.ts:138:24
+    136|     const rng = createScriptedRng([0.5, 0.75, 0.25]);
+    137|
+    138|     expect(rng.next()).toBe(0.5);
+       |                        ^
+    139|     expect(rng.nextInt(4)).toBe(3);
+    140|     expect(rng.next()).toBe(0.25);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[51/96]⎯
+
+ FAIL  |core| src/core/testing/scripted-rng.test.ts > createScriptedRng > rejects a script value outside [0, 1) when it is created, not when it is drawn
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/core/testing/scripted-rng.test.ts:165:47
+    163|     /* The message must name the interval, so the author of a bad scri…
+    164|        see immediately what shape of number was expected. */
+    165|     expect(() => createScriptedRng([0.5, 1])).toThrow(/0, 1/);
+       |                                               ^
+    166|     expect(() => createScriptedRng([-0.5])).toThrow(/0, 1/);
+    167|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[52/96]⎯
+
+ FAIL  |core| src/core/testing/scripted-rng.test.ts > createScriptedRng > rejects a non-positive range exactly as the real Rng does, without consuming a draw
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/core/testing/scripted-rng.test.ts:192:34
+    190|     const rng = createScriptedRng([0.5]);
+    191|
+    192|     expect(() => rng.nextInt(0)).toThrow(/positive/i);
+       |                                  ^
+    193|     expect(() => rng.nextInt(-5)).toThrow(/positive/i);
+    194|     expect(rng.next()).toBe(0.5);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[53/96]⎯
+
+ FAIL  |core| src/core/testing/tiny-maze.test.ts > the tiny maze fixtures > the corridor gives an interior tile exactly two exits, left and right
+AssertionError: expected [] to deeply equal [ { direction: 'left', …(1) }, …(1) ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "direction": "left",
+-     "tile": {
+-       "col": 4,
+-       "row": 3,
+-     },
+-   },
+-   {
+-     "direction": "right",
+-     "tile": {
+-       "col": 6,
+-       "row": 3,
+-     },
+-   },
+- ]
++ []
+
+ ❯ src/core/testing/tiny-maze.test.ts:65:75
+     63|    */
+     64|   it('the corridor gives an interior tile exactly two exits, left and …
+     65|     expect(walkableNeighbours(corridorMaze(), { col: 5, row: 3 }, fals…
+       |                                                                           ^
+     66|       { direction: Direction.Left, tile: { col: 4, row: 3 } },
+     67|       { direction: Direction.Right, tile: { col: 6, row: 3 } },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[54/96]⎯
+
+ FAIL  |core| src/core/testing/tiny-maze.test.ts > the tiny maze fixtures > the crossroads gives its junction all four exits
+AssertionError: expected [] to deeply equal [ 'up', 'left', 'down', 'right' ]
+
+- Expected
++ Received
+
+- [
+-   "up",
+-   "left",
+-   "down",
+-   "right",
+- ]
++ []
+
+ ❯ src/core/testing/tiny-maze.test.ts:89:49
+     87|     const exits = walkableNeighbours(crossroadsMaze(), { col: 5, row: …
+     88|
+     89|     expect(exits.map((exit) => exit.direction)).toEqual(ALL_DIRECTIONS…
+       |                                                 ^
+     90|   });
+     91|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[55/96]⎯
+
+ FAIL  |core| src/core/testing/tiny-maze.test.ts > the tiny maze fixtures > the dead end leaves only the way back
+AssertionError: expected [] to deeply equal [ { direction: 'left', …(1) } ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "direction": "left",
+-     "tile": {
+-       "col": 4,
+-       "row": 3,
+-     },
+-   },
+- ]
++ []
+
+ ❯ src/core/testing/tiny-maze.test.ts:108:74
+    106|    */
+    107|   it('the dead end leaves only the way back', () => {
+    108|     expect(walkableNeighbours(deadEndMaze(), { col: 5, row: 3 }, false…
+       |                                                                          ^
+    109|       { direction: Direction.Left, tile: { col: 4, row: 3 } },
+    110|     ]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[56/96]⎯
+
+ FAIL  |core| src/core/time/frame-clock.test.ts > FRAME_MS > is one sixtieth of a second, not the 16 ms that "60 fps" tempts you into
+AssertionError: expected +0 to be 16.666666666666668 // Object.is equality
+
+- Expected
++ Received
+
+- 16.666666666666668
++ 0
+
+ ❯ src/core/time/frame-clock.test.ts:44:22
+     42|    */
+     43|   it('is one sixtieth of a second, not the 16 ms that "60 fps" tempts …
+     44|     expect(FRAME_MS).toBe(1000 / 60);
+       |                      ^
+     45|     expect(FRAME_MS).not.toBe(16);
+     46|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[57/96]⎯
+
+ FAIL  |core| src/core/time/frame-clock.test.ts > advanceClock > yields no frame for a delta shorter than one frame, and banks it
+AssertionError: expected { frames: +0, remainderMs: +0, …(1) } to deeply equal { frames: +0, remainderMs: 16, …(1) }
+
+- Expected
++ Received
+
+  {
+    "clamped": false,
+    "frames": 0,
+-   "remainderMs": 16,
++   "remainderMs": 0,
+  }
+
+ ❯ src/core/time/frame-clock.test.ts:69:33
+     67|    */
+     68|   it('yields no frame for a delta shorter than one frame, and banks it…
+     69|     expect(advanceClock(0, 16)).toEqual({ frames: 0, remainderMs: 16, …
+       |                                 ^
+     70|   });
+     71|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[58/96]⎯
+
+ FAIL  |core| src/core/time/frame-clock.test.ts > advanceClock > accumulates sub-frame deltas across calls until a whole frame is due
+AssertionError: expected { frames: +0, remainderMs: +0, …(1) } to deeply equal { frames: +0, remainderMs: 6, …(1) }
+
+- Expected
++ Received
+
+  {
+    "clamped": false,
+    "frames": 0,
+-   "remainderMs": 6,
++   "remainderMs": 0,
+  }
+
+ ❯ src/core/time/frame-clock.test.ts:95:19
+     93|   it('accumulates sub-frame deltas across calls until a whole frame is…
+     94|     const first = advanceClock(0, 6);
+     95|     expect(first).toEqual({ frames: 0, remainderMs: 6, clamped: false …
+       |                   ^
+     96|
+     97|     const second = advanceClock(first.remainderMs, 6);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[59/96]⎯
+
+ FAIL  |core| src/core/time/frame-clock.test.ts > advanceClock > yields exactly three frames and no remainder for exactly three frames of time
+AssertionError: expected { frames: +0, remainderMs: +0, …(1) } to deeply equal { frames: 3, remainderMs: +0, …(1) }
+
+- Expected
++ Received
+
+  {
+    "clamped": false,
+-   "frames": 3,
++   "frames": 0,
+    "remainderMs": 0,
+  }
+
+ ❯ src/core/time/frame-clock.test.ts:128:43
+    126|    */
+    127|   it('yields exactly three frames and no remainder for exactly three f…
+    128|     expect(advanceClock(0, FRAME_MS * 3)).toEqual({
+       |                                           ^
+    129|       frames: 3,
+    130|       remainderMs: 0,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[60/96]⎯
+
+ FAIL  |core| src/core/time/frame-clock.test.ts > advanceClock > clamps a long stall to five frames, reports the clamp, and forgives the rest
+AssertionError: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ src/core/time/frame-clock.test.ts:168:33
+    166|    */
+    167|   it('clamps a long stall to five frames, reports the clamp, and forgi…
+    168|     expect(MAX_FRAMES_PER_STEP).toBe(5);
+       |                                 ^
+    169|     expect(advanceClock(0, 500)).toEqual({ frames: 5, remainderMs: 0, …
+    170|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[61/96]⎯
+
+ FAIL  |core| src/core/time/frame-clock.test.ts > advanceClock > treats a negative delta as zero rather than rewinding the game
+AssertionError: expected { frames: +0, remainderMs: +0, …(1) } to deeply equal { frames: +0, remainderMs: 10, …(1) }
+
+- Expected
++ Received
+
+  {
+    "clamped": false,
+    "frames": 0,
+-   "remainderMs": 10,
++   "remainderMs": 0,
+  }
+
+ ❯ src/core/time/frame-clock.test.ts:193:36
+    191|    */
+    192|   it('treats a negative delta as zero rather than rewinding the game',…
+    193|     expect(advanceClock(10, -100)).toEqual({ frames: 0, remainderMs: 1…
+       |                                    ^
+    194|   });
+    195|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[62/96]⎯
+
+ FAIL  |core| src/core/time/frame-clock.test.ts > advanceClock > treats a NaN delta as zero rather than poisoning the banked time
+AssertionError: expected { frames: +0, remainderMs: +0, …(1) } to deeply equal { frames: +0, remainderMs: 10, …(1) }
+
+- Expected
++ Received
+
+  {
+    "clamped": false,
+    "frames": 0,
+-   "remainderMs": 10,
++   "remainderMs": 0,
+  }
+
+ ❯ src/core/time/frame-clock.test.ts:210:42
+    208|    */
+    209|   it('treats a NaN delta as zero rather than poisoning the banked time…
+    210|     expect(advanceClock(10, Number.NaN)).toEqual({ frames: 0, remainde…
+       |                                          ^
+    211|   });
+    212| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[63/96]⎯
+
+ FAIL  |core| src/core/ghost/ghost-id.test.ts > GhostId > is ordered blinky, pinky, inky, clyde — release, collision, Rng and draw order all at once
+AssertionError: expected [] to deeply equal [ 'blinky', 'pinky', 'inky', 'clyde' ]
+
+- Expected
++ Received
+
+- [
+-   "blinky",
+-   "pinky",
+-   "inky",
+-   "clyde",
+- ]
++ []
+
+ ❯ src/core/ghost/ghost-id.test.ts:33:25
+     31|    */
+     32|   it('is ordered blinky, pinky, inky, clyde — release, collision, Rng …
+     33|     expect(GHOST_ORDER).toEqual(['blinky', 'pinky', 'inky', 'clyde']);
+       |                         ^
+     34|   });
+     35|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[64/96]⎯
+
+ FAIL  |core| src/core/ghost/ghost-id.test.ts > GhostId > lists each of the four ghosts exactly once
+AssertionError: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/core/ghost/ghost-id.test.ts:60:59
+     58|     expect.assertions(4);
+     59|     for (const id of [GhostId.Blinky, GhostId.Pinky, GhostId.Inky, Gho…
+     60|       expect(GHOST_ORDER.filter((entry) => entry === id)).toHaveLength…
+       |                                                           ^
+     61|     }
+     62|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[65/96]⎯
+
+ FAIL  |core| src/core/ghost/ghost.test.ts > isFrightened > is true for a ghost still inside the house, because fright is a timer and not a phase
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/core/ghost/ghost.test.ts:69:60
+     67|    */
+     68|   it('is true for a ghost still inside the house, because fright is a …
+     69|     expect(isFrightened(ghostIn(GhostPhase.InHouse, 120))).toBe(true);
+       |                                                            ^
+     70|   });
+     71|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[66/96]⎯
+
+ FAIL  |core| src/core/ghost/ghost.test.ts > isFrightened > is true in every phase while the timer is running
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/core/ghost/ghost.test.ts:94:47
+     92|
+     93|     for (const phase of Object.values(GhostPhase)) {
+     94|       expect(isFrightened(ghostIn(phase, 1))).toBe(true);
+       |                                               ^
+     95|     }
+     96|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[67/96]⎯
+
+ FAIL  |core| src/core/actor/actor.test.ts > Actor > divides each pixel into 256 sub-pixels
+AssertionError: expected +0 to be 256 // Object.is equality
+
+- Expected
++ Received
+
+- 256
++ 0
+
+ ❯ src/core/actor/actor.test.ts:51:33
+     49|    */
+     50|   it('divides each pixel into 256 sub-pixels', () => {
+     51|     expect(SUBPIXELS_PER_PIXEL).toBe(256);
+       |                                 ^
+     52|   });
+     53|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[68/96]⎯
+
+ FAIL  |core| src/core/actor/actor.test.ts > Actor > tileOf > maps a pixel to the tile containing it, flooring across zero
+AssertionError: expected { col: +0, row: +0 } to deeply equal { col: 2, row: 3 }
+
+- Expected
++ Received
+
+  {
+-   "col": 2,
+-   "row": 3,
++   "col": 0,
++   "row": 0,
+  }
+
+ ❯ src/core/actor/actor.test.ts:73:39
+     71|      */
+     72|     it('maps a pixel to the tile containing it, flooring across zero',…
+     73|       expect(tileOf(actorAt(20, 28))).toEqual({ col: 2, row: 3 });
+       |                                       ^
+     74|       expect(tileOf(actorAt(-1, 12))).toEqual({ col: -1, row: 1 });
+     75|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[69/96]⎯
+
+ FAIL  |core| src/core/actor/actor.test.ts > Actor > isAtTileCentre > is true only on the exact centre pixel of the tile
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/core/actor/actor.test.ts:98:47
+     96|      */
+     97|     it('is true only on the exact centre pixel of the tile', () => {
+     98|       expect(isAtTileCentre(actorAt(20, 28))).toBe(true);
+       |                                               ^
+     99|       expect(isAtTileCentre(actorAt(19, 28))).toBe(false);
+    100|       expect(isAtTileCentre(actorAt(21, 28))).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[70/96]⎯
+
+ FAIL  |core| src/core/actor/actor.test.ts > Actor > isAtTileCentre > is true on the centre of a tile far from the origin
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/core/actor/actor.test.ts:121:49
+    119|      */
+    120|     it('is true on the centre of a tile far from the origin', () => {
+    121|       expect(isAtTileCentre(actorAt(220, 244))).toBe(true);
+       |                                                 ^
+    122|     });
+    123|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[71/96]⎯
+
+ FAIL  |core| src/core/actor/move-actor.test.ts > moveActor > sub-pixel carry > moves a whole pixel on exactly the frame the banked carry reaches 256
+AssertionError: expected +0 to be 128 // Object.is equality
+
+- Expected
++ Received
+
+- 128
++ 0
+
+ ❯ src/core/actor/move-actor.test.ts:273:38
+    271|         const { actor } = frameAt(results, index + 1);
+    272|         expect(actor.position).toEqual({ x: expected.x, y: 12 });
+    273|         expect(actor.carrySubPixels).toBe(expected.carrySubPixels);
+       |                                      ^
+    274|       }
+    275|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[72/96]⎯
+
+ FAIL  |core| src/core/actor/move-actor.test.ts > moveActor > sub-pixel carry > is at an exactly predicted pixel after 600 frames at a fractional speed, with no drift
+AssertionError: expected { x: 12, y: 12 } to deeply equal { x: 492, y: 12 }
+
+- Expected
++ Received
+
+  {
+-   "x": 492,
++   "x": 12,
+    "y": 12,
+  }
+
+ ❯ src/core/actor/move-actor.test.ts:311:36
+    309|       const final = frameAt(results, 600);
+    310|
+    311|       expect(final.actor.position).toEqual({ x: 492, y: 12 });
+       |                                    ^
+    312|       expect(final.actor.carrySubPixels).toBe(120);
+    313|       expect(final.blocked).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[73/96]⎯
+
+ FAIL  |core| src/core/actor/move-actor.test.ts > moveActor > walls > stops flush on the last tile centre before a wall, keeps facing and reports blocked
+AssertionError: expected { x: 12, y: 12 } to deeply equal { x: 28, y: 12 }
+
+- Expected
++ Received
+
+  {
+-   "x": 28,
++   "x": 12,
+    "y": 12,
+  }
+
+ ❯ src/core/actor/move-actor.test.ts:390:51
+    388|
+    389|       expect(frameAt(results, 1).blocked).toBe(false);
+    390|       expect(frameAt(results, 20).actor.position).toEqual({ x: 28, y: …
+       |                                                   ^
+    391|       expect(frameAt(results, 20).actor.facing).toBe(Direction.Right);
+    392|       expect(frameAt(results, 20).blocked).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[74/96]⎯
+
+ FAIL  |core| src/core/actor/move-actor.test.ts > moveActor > turning > takes a queued turn at the junction centre and never overshoots it
+AssertionError: expected 12 to be 20 // Object.is equality
+
+- Expected
++ Received
+
+- 20
++ 12
+
+ ❯ src/core/actor/move-actor.test.ts:499:29
+    497|       const turningFrames = results.filter((result) => result.turned).…
+    498|
+    499|       expect(furthestRight).toBe(20);
+       |                             ^
+    500|       expect(frameAt(results, 12).actor.position).toEqual({ x: 20, y: …
+    501|       expect(frameAt(results, 12).actor.facing).toBe(Direction.Up);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[75/96]⎯
+
+ FAIL  |core| src/core/actor/move-actor.test.ts > moveActor > turning > holds a queued direction until the first junction that allows it, however long that takes
+AssertionError: expected { x: 17, y: 20 } to deeply equal { x: 20, y: 15 }
+
+- Expected
++ Received
+
+  {
+-   "x": 20,
+-   "y": 15,
++   "x": 17,
++   "y": 20,
+  }
+
+ ❯ src/core/actor/move-actor.test.ts:543:54
+    541|       const nearResults = drive(crossroadsRows, nearMaze, requestedEar…
+    542|
+    543|       expect(frameAt(nearResults, 8).actor.position).toEqual({ x: 20, …
+       |                                                      ^
+    544|       expect(frameAt(nearResults, 8).actor.facing).toBe(Direction.Up);
+    545|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[76/96]⎯
+
+ FAIL  |core| src/core/actor/move-actor.test.ts > moveActor > turning > reverses immediately mid-corridor, without waiting for a tile centre
+AssertionError: expected { x: 17, y: 12 } to deeply equal { x: 16, y: 12 }
+
+- Expected
++ Received
+
+  {
+-   "x": 16,
++   "x": 17,
+    "y": 12,
+  }
+
+ ❯ src/core/actor/move-actor.test.ts:596:36
+    594|       const first = frameAt(results, 1);
+    595|
+    596|       expect(first.actor.position).toEqual({ x: 16, y: 12 });
+       |                                    ^
+    597|       expect(first.actor.facing).toBe(Direction.Left);
+    598|       expect(first.turned).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[77/96]⎯
+
+ FAIL  |core| src/core/actor/move-actor.test.ts > moveActor > turning > turns at the tile centre it passed through, even at two and a half pixels per frame
+AssertionError: expected { x: 12, y: 20 } to deeply equal { x: 20, y: 18 }
+
+- Expected
++ Received
+
+  {
+-   "x": 20,
+-   "y": 18,
++   "x": 12,
++   "y": 20,
+  }
+
+ ❯ src/core/actor/move-actor.test.ts:631:37
+    629|       const fourth = frameAt(results, 4);
+    630|
+    631|       expect(fourth.actor.position).toEqual({ x: 20, y: 18 });
+       |                                     ^
+    632|       expect(fourth.actor.facing).toBe(Direction.Up);
+    633|       expect(fourth.actor.carrySubPixels).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[78/96]⎯
+
+ FAIL  |core| src/core/actor/move-actor.test.ts > moveActor > reporting and wrapping > reports the tile newly entered, and null on every frame that stays put
+AssertionError: expected null to deeply equal { col: 2, row: 1 }
+
+- Expected:
+{
+  "col": 2,
+  "row": 1,
+}
+
++ Received:
+null
+
+ ❯ src/core/actor/move-actor.test.ts:671:47
+    669|       expect(frameAt(results, 2).enteredTile).toBeNull();
+    670|       expect(frameAt(results, 3).enteredTile).toBeNull();
+    671|       expect(frameAt(results, 4).enteredTile).toEqual({ col: 2, row: 1…
+       |                                               ^
+    672|       expect(frameAt(results, 5).enteredTile).toBeNull();
+    673|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[79/96]⎯
+
+ FAIL  |core| src/core/actor/move-actor.test.ts > moveActor > reporting and wrapping > wraps across the tunnel edge with the sub-pixel carry preserved
+AssertionError: expected { x: +0, y: 12 } to deeply equal { x: 63, y: 12 }
+
+- Expected
++ Received
+
+  {
+-   "x": 63,
++   "x": 0,
+    "y": 12,
+  }
+
+ ❯ src/core/actor/move-actor.test.ts:710:36
+    708|       const first = frameAt(results, 1);
+    709|
+    710|       expect(first.actor.position).toEqual({ x: 63, y: 12 });
+       |                                    ^
+    711|       expect(first.actor.carrySubPixels).toBe(136);
+    712|       expect(first.blocked).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[80/96]⎯
+
+ FAIL  |core| src/core/actor/speed.test.ts > speed > full speed is 320 sub-pixels per frame, which is one and a quarter pixels per frame
+AssertionError: expected +0 to be 320 // Object.is equality
+
+- Expected
++ Received
+
+- 320
++ 0
+
+ ❯ src/core/actor/speed.test.ts:71:24
+     69|    */
+     70|   it('full speed is 320 sub-pixels per frame, which is one and a quart…
+     71|     expect(FULL_SPEED).toBe(320);
+       |                        ^
+     72|   });
+     73|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[81/96]⎯
+
+ FAIL  |core| src/core/actor/speed.test.ts > speed > converts the documented level-1 percentages into whole sub-pixels per frame
+AssertionError: expected +0 to be 256 // Object.is equality
+
+- Expected
++ Received
+
+- 256
++ 0
+
+ ❯ src/core/actor/speed.test.ts:107:33
+    105|    */
+    106|   it('converts the documented level-1 percentages into whole sub-pixel…
+    107|     expect(speedSubPixels(0.8)).toBe(256);
+       |                                 ^
+    108|     expect(speedSubPixels(0.75)).toBe(240);
+    109|     expect(speedSubPixels(0.4)).toBe(128);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[82/96]⎯
+
+ FAIL  |core| src/core/ghost/targeting/blinky.test.ts > blinkyTarget > targets pac-man's tile exactly, whichever way pac-man is facing
+AssertionError: expected { col: +0, row: +0 } to deeply equal { col: 21, row: 23 }
+
+- Expected
++ Received
+
+  {
+-   "col": 21,
+-   "row": 23,
++   "col": 0,
++   "row": 0,
+  }
+
+ ❯ src/core/ghost/targeting/blinky.test.ts:135:59
+    133|
+    134|     for (const facing of ALL_DIRECTIONS) {
+    135|       expect(blinkyTarget(BLINKY, contextFacing(facing))).toEqual(PACM…
+       |                                                           ^
+    136|     }
+    137|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[83/96]⎯
+
+ FAIL  |core| src/core/ghost/targeting/clyde.test.ts > clydeTarget > chases pac-man's tile when he is further than eight tiles away
+AssertionError: expected { col: +0, row: +0 } to deeply equal { col: 10, row: 10 }
+
+- Expected
++ Received
+
+  {
+-   "col": 10,
+-   "row": 10,
++   "col": 0,
++   "row": 0,
+  }
+
+ ❯ src/core/ghost/targeting/clyde.test.ts:133:71
+    131|   it("chases pac-man's tile when he is further than eight tiles away",…
+    132|     /* Nine tiles east of Pac-Man: squared distance 81 > 64. */
+    133|     expect(clydeTarget(clydeAt({ col: 19, row: 10 }), CHASE_CONTEXT)).…
+       |                                                                       ^
+    134|   });
+    135|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[84/96]⎯
+
+ FAIL  |core| src/core/ghost/targeting/clyde.test.ts > clydeTarget > retreats to his scatter corner at exactly eight tiles, the boundary itself
+AssertionError: expected { col: +0, row: +0 } to deeply equal { col: +0, row: 30 }
+
+- Expected
++ Received
+
+  {
+    "col": 0,
+-   "row": 30,
++   "row": 0,
+  }
+
+ ❯ src/core/ghost/targeting/clyde.test.ts:139:71
+    137|     /* Eight tiles east: squared distance exactly 64. The arcade's com…
+    138|        "greater than 64", so the boundary belongs to the retreat. */
+    139|     expect(clydeTarget(clydeAt({ col: 18, row: 10 }), CHASE_CONTEXT)).…
+       |                                                                       ^
+    140|   });
+    141|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[85/96]⎯
+
+ FAIL  |core| src/core/ghost/targeting/clyde.test.ts > clydeTarget > retreats to his scatter corner when he is nearer than eight tiles
+AssertionError: expected { col: +0, row: +0 } to deeply equal { col: +0, row: 30 }
+
+- Expected
++ Received
+
+  {
+    "col": 0,
+-   "row": 30,
++   "row": 0,
+  }
+
+ ❯ src/core/ghost/targeting/clyde.test.ts:144:71
+    142|   it('retreats to his scatter corner when he is nearer than eight tile…
+    143|     /* Seven tiles east: squared distance 49 < 64. */
+    144|     expect(clydeTarget(clydeAt({ col: 17, row: 10 }), CHASE_CONTEXT)).…
+       |                                                                       ^
+    145|   });
+    146|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[86/96]⎯
+
+ FAIL  |core| src/core/ghost/targeting/clyde.test.ts > clydeTarget > measures the radius over both axes, so a column gap and a city block are not distances
+AssertionError: expected { col: +0, row: +0 } to deeply equal { col: 10, row: 10 }
+
+- Expected
++ Received
+
+  {
+-   "col": 10,
+-   "row": 10,
++   "col": 0,
++   "row": 0,
+  }
+
+ ❯ src/core/ghost/targeting/clyde.test.ts:178:71
+    176|   it('measures the radius over both axes, so a column gap and a city b…
+    177|     /* Due south, ten tiles: 0^2 + 10^2 = 100 > 64. */
+    178|     expect(clydeTarget(clydeAt({ col: 10, row: 20 }), CHASE_CONTEXT)).…
+       |                                                                       ^
+    179|
+    180|     /* Diagonal, five and five: 5^2 + 5^2 = 50 < 64, though the city-b…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[87/96]⎯
+
+ FAIL  |core| src/core/ghost/targeting/inky.test.ts > inkyTarget > doubles the vector from blinky through the tile two ahead of pac-man
+AssertionError: expected { col: +0, row: +0 } to deeply equal { col: 18, row: 12 }
+
+- Expected
++ Received
+
+  {
+-   "col": 18,
+-   "row": 12,
++   "col": 0,
++   "row": 0,
+  }
+
+ ❯ src/core/ghost/targeting/inky.test.ts:103:20
+    101|     );
+    102|
+    103|     expect(target).toEqual({ col: 18, row: 12 });
+       |                    ^
+    104|   });
+    105|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[88/96]⎯
+
+ FAIL  |core| src/core/ghost/targeting/inky.test.ts > inkyTarget > inherits the up-overflow in its pivot: facing up, the pivot is two up and two left
+AssertionError: expected { col: +0, row: +0 } to deeply equal { col: 6, row: 8 }
+
+- Expected
++ Received
+
+  {
+-   "col": 6,
+-   "row": 8,
++   "col": 0,
++   "row": 0,
+  }
+
+ ❯ src/core/ghost/targeting/inky.test.ts:134:20
+    132|     );
+    133|
+    134|     expect(target).toEqual({ col: 6, row: 8 });
+       |                    ^
+    135|   });
+    136|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[89/96]⎯
+
+ FAIL  |core| src/core/ghost/targeting/inky.test.ts > inkyTarget > returns an off-board target unclamped, because the arcade never clamps one
+AssertionError: expected { col: +0, row: +0 } to deeply equal { col: -20, row: -14 }
+
+- Expected
++ Received
+
+  {
+-   "col": -20,
+-   "row": -14,
++   "col": 0,
++   "row": 0,
+  }
+
+ ❯ src/core/ghost/targeting/inky.test.ts:159:7
+    157|     expect(
+    158|       inkyTarget(INKY, context({ col: 2, row: 3 }, Direction.Left, { c…
+    159|     ).toEqual({ col: -20, row: -14 });
+       |       ^
+    160|
+    161|     expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[90/96]⎯
+
+ FAIL  |core| src/core/ghost/targeting/pinky.test.ts > pinkyTarget > targets four tiles ahead of pac-man when pac-man faces left, right or down
+AssertionError: expected { col: +0, row: +0 } to deeply equal { col: 14, row: 12 }
+
+- Expected
++ Received
+
+  {
+-   "col": 14,
+-   "row": 12,
++   "col": 0,
++   "row": 0,
+  }
+
+ ❯ src/core/ghost/targeting/pinky.test.ts:111:57
+    109|
+    110|     for (const { facing, expected } of cases) {
+    111|       expect(pinkyTarget(PINKY, contextFacing(facing))).toEqual(expect…
+       |                                                         ^
+    112|     }
+    113|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[91/96]⎯
+
+ FAIL  |core| src/core/ghost/targeting/pinky.test.ts > pinkyTarget > targets four up AND four left when pac-man faces up, reproducing the original hardware overflow
+AssertionError: expected { col: +0, row: +0 } to deeply equal { col: 6, row: 8 }
+
+- Expected
++ Received
+
+  {
+-   "col": 6,
+-   "row": 8,
++   "col": 0,
++   "row": 0,
+  }
+
+ ❯ src/core/ghost/targeting/pinky.test.ts:145:61
+    143|    */
+    144|   it('targets four up AND four left when pac-man faces up, reproducing…
+    145|     expect(pinkyTarget(PINKY, contextFacing(Direction.Up))).toEqual({ …
+       |                                                             ^
+    146|   });
+    147| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[92/96]⎯
+
+ FAIL  |core| src/core/ghost/targeting/scatter-corners.test.ts > SCATTER_CORNERS > are the four arcade corners, keyed by ghost
+AssertionError: expected { blinky: { col: +0, row: +0 }, …(3) } to deeply equal { blinky: { col: 25, row: +0 }, …(3) }
+
+- Expected
++ Received
+
+  {
+    "blinky": {
+-     "col": 25,
++     "col": 0,
+      "row": 0,
+    },
+    "clyde": {
+      "col": 0,
+-     "row": 30,
++     "row": 0,
+    },
+    "inky": {
+-     "col": 27,
+-     "row": 30,
++     "col": 0,
++     "row": 0,
+    },
+    "pinky": {
+-     "col": 2,
++     "col": 0,
+      "row": 0,
+    },
+  }
+
+ ❯ src/core/ghost/targeting/scatter-corners.test.ts:79:29
+     77|    */
+     78|   it('are the four arcade corners, keyed by ghost', () => {
+     79|     expect(SCATTER_CORNERS).toEqual({
+       |                             ^
+     80|       [GhostId.Blinky]: BLINKY_CORNER,
+     81|       [GhostId.Pinky]: PINKY_CORNER,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[93/96]⎯
+
+ FAIL  |core| src/core/ghost/targeting/target-for.test.ts > targetFor > returns the ghost's own scatter corner in scatter mode, ignoring pac-man
+AssertionError: expected { col: +0, row: +0 } to deeply equal { col: 25, row: +0 }
+
+- Expected
++ Received
+
+  {
+-   "col": 25,
++   "col": 0,
+    "row": 0,
+  }
+
+ ❯ src/core/ghost/targeting/target-for.test.ts:114:75
+    112|     const scatter = contextIn('scatter');
+    113|
+    114|     expect(targetFor(ghost(GhostId.Blinky, GhostPhase.Hunting), scatte…
+       |                                                                           ^
+    115|     expect(targetFor(ghost(GhostId.Clyde, GhostPhase.Hunting), scatter…
+    116|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[94/96]⎯
+
+ FAIL  |core| src/core/ghost/targeting/target-for.test.ts > targetFor > sends eyes to the house door whatever the mode or the personality
+AssertionError: expected { col: +0, row: +0 } to deeply equal { col: 21, row: 5 }
+
+- Expected
++ Received
+
+  {
+-   "col": 21,
+-   "row": 5,
++   "col": 0,
++   "row": 0,
+  }
+
+ ❯ src/core/ghost/targeting/target-for.test.ts:136:83
+    134|    */
+    135|   it('sends eyes to the house door whatever the mode or the personalit…
+    136|     expect(targetFor(ghost(GhostId.Blinky, GhostPhase.Eyes), contextIn…
+       |                                                                                   ^
+    137|       HOUSE_DOOR,
+    138|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[95/96]⎯
+
+ FAIL  |core| src/core/ghost/targeting/target-for.test.ts > targetFor > delegates to the personality when a ghost is hunting in chase mode
+AssertionError: expected { col: +0, row: +0 } to deeply equal { col: 7, row: 20 }
+
+- Expected
++ Received
+
+  {
+-   "col": 7,
+-   "row": 20,
++   "col": 0,
++   "row": 0,
+  }
+
+ ❯ src/core/ghost/targeting/target-for.test.ts:163:86
+    161|    */
+    162|   it('delegates to the personality when a ghost is hunting in chase mo…
+    163|     expect(targetFor(ghost(GhostId.Blinky, GhostPhase.Hunting), contex…
+       |                                                                                      ^
+    164|       PACMAN_TILE,
+    165|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[96/96]⎯
+
+
+ Test Files  22 failed | 8 passed (30)
+      Tests  96 failed | 100 passed (196)
+   Start at  19:14:34
+   Duration  8.08s (transform 5.04s, setup 5.59s, import 7.58s, tests 3.48s, environment 7.26s)
+

@@ -1,0 +1,137 @@
+
+> pacman-tdd@0.1.0 test /Users/ricardoarayafarias/GetReal/pacman
+> vitest run
+
+
+ RUN  v4.1.10 /Users/ricardoarayafarias/GetReal/pacman
+
+ ✓ |core| src/core/geometry/direction.test.ts (14 tests) 21ms
+ ✓ |core| assets/atlas.test.ts (16 tests) 35ms
+ ❯ |core| assets/transform.test.ts (14 tests | 6 failed) 57ms
+     × moves the top-left pixel to the top-right 21ms
+     × moves the pixel right of the corner to below the corner 2ms
+     ✓ returns to the original after four quarter turns 1ms
+     ✓ preserves the 16x16 shape 9ms
+     ✓ does not mutate its input 1ms
+     × takes a new name for the derived sprite 1ms
+     × reverses each row 1ms
+     ✓ returns to the original when applied twice 0ms
+     ✓ does not mutate its input 1ms
+     × replaces the colour of a palette entry 2ms
+     ✓ leaves other palette entries untouched 0ms
+     ✓ does not change the pixels 0ms
+     × rejects recolouring a key that is not in the palette 11ms
+     ✓ does not mutate its input 1ms
+ ✓ |core| src/core/rng/rng.test.ts (10 tests) 153ms
+ ✓ |dom| src/render/render-scene.test.ts (7 tests) 20ms
+ ✓ |dom| src/platform/load-atlas.test.ts (7 tests) 27ms
+ ✓ |dom| src/render/canvas-surface.test.ts (5 tests) 32ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |core| assets/transform.test.ts > rotateClockwise > moves the top-left pixel to the top-right
+AssertionError: expected '_' to be 'A' // Object.is equality
+
+Expected: "A"
+Received: "_"
+
+ ❯ assets/transform.test.ts:74:56
+     72|     const rotated = rotateClockwise(marker);
+     73|
+     74|     expect(rotated.pixels[0]?.charAt(SPRITE_SIZE - 1)).toBe('A');
+       |                                                        ^
+     75|   });
+     76|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  |core| assets/transform.test.ts > rotateClockwise > moves the pixel right of the corner to below the corner
+AssertionError: expected '_' to be 'B' // Object.is equality
+
+Expected: "B"
+Received: "_"
+
+ ❯ assets/transform.test.ts:94:56
+     92|     const rotated = rotateClockwise(marker);
+     93|
+     94|     expect(rotated.pixels[1]?.charAt(SPRITE_SIZE - 1)).toBe('B');
+       |                                                        ^
+     95|   });
+     96|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  |core| assets/transform.test.ts > rotateClockwise > takes a new name for the derived sprite
+AssertionError: expected 'marker' to be 'marker-down' // Object.is equality
+
+Expected: "marker-down"
+Received: "marker"
+
+ ❯ assets/transform.test.ts:179:26
+    177|     const rotated = rotateClockwise(marker, 'marker-down');
+    178|
+    179|     expect(rotated.name).toBe('marker-down');
+       |                          ^
+    180|   });
+    181| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  |core| assets/transform.test.ts > mirrorHorizontal > reverses each row
+AssertionError: expected '_' to be 'A' // Object.is equality
+
+Expected: "A"
+Received: "_"
+
+ ❯ assets/transform.test.ts:202:57
+    200|     const mirrored = mirrorHorizontal(marker);
+    201|
+    202|     expect(mirrored.pixels[0]?.charAt(SPRITE_SIZE - 1)).toBe('A');
+       |                                                         ^
+    203|     expect(mirrored.pixels[0]?.charAt(SPRITE_SIZE - 2)).toBe('B');
+    204|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  |core| assets/transform.test.ts > recolour > replaces the colour of a palette entry
+AssertionError: expected '#ff0000' to be '#00ff00' // Object.is equality
+
+Expected: "#00ff00"
+Received: "#ff0000"
+
+ ❯ assets/transform.test.ts:250:32
+    248|     const green = recolour(marker, 'marker-green', { A: '#00ff00' });
+    249|
+    250|     expect(green.palette['A']).toBe('#00ff00');
+       |                                ^
+    251|   });
+    252|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  |core| assets/transform.test.ts > recolour > rejects recolouring a key that is not in the palette
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ assets/transform.test.ts:303:62
+    301|    */
+    302|   it('rejects recolouring a key that is not in the palette', () => {
+    303|     expect(() => recolour(marker, 'oops', { Z: '#ffffff' })).toThrow(/…
+       |                                                              ^
+    304|   });
+    305|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  1 failed | 6 passed (7)
+      Tests  6 failed | 67 passed (73)
+   Start at  17:47:43
+   Duration  3.10s (transform 1.41s, setup 1.34s, import 1.44s, tests 345ms, environment 7.32s)
+
+ ELIFECYCLE  Test failed. See above for more details.

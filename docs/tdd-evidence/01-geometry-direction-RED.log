@@ -1,0 +1,220 @@
+
+> pacman-tdd@0.1.0 test /Users/ricardoarayafarias/GetReal/pacman
+> vitest run
+
+
+ RUN  v4.1.10 /Users/ricardoarayafarias/GetReal/pacman
+
+ ❯ |core| src/core/geometry/direction.test.ts (14 tests | 12 failed) 22ms
+       × maps up to negative y, because screen y grows downward 8ms
+       × maps down to positive y 1ms
+       × maps left to negative x 1ms
+       × maps right to positive x 1ms
+       × returns unit vectors for every direction 1ms
+       × reverses up to down 1ms
+       × reverses left to right 1ms
+       × is its own inverse for every direction 0ms
+       × never returns the direction it was given 1ms
+       × is true for a direction and its reverse 1ms
+       ✓ is false for perpendicular directions 0ms
+       ✓ is false for the same direction 0ms
+       × contains exactly the four cardinal directions 1ms
+       × is ordered up, left, down, right to match arcade tie-breaking 1ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 12 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |core| src/core/geometry/direction.test.ts > Direction > toUnitVector > maps up to negative y, because screen y grows downward
+AssertionError: expected { x: +0, y: +0 } to deeply equal { x: +0, y: -1 }
+
+- Expected
++ Received
+
+  {
+    "x": 0,
+-   "y": -1,
++   "y": 0,
+  }
+
+ ❯ src/core/geometry/direction.test.ts:19:42
+     17|   describe('toUnitVector', () => {
+     18|     it('maps up to negative y, because screen y grows downward', () =>…
+     19|       expect(toUnitVector(Direction.Up)).toEqual({ x: 0, y: -1 });
+       |                                          ^
+     20|     });
+     21|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/12]⎯
+
+ FAIL  |core| src/core/geometry/direction.test.ts > Direction > toUnitVector > maps down to positive y
+AssertionError: expected { x: +0, y: +0 } to deeply equal { x: +0, y: 1 }
+
+- Expected
++ Received
+
+  {
+    "x": 0,
+-   "y": 1,
++   "y": 0,
+  }
+
+ ❯ src/core/geometry/direction.test.ts:23:44
+     21|
+     22|     it('maps down to positive y', () => {
+     23|       expect(toUnitVector(Direction.Down)).toEqual({ x: 0, y: 1 });
+       |                                            ^
+     24|     });
+     25|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/12]⎯
+
+ FAIL  |core| src/core/geometry/direction.test.ts > Direction > toUnitVector > maps left to negative x
+AssertionError: expected { x: +0, y: +0 } to deeply equal { x: -1, y: +0 }
+
+- Expected
++ Received
+
+  {
+-   "x": -1,
++   "x": 0,
+    "y": 0,
+  }
+
+ ❯ src/core/geometry/direction.test.ts:27:44
+     25|
+     26|     it('maps left to negative x', () => {
+     27|       expect(toUnitVector(Direction.Left)).toEqual({ x: -1, y: 0 });
+       |                                            ^
+     28|     });
+     29|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/12]⎯
+
+ FAIL  |core| src/core/geometry/direction.test.ts > Direction > toUnitVector > maps right to positive x
+AssertionError: expected { x: +0, y: +0 } to deeply equal { x: 1, y: +0 }
+
+- Expected
++ Received
+
+  {
+-   "x": 1,
++   "x": 0,
+    "y": 0,
+  }
+
+ ❯ src/core/geometry/direction.test.ts:31:45
+     29|
+     30|     it('maps right to positive x', () => {
+     31|       expect(toUnitVector(Direction.Right)).toEqual({ x: 1, y: 0 });
+       |                                             ^
+     32|     });
+     33|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/12]⎯
+
+ FAIL  |core| src/core/geometry/direction.test.ts > Direction > toUnitVector > returns unit vectors for every direction
+ FAIL  |core| src/core/geometry/direction.test.ts > Direction > opposite > is its own inverse for every direction
+ FAIL  |core| src/core/geometry/direction.test.ts > Direction > opposite > never returns the direction it was given
+Error: expected number of assertions to be 4, but got 0
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/12]⎯
+
+ FAIL  |core| src/core/geometry/direction.test.ts > Direction > opposite > reverses up to down
+AssertionError: expected 'up' to be 'down' // Object.is equality
+
+Expected: "down"
+Received: "up"
+
+ ❯ src/core/geometry/direction.test.ts:50:38
+     48|   describe('opposite', () => {
+     49|     it('reverses up to down', () => {
+     50|       expect(opposite(Direction.Up)).toBe(Direction.Down);
+       |                                      ^
+     51|     });
+     52|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/12]⎯
+
+ FAIL  |core| src/core/geometry/direction.test.ts > Direction > opposite > reverses left to right
+AssertionError: expected 'left' to be 'right' // Object.is equality
+
+Expected: "right"
+Received: "left"
+
+ ❯ src/core/geometry/direction.test.ts:54:40
+     52|
+     53|     it('reverses left to right', () => {
+     54|       expect(opposite(Direction.Left)).toBe(Direction.Right);
+       |                                        ^
+     55|     });
+     56|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/12]⎯
+
+ FAIL  |core| src/core/geometry/direction.test.ts > Direction > isOpposite > is true for a direction and its reverse
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/core/geometry/direction.test.ts:79:56
+     77|      */
+     78|     it('is true for a direction and its reverse', () => {
+     79|       expect(isOpposite(Direction.Up, Direction.Down)).toBe(true);
+       |                                                        ^
+     80|     });
+     81|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/12]⎯
+
+ FAIL  |core| src/core/geometry/direction.test.ts > Direction > ALL_DIRECTIONS > contains exactly the four cardinal directions
+AssertionError: expected [] to deeply equal [ 'up', 'left', 'down', 'right' ]
+
+- Expected
++ Received
+
+- [
+-   "up",
+-   "left",
+-   "down",
+-   "right",
+- ]
++ []
+
+ ❯ src/core/geometry/direction.test.ts:93:30
+     91|   describe('ALL_DIRECTIONS', () => {
+     92|     it('contains exactly the four cardinal directions', () => {
+     93|       expect(ALL_DIRECTIONS).toEqual([
+       |                              ^
+     94|         Direction.Up,
+     95|         Direction.Left,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/12]⎯
+
+ FAIL  |core| src/core/geometry/direction.test.ts > Direction > ALL_DIRECTIONS > is ordered up, left, down, right to match arcade tie-breaking
+AssertionError: expected undefined to be 'up' // Object.is equality
+
+- Expected:
+"up"
+
++ Received:
+undefined
+
+ ❯ src/core/geometry/direction.test.ts:107:33
+    105|      */
+    106|     it('is ordered up, left, down, right to match arcade tie-breaking'…
+    107|       expect(ALL_DIRECTIONS[0]).toBe(Direction.Up);
+       |                                 ^
+    108|       expect(ALL_DIRECTIONS[1]).toBe(Direction.Left);
+    109|       expect(ALL_DIRECTIONS[2]).toBe(Direction.Down);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/12]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  12 failed | 2 passed (14)
+   Start at  21:55:51
+   Duration  312ms (transform 44ms, setup 51ms, import 25ms, tests 22ms, environment 0ms)
+
+ ELIFECYCLE  Test failed. See above for more details.

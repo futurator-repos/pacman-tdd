@@ -13,6 +13,10 @@ test-results/
 # Editor / OS
 .DS_Store
 *.log
+# ...except the captured RED runs. These are evidence, not noise: the charter
+# tells a reader to check them, and ten commit messages cite them by name. A
+# generic *.log rule silently swallowed the whole trail once already.
+!docs/tdd-evidence/*.log
 .idea/
 .vscode/*
 !.vscode/extensions.json

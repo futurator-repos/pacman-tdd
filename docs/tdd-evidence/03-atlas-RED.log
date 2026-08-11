@@ -1,0 +1,242 @@
+
+> pacman-tdd@0.1.0 test /Users/ricardoarayafarias/GetReal/pacman
+> vitest run
+
+
+ RUN  v4.1.10 /Users/ricardoarayafarias/GetReal/pacman
+
+ ✓ |core| src/core/geometry/direction.test.ts (14 tests) 73ms
+ ❯ |core| assets/atlas.test.ts (16 tests | 10 failed) 157ms
+     ✓ accepts a well-formed 16x16 sprite 7ms
+     × rejects a sprite with the wrong number of rows 42ms
+     × rejects a row of the wrong width 2ms
+     × rejects a pixel character that is missing from the palette 2ms
+     × places every sprite in the manifest 30ms
+     × lays sprites out left to right without overlapping 21ms
+     × reports an atlas wide enough to hold every sprite 4ms
+     ✓ produces RGBA pixel data sized to the atlas 2ms
+     × writes an opaque pixel where the palette gives a colour 3ms
+     × writes a fully transparent pixel where the palette gives null 1ms
+     × rejects two sprites sharing a name, rather than silently dropping one 2ms
+     × rejects an empty sprite list 9ms
+     ✓ contains at least one sprite 1ms
+     ✓ is entirely valid 1ms
+     ✓ uses the arcade yellow for pac-man 1ms
+     ✓ gives every sprite a unique name 1ms
+ ✓ |core| src/core/rng/rng.test.ts (10 tests) 654ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 10 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |core| assets/atlas.test.ts > validateSprite > rejects a sprite with the wrong number of rows
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ assets/atlas.test.ts:25:8
+     23|     expect(() => {
+     24|       validateSprite(sprite);
+     25|     }).toThrow(/16 rows/i);
+       |        ^
+     26|   });
+     27|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/10]⎯
+
+ FAIL  |core| assets/atlas.test.ts > validateSprite > rejects a row of the wrong width
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ assets/atlas.test.ts:34:8
+     32|     expect(() => {
+     33|       validateSprite(sprite);
+     34|     }).toThrow(/row 3/i);
+       |        ^
+     35|   });
+     36|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/10]⎯
+
+ FAIL  |core| assets/atlas.test.ts > validateSprite > rejects a pixel character that is missing from the palette
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ assets/atlas.test.ts:45:8
+     43|     expect(() => {
+     44|       validateSprite(sprite);
+     45|     }).toThrow(/'Q'/);
+       |        ^
+     46|   });
+     47| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/10]⎯
+
+ FAIL  |core| assets/atlas.test.ts > buildAtlas > places every sprite in the manifest
+AssertionError: expected [] to deeply equal [ 'a', 'b' ]
+
+- Expected
++ Received
+
+- [
+-   "a",
+-   "b",
+- ]
++ []
+
+ ❯ assets/atlas.test.ts:52:49
+     50|   it('places every sprite in the manifest', () => {
+     51|     const { manifest } = buildAtlas([validSprite({ name: 'a' }), valid…
+     52|     expect(Object.keys(manifest.frames).sort()).toEqual(['a', 'b']);
+       |                                                 ^
+     53|   });
+     54|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/10]⎯
+
+ FAIL  |core| assets/atlas.test.ts > buildAtlas > lays sprites out left to right without overlapping
+AssertionError: expected undefined to deeply equal { x: +0, y: +0, w: 16, h: 16 }
+
+- Expected:
+{
+  "h": 16,
+  "w": 16,
+  "x": 0,
+  "y": 0,
+}
+
++ Received:
+undefined
+
+ ❯ assets/atlas.test.ts:57:34
+     55|   it('lays sprites out left to right without overlapping', () => {
+     56|     const { manifest } = buildAtlas([validSprite({ name: 'a' }), valid…
+     57|     expect(manifest.frames['a']).toEqual({ x: 0, y: 0, w: SPRITE_SIZE,…
+       |                                  ^
+     58|     expect(manifest.frames['b']).toEqual({ x: SPRITE_SIZE, y: 0, w: SP…
+     59|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/10]⎯
+
+ FAIL  |core| assets/atlas.test.ts > buildAtlas > reports an atlas wide enough to hold every sprite
+AssertionError: expected +0 to be 48 // Object.is equality
+
+- Expected
++ Received
+
+- 48
++ 0
+
+ ❯ assets/atlas.test.ts:67:28
+     65|       validSprite({ name: 'c' }),
+     66|     ]);
+     67|     expect(manifest.width).toBe(3 * SPRITE_SIZE);
+       |                            ^
+     68|     expect(manifest.height).toBe(SPRITE_SIZE);
+     69|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/10]⎯
+
+ FAIL  |core| assets/atlas.test.ts > buildAtlas > writes an opaque pixel where the palette gives a colour
+AssertionError: expected [ undefined, undefined, …(2) ] to deeply equal [ 255, 255, +0, 255 ]
+
+- Expected
++ Received
+
+  [
+-   255,
+-   255,
+-   0,
+-   255,
++   undefined,
++   undefined,
++   undefined,
++   undefined,
+  ]
+
+ ❯ assets/atlas.test.ts:79:50
+     77|     const { rgba } = buildAtlas([validSprite()]);
+     78|     /* Top-left pixel is 'Y' -> #ffff00, fully opaque. */
+     79|     expect([rgba[0], rgba[1], rgba[2], rgba[3]]).toEqual([0xff, 0xff, …
+       |                                                  ^
+     80|   });
+     81|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/10]⎯
+
+ FAIL  |core| assets/atlas.test.ts > buildAtlas > writes a fully transparent pixel where the palette gives null
+AssertionError: expected undefined to be +0 // Object.is equality
+
+- Expected:
+0
+
++ Received:
+undefined
+
+ ❯ assets/atlas.test.ts:85:21
+     83|     const rows = Array.from({ length: SPRITE_SIZE }, () => '_'.repeat(…
+     84|     const { rgba } = buildAtlas([validSprite({ pixels: rows })]);
+     85|     expect(rgba[3]).toBe(0);
+       |                     ^
+     86|   });
+     87|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/10]⎯
+
+ FAIL  |core| assets/atlas.test.ts > buildAtlas > rejects two sprites sharing a name, rather than silently dropping one
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ assets/atlas.test.ts:89:92
+     87|
+     88|   it('rejects two sprites sharing a name, rather than silently droppin…
+     89|     expect(() => buildAtlas([validSprite({ name: 'dup' }), validSprite…
+       |                                                                                            ^
+     90|       /duplicate.*dup/i,
+     91|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/10]⎯
+
+ FAIL  |core| assets/atlas.test.ts > buildAtlas > rejects an empty sprite list
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ assets/atlas.test.ts:95:34
+     93|
+     94|   it('rejects an empty sprite list', () => {
+     95|     expect(() => buildAtlas([])).toThrow(/at least one/i);
+       |                                  ^
+     96|   });
+     97| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/10]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  10 failed | 30 passed (40)
+   Start at  22:04:30
+   Duration  3.55s (transform 1.80s, setup 1.78s, import 1.46s, tests 885ms, environment 1ms)
+
+ ELIFECYCLE  Test failed. See above for more details.
