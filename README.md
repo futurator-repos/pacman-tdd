@@ -3,7 +3,12 @@
 An arcade-accurate Pac-Man, built to game-studio codebase standards: strictly typed, test-driven,
 with quality gates that fail the build rather than file a warning.
 
-> **Status:** scaffold complete — toolchain, asset pipeline and a walking skeleton, all built
+> **STATUS: INCOMPLETE.** There is no playable game. Read
+> [docs/POST-MORTEM.md](docs/POST-MORTEM.md) first — it explains what went wrong and what to do
+> differently. The game core is tested and working; rendering, input and the game loop were never
+> built.
+
+> **Original status line:** scaffold complete — toolchain, asset pipeline and a walking skeleton, all built
 > test-first. No gameplay yet.
 
 The point of this repository is not really Pac-Man. It is a worked example of TDD that you can read
