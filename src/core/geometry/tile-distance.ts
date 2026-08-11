@@ -1,10 +1,6 @@
 import { type Tile } from './tile.ts';
 
 /**
- * SIGNATURE-ONLY STUB — RED phase. No behaviour: see tile.ts for why.
- */
-
-/**
  * The SQUARED Euclidean distance between two tiles, in tiles squared.
  *
  * Squared, never square-rooted. Two reasons, and both are load-bearing:
@@ -15,7 +11,13 @@ import { type Tile } from './tile.ts';
  *    in the last bit — making the tie-break, and therefore replay, unstable.
  * 2. Clyde's rule has its boundary at eight tiles, which the arcade compares as
  *    64. Keeping the comparison squared keeps that literal 64 in the code.
+ *
+ * Nothing is lost by omitting the root: squaring is monotonic on non-negative
+ * numbers, so squared distances rank candidate tiles in exactly the order real
+ * distances would.
  */
-export function squaredDistance(_a: Tile, _b: Tile): number {
-  return 0;
+export function squaredDistance(a: Tile, b: Tile): number {
+  const columnGap = a.col - b.col;
+  const rowGap = a.row - b.row;
+  return columnGap * columnGap + rowGap * rowGap;
 }

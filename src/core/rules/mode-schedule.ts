@@ -11,22 +11,6 @@ import { GlobalMode, type LevelSpec, type ModePhase } from './level-spec.ts';
 export { GlobalMode } from './level-spec.ts';
 
 /**
- * SIGNATURE-ONLY STUB — slice s04, RED phase.
- *
- * Every function below declares its real type and returns a deliberately inert
- * value. There is NO behaviour here, on purpose: the tests must fail on their
- * assertions with an expected-vs-received diff, not on `Cannot find module`,
- * which would prove nothing about the assertions at all. See
- * docs/TDD-CHARTER.md, Challenge 1.
- *
- * The rule that keeps the stub honest: it must not make a single assertion pass
- * that ought to be failing. That is why `INERT_MODES` is a zeroed record rather
- * than the caller's own state echoed back — echoing the input would silently
- * satisfy "the wave clock does not advance while frightened", the very
- * behaviour that test exists to pin.
- */
-
-/**
  * The wave clock, as a value.
  *
  * `waveFrames` counts frames already spent in the current wave; `waveIndex`
@@ -55,26 +39,139 @@ export interface ModeAdvance {
   readonly frightenedEnded: boolean;
 }
 
-const INERT_MODES: ModeState = {
-  waveIndex: 0,
-  waveFrames: 0,
-  frightenedFramesLeft: 0,
-};
+/**
+ * The wave every schedule ends on, and therefore the answer for any index past
+ * the end of one.
+ *
+ * It is a named constant rather than an `if` at each lookup because it is the
+ * same fact twice: docs/ARCADE-REFERENCE.md section 4 states that after the
+ * fourth scatter period the ghosts chase permanently, so "off the end of the
+ * schedule" and "the last entry" describe one state, not two.
+ */
+const ENDLESS_CHASE: ModePhase = { mode: GlobalMode.Chase, durationFrames: null };
+
+/**
+ * Total lookup into a level's schedule.
+ *
+ * Sharing one accessor between `currentMode` and `advanceModes` is what keeps
+ * the out-of-range case a single decision made in a single place: under
+ * `noUncheckedIndexedAccess` a raw `waves[i]` is `ModePhase | undefined`, and an
+ * `undefined` reaching either caller would crash at whatever minute of play the
+ * last wave happened to expire.
+ */
+function phaseAt(waves: readonly ModePhase[], waveIndex: number): ModePhase {
+  return waves[waveIndex] ?? ENDLESS_CHASE;
+}
+
+/** Level 1's schedule. docs/ARCADE-REFERENCE.md section 4, "Level 1". */
+const LEVEL_1_WAVES: readonly ModePhase[] = [
+  { mode: GlobalMode.Scatter, durationFrames: 420 }, // 7 s
+  { mode: GlobalMode.Chase, durationFrames: 1200 }, // 20 s
+  { mode: GlobalMode.Scatter, durationFrames: 420 }, // 7 s
+  { mode: GlobalMode.Chase, durationFrames: 1200 }, // 20 s
+  { mode: GlobalMode.Scatter, durationFrames: 300 }, // 5 s
+  { mode: GlobalMode.Chase, durationFrames: 1200 }, // 20 s
+  { mode: GlobalMode.Scatter, durationFrames: 300 }, // 5 s
+  ENDLESS_CHASE,
+];
+
+/**
+ * Levels 2 to 4. docs/ARCADE-REFERENCE.md section 4, "Levels 2 to 4".
+ *
+ * The one-frame scatter at index 6 is real, not a transcription slip: from
+ * level 2 on the fourth scatter period lasts a single frame, long enough to
+ * force the reversal and nothing more.
+ */
+const LEVELS_2_TO_4_WAVES: readonly ModePhase[] = [
+  { mode: GlobalMode.Scatter, durationFrames: 420 }, // 7 s
+  { mode: GlobalMode.Chase, durationFrames: 1200 }, // 20 s
+  { mode: GlobalMode.Scatter, durationFrames: 420 }, // 7 s
+  { mode: GlobalMode.Chase, durationFrames: 1200 }, // 20 s
+  { mode: GlobalMode.Scatter, durationFrames: 300 }, // 5 s
+  { mode: GlobalMode.Chase, durationFrames: 61980 }, // 1033 s
+  { mode: GlobalMode.Scatter, durationFrames: 1 }, // 1/60 s — one frame
+  ENDLESS_CHASE,
+];
+
+/** Levels 5 and up. docs/ARCADE-REFERENCE.md section 4, "Levels 5 and up". */
+const LEVELS_5_UP_WAVES: readonly ModePhase[] = [
+  { mode: GlobalMode.Scatter, durationFrames: 300 }, // 5 s
+  { mode: GlobalMode.Chase, durationFrames: 1200 }, // 20 s
+  { mode: GlobalMode.Scatter, durationFrames: 300 }, // 5 s
+  { mode: GlobalMode.Chase, durationFrames: 1200 }, // 20 s
+  { mode: GlobalMode.Scatter, durationFrames: 300 }, // 5 s
+  { mode: GlobalMode.Chase, durationFrames: 62220 }, // 1037 s
+  { mode: GlobalMode.Scatter, durationFrames: 1 }, // 1/60 s — one frame
+  ENDLESS_CHASE,
+];
 
 /**
  * The scatter/chase schedule for a level: level 1, levels 2-4, or levels 5 and
  * up. docs/ARCADE-REFERENCE.md section 4.
+ *
+ * The bounds are written as `<=` against the LAST level each table serves
+ * rather than as `<` against the first level of the next one, so a reader
+ * checking this against the document compares the same numbers the document
+ * prints. Levels below 1 take level 1's table for the same reason `levelSpec`
+ * clamps: no caller should have to know the domain to ask a question.
  */
-export function wavesForLevel(_level: number): readonly ModePhase[] {
-  return [];
+export function wavesForLevel(level: number): readonly ModePhase[] {
+  if (level <= 1) {
+    return LEVEL_1_WAVES;
+  }
+  if (level <= 4) {
+    return LEVELS_2_TO_4_WAVES;
+  }
+  return LEVELS_5_UP_WAVES;
 }
 
 /** The mode the ghosts are in right now, given where the wave clock stands. */
-export function currentMode(_modes: ModeState, _spec: LevelSpec): GlobalMode {
-  return GlobalMode.Scatter;
+export function currentMode(modes: ModeState, spec: LevelSpec): GlobalMode {
+  return phaseAt(spec.waves, modes.waveIndex).mode;
 }
 
-/** Advance the wave clock and the fright timer by exactly one frame. */
-export function advanceModes(_modes: ModeState, _spec: LevelSpec): ModeAdvance {
-  return { modes: INERT_MODES, reversalRequired: false, frightenedEnded: false };
+/**
+ * Advance the wave clock and the fright timer by exactly one frame.
+ *
+ * The fright branch comes FIRST and returns without touching the wave clock,
+ * because that ordering IS the arcade rule: docs/ARCADE-REFERENCE.md section 4
+ * quotes the Dossier — while the ghosts are frightened the scatter/chase timer
+ * is paused, and it resumes afterwards from where it stopped. Written the other
+ * way round, every power pellet would quietly spend several seconds of the
+ * player's scatter time and the late waves would arrive early.
+ *
+ * A consequence worth naming: the frame on which fright falls from 1 to 0 is
+ * still a frozen frame, since the timer was above zero at the START of it.
+ */
+export function advanceModes(modes: ModeState, spec: LevelSpec): ModeAdvance {
+  if (modes.frightenedFramesLeft > 0) {
+    const frightenedFramesLeft = modes.frightenedFramesLeft - 1;
+    return {
+      modes: { ...modes, frightenedFramesLeft },
+      /* Fright ENDING is absent from the Dossier's list of reversal triggers,
+         so nobody turns around here. */
+      reversalRequired: false,
+      frightenedEnded: frightenedFramesLeft === 0,
+    };
+  }
+
+  const waveFrames = modes.waveFrames + 1;
+  const { durationFrames } = phaseAt(spec.waves, modes.waveIndex);
+
+  /* A wave flips when the frames spent in it REACH its duration; `null` means
+     "and then this mode forever", which is why the null check is explicit and
+     not a `?? 0` — a zero-length wave would flip sixty times a second. */
+  if (durationFrames !== null && waveFrames >= durationFrames) {
+    return {
+      modes: { ...modes, waveIndex: modes.waveIndex + 1, waveFrames: 0 },
+      reversalRequired: true,
+      frightenedEnded: false,
+    };
+  }
+
+  return {
+    modes: { ...modes, waveFrames },
+    reversalRequired: false,
+    frightenedEnded: false,
+  };
 }

@@ -38,8 +38,19 @@ export interface Ghost {
   readonly reverseQueued: boolean;
 }
 
-/* STUB — slice s05 RED phase. Signature only, no behaviour. `false` is the
-   inert value: it must not make a single assertion pass that ought to fail. */
-export function isFrightened(_ghost: Ghost): boolean {
-  return false;
+/**
+ * Blue or not, asked of the timer and of nothing else.
+ *
+ * The predicate reads ONE field on purpose. A power pellet frightens every
+ * ghost, including one still sitting in the house and one already leaving it
+ * (docs/ARCADE-REFERENCE.md section 6.6), so any `phase === …` term added here
+ * would un-blue a ghost the arcade turns blue. The eaten-ghost exception —
+ * eyes are neither blue nor edible — is carried by the collision rule, which
+ * knows the phase, rather than by this function, which deliberately does not.
+ *
+ * Strictly greater than zero: on the frame the timer reaches zero the ghost is
+ * dangerous again, not one frame later. `>= 0` would make the game unlosable.
+ */
+export function isFrightened(ghost: Ghost): boolean {
+  return ghost.frightenedFramesLeft > 0;
 }

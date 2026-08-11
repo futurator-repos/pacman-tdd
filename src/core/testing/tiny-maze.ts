@@ -2,21 +2,81 @@ import { type Maze } from '../maze/maze.ts';
 import { parseMaze } from '../maze/parse-maze.ts';
 
 /**
- * SIGNATURE-ONLY STUB — RED phase.
- *
- * Every function returns the same inert board so that `tiny-maze.test.ts` and
- * every test that borrows a fixture fails on its own assertions rather than on
- * `Cannot find module`. The three fixture layouts are CONTENT — they are
- * specified by the tests, and drawn in the doc comments below so the GREEN step
- * has no room to invent a different shape.
- *
  * This file is production code, not a test helper hiding in `src/`. It is held
  * to the same 100% coverage bar as the rules, because a fixture that shapes
  * twenty other tests deserves to be correct — see docs/ARCHITECTURE.md,
  * "src/core/testing/ as first-class production code".
+ *
+ * Every layout below carries a one-tile ghost house and a `P`, because
+ * `parseMaze` requires both. That is the fixtures paying the same price as real
+ * authored data, which is the point: a fixture that could not be a board would
+ * not be evidence about boards.
  */
 
-const EMPTY_LAYOUT: readonly string[] = [];
+/**
+ * A straight horizontal corridor: every interior tile has exactly two exits,
+ * left and right.
+ *
+ * ```
+ *      col 0123456789A
+ * row 0    ###########
+ * row 1    ####H######
+ * row 2    ####-######
+ * row 3    #...P.....#
+ * row 4    ###########
+ * ```
+ */
+const CORRIDOR_LAYOUT: readonly string[] = [
+  '###########',
+  '####H######',
+  '####-######',
+  '#...P.....#',
+  '###########',
+];
+
+/**
+ * A four-way junction at (5,4), where all four exits are open.
+ *
+ * ```
+ *      col 0123456789A
+ * row 0    ###########
+ * row 1    #####H#####
+ * row 2    #####-#####
+ * row 3    #####.#####
+ * row 4    #....P....#
+ * row 5    #####.#####
+ * row 6    ###########
+ * ```
+ */
+const CROSSROADS_LAYOUT: readonly string[] = [
+  '###########',
+  '#####H#####',
+  '#####-#####',
+  '#####.#####',
+  '#....P....#',
+  '#####.#####',
+  '###########',
+];
+
+/**
+ * A corridor that stops at (5,3), whose only exit is back the way you came.
+ *
+ * ```
+ *      col 0123456789A
+ * row 0    ###########
+ * row 1    ####H######
+ * row 2    ####-######
+ * row 3    #...P.#####
+ * row 4    ###########
+ * ```
+ */
+const DEAD_END_LAYOUT: readonly string[] = [
+  '###########',
+  '####H######',
+  '####-######',
+  '#...P.#####',
+  '###########',
+];
 
 /**
  * Build a small hand-drawn maze from ASCII rows.
@@ -26,67 +86,42 @@ const EMPTY_LAYOUT: readonly string[] = [];
  * situation", while `parseMaze` says "this is authored game data". A system
  * test should show its own board — five rows a reader can check by eye — rather
  * than reach for the 28x31 arcade board and bury the point.
- *
- * Fixtures must still satisfy `parseMaze`: every one needs a `-` gate and a `P`
- * spawn, which is why each layout below carries a one-tile ghost house.
  */
-export function tinyMaze(_rows: readonly string[]): Maze {
-  return parseMaze(EMPTY_LAYOUT);
+export function tinyMaze(rows: readonly string[]): Maze {
+  return parseMaze(rows);
 }
 
 /**
- * STUB — layout specified by `tiny-maze.test.ts`.
+ * The corridor fixture, built fresh on each call.
  *
- * A straight horizontal corridor: every interior tile has exactly two exits,
- * left and right.
- *
- * ```
- * ###########
- * ####H######
- * ####-######
- * #...P.....#
- * ###########
- * ```
+ * A function rather than a module constant so that a test which needs one can
+ * never be handed a board another test has kept a reference to. The parse costs
+ * microseconds on eleven columns, and the isolation is worth more than that.
  */
 export function corridorMaze(): Maze {
-  return tinyMaze(EMPTY_LAYOUT);
+  return tinyMaze(CORRIDOR_LAYOUT);
 }
 
 /**
- * STUB — layout specified by `tiny-maze.test.ts`.
+ * The crossroads fixture — the one that makes a tie-break rule VISIBLE.
  *
- * A four-way junction at (5,4), where all four exits are open. This is the
- * fixture that makes a tie-break rule visible: with every direction legal, the
- * answer a ghost gives is entirely about the rule and not about the walls.
- *
- * ```
- * ###########
- * #####H#####
- * #####-#####
- * #####.#####
- * #....P....#
- * #####.#####
- * ###########
- * ```
+ * With every direction legal out of (5,4), the answer a ghost gives is entirely
+ * about the rule and not about the walls. A junction that quietly degraded to a
+ * T would leave the fourth candidate untested while the test still passed,
+ * which is why `tiny-maze.test.ts` pins the shape rather than trusting it.
  */
 export function crossroadsMaze(): Maze {
-  return tinyMaze(EMPTY_LAYOUT);
+  return tinyMaze(CROSSROADS_LAYOUT);
 }
 
 /**
- * STUB — layout specified by `tiny-maze.test.ts`.
+ * The dead-end fixture.
  *
- * A corridor that stops at (5,3), whose only exit is back the way you came.
- * The fixture that forces the "a reversal is taken rather than throwing" case.
- *
- * ```
- * ###########
- * ####H######
- * ####-######
- * #...P.#####
- * ###########
- * ```
+ * It exists to force one awkward case that no natural board reaches often: the
+ * tile where a ghost's only legal move is the reversal it is normally forbidden
+ * to take. Without a fixture that guarantees it, the branch that handles it is
+ * never exercised and the crash it prevents stays live.
  */
 export function deadEndMaze(): Maze {
-  return tinyMaze(EMPTY_LAYOUT);
+  return tinyMaze(DEAD_END_LAYOUT);
 }

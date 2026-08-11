@@ -1,36 +1,33 @@
 /**
- * SIGNATURE-ONLY STUB — RED phase of slice s03.
+ * The Actor record, and the two questions every mover asks about itself.
  *
- * Every function below returns a deliberately inert value and contains no
- * behaviour whatsoever. Its only job is to make `actor.test.ts` and
- * `move-actor.test.ts` EXECUTE, so they fail with a real expected-vs-received
- * diff instead of `Cannot find module` (see docs/TDD-FINDINGS.md, failure
- * mode 1). The rule that keeps the stub honest: it must not make a single
- * assertion pass that ought to be failing — which is why SUBPIXELS_PER_PIXEL
- * is 0 here and not 256.
+ * All five movers — Pac-Man and the four ghosts — are this one shape, so wall
+ * collision, cornering, the tunnel wrap and the sub-pixel carry are written
+ * once in `move-actor.ts` and never duplicated per character. What varies
+ * between them is a `TurnPolicy`, not a movement engine.
  *
- * `Tile` and `Maze` are imported with the full `import type` form rather than
- * the house's inline `{ type X }` style. That is deliberate, and it is worth
- * knowing why: under `verbatimModuleSyntax` an inline type import still emits a
- * runtime `import {} from '...'`, whereas the full form is erased completely.
- * Those two modules belong to slices s01 and s02, which were still being
- * written when this slice's tests were — so the full form is what let these
- * tests EXECUTE and fail on their own assertions before their neighbours
- * existed, instead of failing on module resolution and proving nothing.
+ * The two predicates live here rather than in `maze/` because an actor can
+ * answer both from its own position alone: knowing WHERE you are does not
+ * require knowing what is around you, and keeping that boundary means the turn
+ * decision is the only place the maze is consulted at all.
  */
-import type { Direction } from '../geometry/direction.ts';
-import type { Tile } from '../geometry/tile.ts';
-import type { Vector2 } from '../geometry/vector.ts';
-import type { Maze } from '../maze/maze.ts';
+import { type Direction } from '../geometry/direction.ts';
+import { type Tile, centreOf, tileAt } from '../geometry/tile.ts';
+import { type Vector2 } from '../geometry/vector.ts';
+import { type Maze } from '../maze/maze.ts';
 
 /**
  * Sub-pixels per whole pixel.
  *
  * Speeds are fractional; positions are not. An actor moves in whole pixels and
  * banks the fraction as an integer, so a ten-thousand-frame replay is exact
- * integer arithmetic with no float drift.
+ * integer arithmetic with no float drift. 256 is chosen rather than 100 because
+ * it is a power of two: splitting a running total into whole pixels plus a
+ * remainder is then exact in any integer representation, and every arcade speed
+ * fraction keeps its own distinct step instead of collapsing onto a
+ * two-decimal grid.
  */
-export const SUBPIXELS_PER_PIXEL = 0;
+export const SUBPIXELS_PER_PIXEL = 256;
 
 /** One mover. Pac-Man and all four ghosts are this shape. */
 export interface Actor {
@@ -43,7 +40,14 @@ export interface Actor {
   readonly carrySubPixels: number;
 }
 
-/** Everything a turn policy is allowed to know. */
+/**
+ * Everything a turn policy is allowed to know.
+ *
+ * Deliberately a closed list: a policy that cannot see the pellets, the score
+ * or the other ghosts cannot accidentally depend on them, so Pac-Man's cornering
+ * and a ghost's targeting stay testable as pure functions of a position and a
+ * board.
+ */
 export interface TurnContext {
   readonly actor: Actor;
   readonly tile: Tile;
@@ -74,18 +78,43 @@ export interface MoveRequest {
 /** One frame of movement, answered. */
 export interface MoveResult {
   readonly actor: Actor;
-  /** The tile newly entered this frame, or null. */
+  /**
+   * The tile newly entered this frame, or null. This single field is the entire
+   * channel through which eating happens: a caller learns a pellet might have
+   * been consumed without `moveActor` ever knowing that pellets exist.
+   */
   readonly enteredTile: Tile | null;
   readonly blocked: boolean;
   readonly turned: boolean;
 }
 
-/** The tile an actor's centre pixel falls in. */
-export function tileOf(_actor: Actor): Tile {
-  return { col: 0, row: 0 };
+/**
+ * The tile an actor's centre pixel falls in.
+ *
+ * A named function rather than an inlined `tileAt(actor.position)` at each call
+ * site, because "which tile is this actor on" is asked by collision, by eating,
+ * by targeting and by the mover itself — and one of those call sites getting the
+ * conversion wrong is precisely the bug the separate `Tile` type exists to
+ * prevent.
+ */
+export function tileOf(actor: Actor): Tile {
+  return tileAt(actor.position);
 }
 
-/** Whether the actor stands exactly on its tile's centre pixel. */
-export function isAtTileCentre(_actor: Actor): boolean {
-  return false;
+/**
+ * Whether the actor stands exactly on its tile's centre pixel.
+ *
+ * Exact, with no tolerance, and that is the behaviour rather than an
+ * implementation detail: the arcade takes every direction decision on one
+ * specific pixel. A plus-or-minus-one window would let a ghost re-decide on
+ * three consecutive pixels and reverse into itself at a junction.
+ *
+ * Compared against `centreOf(tileOf(...))` rather than written as
+ * `x % 8 === 4`: JavaScript's `%` keeps the sign of its left operand, so the
+ * modulo form answers wrongly for an actor part-way out of the left tunnel
+ * mouth, where x is legitimately negative.
+ */
+export function isAtTileCentre(actor: Actor): boolean {
+  const centre = centreOf(tileOf(actor));
+  return actor.position.x === centre.x && actor.position.y === centre.y;
 }

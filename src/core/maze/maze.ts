@@ -1,32 +1,22 @@
-import type { Direction } from '../geometry/direction.ts';
-import type { Tile } from '../geometry/tile.ts';
+import { ALL_DIRECTIONS, type Direction } from '../geometry/direction.ts';
+import { TILE_SIZE, type Tile, neighbour, tileAt } from '../geometry/tile.ts';
 import type { Vector2 } from '../geometry/vector.ts';
 import type { GhostId } from '../ghost/ghost-id.ts';
 
 import { TileKind } from './tile-kind.ts';
 
 /**
- * SIGNATURE-ONLY STUB — RED phase.
+ * The arcade playfield, in tiles.
  *
- * Every function here declares its real type and returns a deliberately inert
- * value. There is no behaviour, on purpose: the tests must fail on their own
- * assertions with a real expected-vs-received diff, not on `Cannot find
- * module`. See docs/TDD-FINDINGS.md, "the stub is a measuring instrument".
- *
- * The rule that keeps this honest: the stub must not make a single assertion
- * pass that ought to be failing.
- *
- * One deliberate wrinkle, recorded so nobody "fixes" it: `kindAt` is stubbed to
- * `TileKind.Wall` because a string union has no zero value. That makes the
- * out-of-bounds HALF of `kindAt`'s test pass while the in-bounds half fails —
- * which is precisely why docs/TEST-PLAN.md puts both halves in ONE test. A test
- * fails if any assertion in it fails, so the pairing keeps the red honest.
+ * Exported as constants rather than read off `ARCADE_MAZE.columns` so that a
+ * consumer which only needs the SIZE — the renderer's layout maths, a test
+ * building a fixture — does not have to parse an 868-tile board to learn it.
+ * `classic-layout.test.ts` pins the authored ASCII to the same two numbers
+ * independently, which is what stops the pair from drifting apart.
  */
-
-/** The arcade playfield, in tiles. STUB — pinned by `maze.test.ts`. */
-export const MAZE_COLUMNS = 0;
-/** STUB — pinned by `maze.test.ts`. */
-export const MAZE_ROWS = 0;
+export const MAZE_COLUMNS = 28;
+/** See `MAZE_COLUMNS`. Thirty-one rows of playfield, below the arcade's HUD. */
+export const MAZE_ROWS = 31;
 
 /**
  * The board: static data with total accessors.
@@ -84,54 +74,99 @@ export interface WalkableNeighbour {
 }
 
 /**
- * STUB.
- *
  * TOTAL: every tile has an answer. Off the grid reads as `Wall`, which is also
  * the arcade's own behaviour at every board edge except the tunnel row. That
  * one decision deletes a bounds check from every caller and guarantees no
  * `undefined` ever leaks out of the flat array under `noUncheckedIndexedAccess`.
+ *
+ * Note the asymmetry in HOW the two axes are checked, which is deliberate and
+ * not an oversight. The COLUMN needs an explicit guard: with a flat row-major
+ * array, column -1 of row 2 is a perfectly valid index — it is the last tile of
+ * row 1 — so without the guard a tile off the left edge would silently read as
+ * the far right of the row above. The ROW needs no guard at all, because any row
+ * outside the board lands outside the array entirely, and `undefined` is exactly
+ * the signal we already have to turn into `Wall`.
  */
-export function kindAt(_maze: Maze, _tile: Tile): TileKind {
-  return TileKind.Wall;
+export function kindAt(maze: Maze, tile: Tile): TileKind {
+  if (tile.col < 0 || tile.col >= maze.columns) {
+    return TileKind.Wall;
+  }
+  return maze.tiles[tile.row * maze.columns + tile.col] ?? TileKind.Wall;
 }
 
 /**
- * STUB.
- *
  * `mayPassDoor` is the whole Pac-Man-versus-ghost asymmetry, as one parameter:
  * ghosts leave the house through the gate, Pac-Man can never enter it.
+ *
+ * Everything that is not a wall and not the gate is walkable, stated that way
+ * round on purpose. A tunnel tile is ordinary floor — the ghost slowdown there
+ * is a SPEED rule and lives in `ghost-speed.ts` — and a house tile is
+ * occupiable, or three ghosts could not wait inside it.
  */
-export function isWalkable(_maze: Maze, _tile: Tile, _mayPassDoor: boolean): boolean {
-  return false;
+export function isWalkable(maze: Maze, tile: Tile, mayPassDoor: boolean): boolean {
+  const kind = kindAt(maze, tile);
+  if (kind === TileKind.Door) {
+    return mayPassDoor;
+  }
+  return kind !== TileKind.Wall;
 }
 
 /**
- * STUB.
+ * The legal exits from `tile`, in `ALL_DIRECTIONS` order — up, left, down,
+ * right.
  *
- * Returns the legal exits from `tile` in `ALL_DIRECTIONS` order — up, left,
- * down, right. The ORDER is load-bearing: it is what resolves a ghost's
- * distance tie, so it is part of the contract and not an implementation detail.
+ * The ORDER is load-bearing and therefore part of the contract, not an
+ * implementation detail: when two candidate tiles are exactly equidistant from
+ * a ghost's target, the arcade takes the earlier direction in that sequence. A
+ * tie-break rule is only meaningful if the candidates arrive in the order it
+ * assumes, so this function iterates `ALL_DIRECTIONS` itself rather than
+ * leaving each caller to sort.
  */
 export function walkableNeighbours(
-  _maze: Maze,
-  _tile: Tile,
-  _mayPassDoor: boolean,
+  maze: Maze,
+  tile: Tile,
+  mayPassDoor: boolean,
 ): readonly WalkableNeighbour[] {
-  return [];
-}
-
-/** STUB. Whether a ghost is forbidden from choosing "up" out of this tile. */
-export function isNoUpTile(_maze: Maze, _tile: Tile): boolean {
-  return false;
+  const exits: WalkableNeighbour[] = [];
+  for (const direction of ALL_DIRECTIONS) {
+    const next = neighbour(tile, direction);
+    if (isWalkable(maze, next, mayPassDoor)) {
+      exits.push({ direction, tile: next });
+    }
+  }
+  return exits;
 }
 
 /**
- * STUB.
+ * Whether a ghost is forbidden from choosing "up" out of this tile.
  *
- * Warps a PIXEL position horizontally, and only on the tunnel row. Gated on the
- * row rather than applied board-wide, because a board-wide wrap would silently
- * rescue genuine out-of-bounds bugs on the other thirty rows.
+ * A membership test against the flat indices the maze already carries, so the
+ * quirk stays data. The ghost AI asks this question; it never holds the list,
+ * which is what lets a test hand `choose-direction` a board with no no-up tiles
+ * at all and observe the rule in isolation.
  */
-export function wrapPosition(_maze: Maze, _position: Vector2): Vector2 {
-  return { x: 0, y: 0 };
+export function isNoUpTile(maze: Maze, tile: Tile): boolean {
+  return maze.noUpTiles.has(tile.row * maze.columns + tile.col);
+}
+
+/**
+ * Warps a PIXEL position horizontally, and only on the tunnel row.
+ *
+ * Gated on the row rather than applied board-wide, because a board-wide wrap
+ * would silently rescue genuine out-of-bounds bugs on the other thirty rows —
+ * an actor that escaped through a wall would reappear on the far side instead
+ * of failing a test.
+ *
+ * The double modulo is what makes this a total function rather than one that
+ * happens to work for a one-pixel overshoot: `%` keeps the sign of its left
+ * operand in JavaScript, so a single `% width` maps -1 to -1. Adding `width`
+ * and taking the modulo again lands ANY x on the board in one application,
+ * which is the idempotence the property test in `maze.test.ts` asserts.
+ */
+export function wrapPosition(maze: Maze, position: Vector2): Vector2 {
+  if (tileAt(position).row !== maze.tunnelRow) {
+    return position;
+  }
+  const width = maze.columns * TILE_SIZE;
+  return { x: ((position.x % width) + width) % width, y: position.y };
 }

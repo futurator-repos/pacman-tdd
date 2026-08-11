@@ -1,17 +1,4 @@
-/**
- * SIGNATURE-ONLY STUB — RED phase.
- *
- * `MazeGlyph` is declared in full because it is the LEGEND — the shared
- * vocabulary the parser, the renderer-back-to-ASCII and every test fixture
- * speak. A const object of thirteen character literals asserts nothing about
- * the board.
- *
- * `CLASSIC_LAYOUT` is the CONTENT, and content is what the tests specify, so it
- * is stubbed to `[]` exactly as `ALL_DIRECTIONS` was stubbed to `[]` in the
- * geometry slice. `classic-layout.test.ts` fails on its census until the real
- * 31 rows are authored. See docs/TDD-FINDINGS.md, "the stub is a measuring
- * instrument".
- */
+import { type Tile } from '../geometry/tile.ts';
 
 /**
  * The legend: one character per tile, exactly as sprites are authored as rows
@@ -57,10 +44,78 @@ export const MazeGlyph = {
 export type MazeGlyph = (typeof MazeGlyph)[keyof typeof MazeGlyph];
 
 /**
- * STUB — the real board is specified by `classic-layout.test.ts`.
+ * The original playfield: 31 rows of 28 characters.
  *
- * The original playfield: 31 rows of 28 characters, holding exactly 240 dots
- * and 4 energizers, mirror-symmetric about its vertical centre line, with one
- * tunnel row that reaches both edges of the board and one ghost house.
+ * Authored as a block of ASCII so that the board is REVIEWABLE — a wall moved by
+ * one tile shows up in a diff as a character a human can see, which no array of
+ * 868 integers ever does. The invariants a reader can check by eye, and that
+ * `classic-layout.test.ts` checks mechanically, are: exactly 240 dots and 4
+ * energizers, mirror symmetry about the vertical centre line, one tunnel row
+ * open at both edges, and one ghost house.
+ *
+ * Two places deserve a second look, because they are the ones that look like
+ * mistakes:
+ *
+ *   - Row 14 begins and ends in `T`, not `#`. The tunnel row is the only row
+ *     with no wall at either edge; that is what `wrapPosition` warps across.
+ *   - The corridors around the ghost house (rows 9-19, columns 9 and 18, and
+ *     the approach columns 12 and 15) carry NO dots. That is arcade-accurate:
+ *     they are ghost routes, and dots there would make the board unclearable
+ *     without walking into the house.
  */
-export const CLASSIC_LAYOUT: readonly string[] = [];
+export const CLASSIC_LAYOUT: readonly string[] = [
+  '############################',
+  '#............##............#',
+  '#.####.#####.##.#####.####.#',
+  '#o####.#####.##.#####.####o#',
+  '#.####.#####.##.#####.####.#',
+  '#..........................#',
+  '#.####.##.########.##.####.#',
+  '#.####.##.########.##.####.#',
+  '#......##....##....##......#',
+  '######.##### ## #####.######',
+  '######.##### ## #####.######',
+  '######.##    1     ##.######',
+  '######.## ###--### ##.######',
+  '######.## #HHHHHH# ##.######',
+  'TTTTTT.   #3H2H4H#   .TTTTTT',
+  '######.## #HHHHHH# ##.######',
+  '######.## ######## ##.######',
+  '######.##    F     ##.######',
+  '######.## ######## ##.######',
+  '######.## ######## ##.######',
+  '#............##............#',
+  '#.####.#####.##.#####.####.#',
+  '#.####.#####.##.#####.####.#',
+  '#o..##.......P .......##..o#',
+  '###.##.##.########.##.##.###',
+  '###.##.##.########.##.##.###',
+  '#......##....##....##......#',
+  '#.##########.##.##########.#',
+  '#.##########.##.##########.#',
+  '#..........................#',
+  '############################',
+];
+
+/**
+ * The four tiles where the original hardware forbids a ghost from turning up.
+ *
+ * Authored here, beside the board, rather than derived by `parseMaze`, because
+ * there is nothing in the ASCII to derive them FROM. They are a quirk of the
+ * 1980 ROM's turn table, not a consequence of the walls — two of them
+ * ((12,23) and (15,23)) sit on ordinary dot tiles that look exactly like their
+ * neighbours. Any rule that reproduced these four from the geometry would be
+ * arithmetic reverse-engineered to fit, and it would invent phantom no-up tiles
+ * on every hand-drawn test fixture.
+ *
+ * So they are DATA, exactly as docs/ARCHITECTURE.md says: a list of four
+ * coordinates a reader can check against docs/ARCADE-REFERENCE.md, applied to
+ * the board in `arcade-maze.ts`. `parseMaze` leaves `noUpTiles` empty, which is
+ * what keeps a five-by-five fixture free of surprises.
+ */
+export const CLASSIC_NO_UP_TILES: readonly Tile[] = [
+  { col: 12, row: 11 },
+  { col: 15, row: 11 },
+  { col: 12, row: 23 },
+  { col: 15, row: 23 },
+];
